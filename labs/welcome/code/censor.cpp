@@ -25,7 +25,7 @@ int main(int argc, char** argv){
         }
         word = "";
     }
-    if((word != "") && (word.length() != num)){
+    if((word != "") && (word.length() != num)){ //check the last word
         if(count != 0){
             std::cout << " ";
         }
