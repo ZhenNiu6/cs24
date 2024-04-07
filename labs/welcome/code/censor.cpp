@@ -6,7 +6,7 @@ int main(int argc, char** argv){
         std::cout << "USAGE: censor [length]\n";
         return 1;
     }
-    int num = stoi(std::string(argv[1]));
+    size_t num = stoi(std::string(argv[1]));
     std::string line;
     std::getline(std::cin, line);
     std::string word = "";
