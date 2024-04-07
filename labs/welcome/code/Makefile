@@ -1,5 +1,5 @@
-a.out: censor.cpp
-	touch censor.cpp
+a.out: 
+	touch censor
 
 clean:
 	rm -f censor
