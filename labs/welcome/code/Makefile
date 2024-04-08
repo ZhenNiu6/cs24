@@ -1,4 +1,4 @@
-a.out: 
+censor: 
 	touch censor
 
 clean:
