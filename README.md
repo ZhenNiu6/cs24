@@ -22,6 +22,7 @@ _Assignments are due before midnight Pacific Time._
 | Name                    | Due
 |-------------------------|-----
 | [Welcome](labs/welcome) | April 8th
+| [FibVec](labs/fibvec)   | April 15th
 
 
 ## Lectures
@@ -31,6 +32,8 @@ _17:00 to 18:15 Tuesdays and Thursdays in TD-W 1701_
 | Date       | Topics
 |------------|--------
 | April  2nd | Class intro; the syllabus; Git intro
+| April  4th | More Git; abstract and concrete data structures; sequences and vectors
+| April  9th | Sequences, vectors, and linked lists; runtime; big-O notation
 
 
 [piazza]: https://piazza.com/ucsb/spring2024/cs24
