@@ -46,7 +46,7 @@ void FibVec::insert(int value, size_t index){
         throw std::out_of_range("insert()");
     }
     size_t n_cap = cap;
-    if((num+1) == cap){
+    if((num+1) > cap){
         n_cap = fib(n+1);
         n ++;
     }
