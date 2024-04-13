@@ -40,30 +40,23 @@ void FibVec::insert(int value, size_t index){
     if(index >= num){
         throw std::out_of_range("insert()");
     }
-    else{
-        if((num+1) == cap){
-            int* temp = new int[fib(n+1)];
-            cap = fib(n+1);
-            n ++;
-            for(size_t i = 0; i < index; i ++){
-                temp[i] = fibs[i];
-            }
-            for(size_t i = index; i < num; i ++){
-                temp[i+1] = fibs[i];
-            }
-            temp[index] = value;
-            delete [] fibs;
-            fibs = temp;
-            num ++;
-        }
-        else{
-            for(size_t i = index; i < num; i ++){
-                fibs[i+1] = fibs[i];
-            }
-            fibs[index] = value;
-            num ++;
-        }
+    size_t n_cap = cap;
+    if((num+1) == cap){
+        n_cap = fib(n+1);
+        n ++;
     }
+    int* temp = new int[n_cap];
+    for(size_t i = 0; i < index; i ++){
+        temp[i] = fibs[i];
+    }
+    num ++;
+    for(size_t i = index + 1; i < num; i ++){
+        temp[i] = fibs[i-1];
+    }
+    temp[index] = value;
+    delete [] fibs;
+    fibs = temp;
+    cap = n_cap;
 }
 
 int FibVec::lookup(size_t index) const{
@@ -77,42 +70,50 @@ int FibVec::pop(){
     if(num == 0){
         throw std::underflow_error("pop()");
     }
+    size_t n_cap = cap;
     if((num - 1) < fib(n-2)){
-        cap = fib(n-1);
+        n_cap = fib(n-1);
         n --;
     }
-    int* temp = new int[cap];
+    int* temp = new int[n_cap];
     for(size_t i = 0; i < num - 1; i ++){
         temp[i] = fibs[i];
     }
     int value = fibs[num];
     delete [] fibs;
     fibs = temp;
+    cap = n_cap;
     num --;
     return value;
 }
 
 void FibVec::push(int value){
+    size_t n_cap = cap;
     if(num == cap){
-        cap = fib(n+1);
+        size_t n_cap = fib(n+1);
         n ++;
     }
-    int* temp = new int[cap];
+    int* temp = new int[n_cap];
     for(size_t i = 0; i < num; i ++){
         temp[i] = fibs[i];
     }
     temp[num] = value;
+    delete [] fibs;
+    fibs = temp;
+    cap = n_cap;
+    num ++;
 }
 
 int FibVec::remove(size_t index){
     if(index >= num){
         throw std::out_of_range("remove()");
     }
+    size_t n_cap = cap;
     if((num - 1) < fib(n-2)){
-        cap = fib(n-1);
+        n_cap = fib(n-1);
         n --;
     }
-    int* temp = new int[cap];
+    int* temp = new int[n_cap];
     for(size_t i = 0; i < index; i ++){
         temp[i] = fibs[i];
     }
@@ -122,6 +123,7 @@ int FibVec::remove(size_t index){
     }
     delete [] fibs;
     fibs = temp;
+    cap = n_cap;
     num --;
     return value;
 

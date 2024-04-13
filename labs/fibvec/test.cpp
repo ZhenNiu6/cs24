@@ -6,8 +6,27 @@
 
 int main() {
   FibVec fibvec;
+  // for(size_t i = 0; i < fibvec.count(); i ++){
+  //   std::cout << " " << fibvec.lookup(i);
+  // }
+  // std::cout << '\n';
 
-  std::cout << "This program doesn't do anything interesting yet...\n";
+  fibvec.push(12);
+  fibvec.push(10);
+  fibvec.push(2);
+
+  std::cout << "Array contents:";
+    for (size_t i = 0; i < fibvec.count(); ++i) {
+        std::cout << " " << fibvec.lookup(i);
+    }
+    std::cout << '\n';
+  
+  fibvec.insert(1, 2);
+  std::cout << "Array contents:";
+  for (size_t i = 0; i < fibvec.count(); ++i) {
+      std::cout << " " << fibvec.lookup(i);
+  }
+  std::cout << '\n';
 
   return 0;
 }
