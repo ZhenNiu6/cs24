@@ -54,14 +54,14 @@ void FibVec::insert(int value, size_t index){
             temp[index] = value;
             delete [] fibs;
             fibs = temp;
-            count ++;
+            num ++;
         }
         else{
             for(size_t i = index; i < num; i ++){
                 fibs[i+1] = fibs[i];
             }
             fibs[index] = value;
-            count ++;
+            num ++;
         }
     }
 }
