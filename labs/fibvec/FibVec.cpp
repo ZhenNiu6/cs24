@@ -4,6 +4,7 @@
 #include <stdexcept>
 
 
+
 // FibVec Function Implementations
 FibVec::FibVec(){
     num = 0;
@@ -23,7 +24,6 @@ FibVec::FibVec(const FibVec& other){
 }
 
 
-
 FibVec::~FibVec(){
     delete [] fibs;
 }
@@ -37,7 +37,12 @@ size_t FibVec::count() const{
 }
 
 void FibVec::insert(int value, size_t index){
-    if(index >= num){
+    if(num != 0){
+        if(index >= num){
+            throw std::out_of_range("insert()");
+        }
+    }
+    if(index > num){
         throw std::out_of_range("insert()");
     }
     size_t n_cap = cap;
@@ -46,14 +51,20 @@ void FibVec::insert(int value, size_t index){
         n ++;
     }
     int* temp = new int[n_cap];
-    for(size_t i = 0; i < index; i ++){
-        temp[i] = fibs[i];
+    if(num == 0){
+        temp[index] = value;
+        num ++;
     }
-    num ++;
-    for(size_t i = index + 1; i < num; i ++){
-        temp[i] = fibs[i-1];
+    else{
+        for(size_t i = 0; i < index; i ++){
+            temp[i] = fibs[i];
+        }
+        temp[index] = value;
+        num ++;
+        for(size_t i = index + 1; i < num; i ++){
+            temp[i] = fibs[i-1];
+        }
     }
-    temp[index] = value;
     delete [] fibs;
     fibs = temp;
     cap = n_cap;
@@ -71,15 +82,17 @@ int FibVec::pop(){
         throw std::underflow_error("pop()");
     }
     size_t n_cap = cap;
-    if((num - 1) < fib(n-2)){
-        n_cap = fib(n-1);
-        n --;
+    if(n >= 2){
+        if((num - 1) < fib(n-2)){
+            n_cap = fib(n-1);
+            n --;
+        }
     }
     int* temp = new int[n_cap];
     for(size_t i = 0; i < num - 1; i ++){
         temp[i] = fibs[i];
     }
-    int value = fibs[num];
+    int value = fibs[num-1];
     delete [] fibs;
     fibs = temp;
     cap = n_cap;
@@ -109,9 +122,11 @@ int FibVec::remove(size_t index){
         throw std::out_of_range("remove()");
     }
     size_t n_cap = cap;
-    if((num - 1) < fib(n-2)){
-        n_cap = fib(n-1);
-        n --;
+    if(n >= 2){
+        if((num - 1) < fib(n-2)){
+            n_cap = fib(n-1);
+            n --;
+        }
     }
     int* temp = new int[n_cap];
     for(size_t i = 0; i < index; i ++){

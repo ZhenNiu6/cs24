@@ -13,15 +13,15 @@ int main() {
 
   fibvec.push(12);
   fibvec.push(10);
-  fibvec.push(2);
+  // fibvec.push(2);
 
   std::cout << "Array contents:";
     for (size_t i = 0; i < fibvec.count(); ++i) {
         std::cout << " " << fibvec.lookup(i);
     }
     std::cout << '\n';
-  
-  fibvec.insert(1, 2);
+
+  fibvec.pop();
   std::cout << "Array contents:";
   for (size_t i = 0; i < fibvec.count(); ++i) {
       std::cout << " " << fibvec.lookup(i);
