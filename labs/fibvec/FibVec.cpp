@@ -37,11 +37,6 @@ size_t FibVec::count() const{
 }
 
 void FibVec::insert(int value, size_t index){
-    // if(num != 0){
-    //     if(index > num){
-    //         throw std::out_of_range("insert()");
-    //     }
-    // }
     if(index > num){
         throw std::out_of_range("insert()");
     }
@@ -133,7 +128,7 @@ int FibVec::remove(size_t index){
         temp[i] = fibs[i];
     }
     int value = fibs[index];
-    for(size_t i = index; i < num; i ++){
+    for(size_t i = index; i < num - 1; i ++){
         temp[i] = fibs[i+1];
     }
     delete [] fibs;

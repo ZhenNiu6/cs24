@@ -23,7 +23,7 @@ int main() {
     }
     std::cout << '\n';
 
-  fibvec.insert(1, 4);
+  fibvec.remove(2);
   std::cout << "Array contents:";
   for (size_t i = 0; i < fibvec.count(); ++i) {
       std::cout << " " << fibvec.lookup(i);
