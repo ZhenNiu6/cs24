@@ -11,8 +11,10 @@ int main() {
   // }
   // std::cout << '\n';
 
-  fibvec.push(12);
-  fibvec.push(10);
+  fibvec.push(4);
+  fibvec.push(9);
+  fibvec.push(16);
+  fibvec.push(0);
   // fibvec.push(2);
 
   std::cout << "Array contents:";
@@ -21,7 +23,7 @@ int main() {
     }
     std::cout << '\n';
 
-  fibvec.pop();
+  fibvec.insert(1, 4);
   std::cout << "Array contents:";
   for (size_t i = 0; i < fibvec.count(); ++i) {
       std::cout << " " << fibvec.lookup(i);
