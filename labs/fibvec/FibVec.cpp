@@ -90,7 +90,7 @@ int FibVec::pop(){
 void FibVec::push(int value){
     size_t n_cap = cap;
     if(num == cap){
-        size_t n_cap = fib(n+1);
+        n_cap = fib(n+1);
         n ++;
     }
     int* temp = new int[n_cap];
