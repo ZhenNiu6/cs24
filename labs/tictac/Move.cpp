@@ -9,7 +9,7 @@
 Move::Move(const std::string& input){
     // Check number
     int a;
-    int index = 0;
+    size_t index = 0;
     if(isdigit(input[index]) && isdigit(input[index+1])){
         std::string temp = "";
         temp += input[index];
