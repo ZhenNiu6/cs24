@@ -23,7 +23,6 @@ Move::Move(const std::string& input){
         throw ParseError("Invalid move number");
     }
     number = a - '0';
-    std::cout << number << '\n';
 
 
     // Check whitespace
@@ -107,10 +106,20 @@ Move::Move(const std::string& input){
         r = a - 32;
     }
     row = r - '@'; // Row A = 1, Row B = 2, Row C = 3;
+    index += 2;
 
+    // Check extra whitespace
+    for(size_t i = index; i < input.length(); i ++){
+        if(isspace(input[i])){
+            continue;
+        }
+        else{
+            index = i;
+            break;
+        }
+    }
 
     // Check column
-    index += 2;
     if(isdigit(input[index]) && isdigit(input[index+1])){
         std::string temp = "";
         temp += input[index];
@@ -128,27 +137,50 @@ Move::Move(const std::string& input){
     index += 2;
 
 
-    // Check extra whitespace
+    // Check extra whitespace and comment
     if(index < input.length()){
         for(size_t i = index; i < input.length(); i ++){
             if(isspace(input[i])){
                 n ++;
-                continue;
             }
             else{
                 index = i;
                 if(n < 1){
-                    throw ParseError("Invalid whitespace 3");
+                    if((index+1) < input.length()){
+                        if(isdigit(input[index]) && isdigit(input[index+1])){
+                            std::string temp = "";
+                            temp += input[index];
+                            temp += input[index+1];
+                            a = stoi(temp);
+                        }
+                        if(a == 35){
+                            throw ParseError("Invalid whitespace 3");
+                        }
+                    }
                 }
                 break;
+            }
+            if(i == (input.length()-1)){
+                index += n;
             }
         }
         n = 0;
     }
 
     // Check comment
-    if(index < input.length()){
-        if(input[index] != 35){
+    if((index+1) < input.length()){
+        std::cout << "here" << '\n';
+        if(isdigit(input[index]) && isdigit(input[index+1])){
+            std::string temp = "";
+            temp += input[index];
+            temp += input[index+1];
+            a = stoi(temp);
+            std::cout << a << '\n';
+        }
+        else{
+            throw ParseError("Invalid comment");
+        }
+        if(a != 35){
             throw ParseError("Invalid comment");
         }
     }
