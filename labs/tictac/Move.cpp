@@ -65,6 +65,10 @@ Move::Move(const std::string& input){
         char p = a;
         player = toupper(p);
     }
+    if(a == 48){
+        char p = a;
+        player = p;
+    }
     if(h){
         index += 3;
     }
@@ -107,17 +111,6 @@ Move::Move(const std::string& input){
     }
     row = r - '@'; // Row A = 1, Row B = 2, Row C = 3;
     index += 2;
-
-    // Check extra whitespace
-    for(size_t i = index; i < input.length(); i ++){
-        if(isspace(input[i])){
-            continue;
-        }
-        else{
-            index = i;
-            break;
-        }
-    }
 
     // Check column
     if(isdigit(input[index]) && isdigit(input[index+1])){
