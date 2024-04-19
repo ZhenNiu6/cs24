@@ -2,21 +2,33 @@
 #include "Move.h"
 #include <cctype>
 #include <string>
+#include <iostream>
 
 // Space for implementing Move functions.
 
 Move::Move(const std::string& input){
     // Check number
-    if((input[0] < 48) || (input[0] > 57)){
+    int a;
+    int index = 0;
+    if(isdigit(input[index]) && isdigit(input[index+1])){
+        std::string temp = "";
+        temp += input[index];
+        temp += input[index+1];
+        a = stoi(temp);
+    }
+    else{
         throw ParseError("Invalid move number");
     }
-    number = input[0] - '0';
+    if((a < 48) || (a > 57)){
+        throw ParseError("Invalid move number");
+    }
+    number = a - '0';
+    std::cout << number << '\n';
 
 
     // Check whitespace
     size_t n = 0;
-    size_t index;
-    for(size_t i = 1; i < input.length(); i ++){
+    for(size_t i = 2; i < input.length(); i ++){
         if(isspace(input[i])){
             n ++;
             continue;
@@ -24,7 +36,7 @@ Move::Move(const std::string& input){
         else{
             index = i;
             if(n < 1){
-                throw ParseError("Invalid whitespace");
+                throw ParseError("Invalid whitespace 1");
             }
             break;
         }
@@ -33,16 +45,36 @@ Move::Move(const std::string& input){
 
 
     // Check player
-    if((input[index] != 88) && (input[index] != 120) && (input[index] != 48)){
+    bool h = false;
+    if(isdigit(input[index]) && isdigit(input[index+1])){
+        std::string temp = "";
+        temp += input[index];
+        temp += input[index+1];
+        if(isdigit(input[index+2])){
+            temp += input[index+2];
+            h = true;
+        }
+        a = stoi(temp);
+    }
+    else{
         throw ParseError("Invalid player code");
     }
-    if((input[index] == 88) || (input[index] == 120)){
-        char p = input[index];
+    if((a != 88) && (a != 120) && (a != 48)){
+        throw ParseError("Invalid player code");
+    }
+    if((a == 88) || (a == 120)){
+        char p = a;
         player = toupper(p);
+    }
+    if(h){
+        index += 3;
+    }
+    else{
+        index += 2;
     }
     
     // Check whitespace
-    for(size_t i = index+1; i < input.length(); i ++){
+    for(size_t i = index; i < input.length(); i ++){
         if(isspace(input[i])){
             n ++;
             continue;
@@ -50,7 +82,7 @@ Move::Move(const std::string& input){
         else{
             index = i;
             if(n < 1){
-                throw ParseError("Invalid whitespace");
+                throw ParseError("Invalid whitespace 2");
             }
             break;
         }
@@ -58,25 +90,42 @@ Move::Move(const std::string& input){
     n = 0;
 
     // Check row
-    if((input[index] != 65) && (input[index] != 66) && (input[index] != 67) && (input[index] != 97) 
-        && (input[index] != 98) && (input[index] != 99)){
+    if(isdigit(input[index]) && isdigit(input[index+1])){
+        std::string temp = "";
+        temp += input[index];
+        temp += input[index+1];
+        a = stoi(temp);
+    }
+    else{
         throw ParseError("Invalid square code");
     }
-    int r = input[index];
-    if((input[index] == 97) || (input[index] == 98) || (input[index] == 99)){
-        r = input[index] - 32;
+    if((a != 65) && (a != 66) && (a != 67) && (a != 97) && (a != 98) && (a != 99)){
+        throw ParseError("Invalid square code");
+    }
+    int r = a;
+    if((a == 97) || (a == 98) || (a == 99)){
+        r = a - 32;
     }
     row = r - '@'; // Row A = 1, Row B = 2, Row C = 3;
 
 
     // Check column
-    index ++;
-    if((input[index] != 49) && (input[index] != 50) && (input[index] != 51)){
+    index += 2;
+    if(isdigit(input[index]) && isdigit(input[index+1])){
+        std::string temp = "";
+        temp += input[index];
+        temp += input[index+1];
+        a = stoi(temp);
+    }
+    else{
         throw ParseError("Invalid square code");
     }
-    column = input[index] - '0';
+    if((a != 49) && (a != 50) && (a != 51)){
+        throw ParseError("Invalid square code");
+    }
+    column = a - '0';
 
-    index ++;
+    index += 2;
 
 
     // Check extra whitespace
@@ -89,7 +138,7 @@ Move::Move(const std::string& input){
             else{
                 index = i;
                 if(n < 1){
-                    throw ParseError("Invalid whitespace");
+                    throw ParseError("Invalid whitespace 3");
                 }
                 break;
             }
@@ -124,3 +173,5 @@ std::string Move::to_string() const{
     output += std::to_string(column);
     return output;
 }
+
+
