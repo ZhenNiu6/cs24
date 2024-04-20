@@ -233,13 +233,15 @@ Move::Move(const std::string& input){
 
 
     // Check player
-    if((input[index] != 'X') && (input[index] != 'x') && (input[index] != '0')){
+    if((input[index] != 'X') && (input[index] != 'x') && (input[index] != 'O') && (input[index] != 'o')){
         throw ParseError("Invalid player code");
     }
     player = input[index];
     if(input[index] == 'x'){
-        char p = input[index];
-        player = toupper(p);
+        player = 'X';
+    }
+    if(input[index] == 'o'){
+        player = 'O';
     }
     index ++;
     
