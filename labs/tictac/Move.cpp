@@ -275,16 +275,11 @@ Move::Move(const std::string& input){
                     if(n < 1){
                         throw ParseError("Invalid comment");
                     }
-                    if(!isspace(input[i+1])){
-                        throw ParseError("Invalid comment");
-                    }
+                }
+                if(input[i] != '#'){
+                    throw ParseError("Invalid comment");
                 }
                 break;
-                // index = i;
-                // if(n < 1){
-                //     throw ParseError("Invalid whitespace");
-                // }
-                // break;
             }
         }
         // index += n;
