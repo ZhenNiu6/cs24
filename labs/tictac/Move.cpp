@@ -180,24 +180,6 @@
 // }
 
 
-// std::string Move::to_string() const{
-//     std::string output = "";
-//     output += std::to_string(number);
-//     output += " ";
-//     output += player;
-//     output += " ";
-//     if(row == 1){
-//         output += 'A';
-//     }
-//     if(row == 2){
-//         output += 'B';
-//     }
-//     if(row == 3){
-//         output += 'C';
-//     }
-//     output += std::to_string(column);
-//     return output;
-// }
 
 
 
@@ -291,6 +273,9 @@ Move::Move(const std::string& input){
             else{
                 if(input[i] == '#'){
                     if(n < 1){
+                        throw ParseError("Invalid comment");
+                    }
+                    if(!isspace(input[i+1])){
                         throw ParseError("Invalid comment");
                     }
                 }
