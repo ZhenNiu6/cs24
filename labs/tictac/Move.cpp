@@ -289,23 +289,30 @@ Move::Move(const std::string& input){
                 n ++;
             }
             else{
-                index = i;
-                if(n < 1){
-                    throw ParseError("Invalid whitespace");
+                if(input[i] == '#'){
+                    if(n < 1){
+                        throw ParseError("Invalid comment");
+                    }
                 }
                 break;
+                // index = i;
+                // if(n < 1){
+                //     throw ParseError("Invalid whitespace");
+                // }
+                // break;
             }
         }
-        index += n;
-        n = 0;
+        // index += n;
+        // n = 0;
     }
+    // std::cout << index << '\n';
 
     // Check comment
-    if(index < input.length()){
-        if(input[index] != '#'){
-            throw ParseError("Invalid comment");
-        }
-    }
+    // if(index < input.length()){
+    //     if(input[index] != '#'){
+    //         throw ParseError("Invalid comment");
+    //     }
+    // }
 }
 
 
