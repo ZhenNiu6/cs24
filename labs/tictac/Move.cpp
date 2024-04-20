@@ -207,6 +207,9 @@ Move::Move(const std::string& input){
     if(!isdigit(input[index])){
         throw ParseError("Invalid move number");
     }
+    if(input[index] == '0'){
+        throw ParseError("Invalid move number");
+    }
     number = input[index];
     index ++;
 
@@ -233,6 +236,7 @@ Move::Move(const std::string& input){
     if((input[index] != 'X') && (input[index] != 'x') && (input[index] != '0')){
         throw ParseError("Invalid player code");
     }
+    player = input[index];
     if(input[index] == 'x'){
         char p = input[index];
         player = toupper(p);
@@ -281,7 +285,6 @@ Move::Move(const std::string& input){
         for(size_t i = index; i < input.length(); i ++){
             if(isspace(input[i])){
                 n ++;
-                continue;
             }
             else{
                 index = i;
@@ -291,12 +294,13 @@ Move::Move(const std::string& input){
                 break;
             }
         }
+        index += n;
         n = 0;
     }
 
     // Check comment
     if(index < input.length()){
-        if(input[index] != 35){
+        if(input[index] != '#'){
             throw ParseError("Invalid comment");
         }
     }
