@@ -15,9 +15,6 @@ int main() {
         try{
             Move move(line);
             board.make_move(move);
-            if(board.win()){
-                break;
-            }
         }
         catch(const ParseError& e){
             std::cout << "Parse error: " << e.what() << '\n';
