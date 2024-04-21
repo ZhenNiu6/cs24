@@ -94,7 +94,7 @@ void Board::result() const{
         if(turns == 9){
             std::cout << "Game over: Draw." << '\n';
         }
-        if(turns == 0){
+        else if(turns == 0){
             std::cout << "Game in progress: New game." << '\n';
         }
         else{
