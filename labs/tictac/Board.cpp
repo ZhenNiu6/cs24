@@ -25,9 +25,6 @@ Board::~Board() {
 
 
 void Board::make_move(Move move){
-    std::cout << play << '\n';
-    std::cout << move.player << '\n';
-    std::cout << turns << '\n';
     if((play == move.player) && (turns != 0)){
         throw InvalidMove("need switch players");
     }
