@@ -124,6 +124,14 @@ std::string Move::to_string() const{
     if(row == 3){
         output += 'C';
     }
-    output += column;
+    if(column == 1){
+        output += '1';
+    }
+    if(column == 2){
+        output += '2';
+    }
+    if(column == 3){
+        output += '3';
+    }
     return output;
 }
