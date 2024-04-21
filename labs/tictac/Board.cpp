@@ -7,6 +7,7 @@
 Board::Board(){
     play = 'X';
     turns = 0;
+    num = 0;
     board = new char*[3];
     for (size_t i = 0; i < 3; ++i) {
         board[i] = new char[3];
@@ -25,6 +26,9 @@ Board::~Board() {
 
 
 void Board::make_move(Move move){
+    if(move.number != num + 1){
+        throw InvalidMove("invalid move number");
+    }
     if((play == move.player) && (turns != 0)){
         throw InvalidMove("need switch players");
     }
@@ -37,6 +41,7 @@ void Board::make_move(Move move){
     board[move.row-1][move.column-1] = move.player;
     play = move.player;
     turns ++;
+    num ++;
 }
 
 bool Board::win() const{

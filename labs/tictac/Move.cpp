@@ -15,7 +15,7 @@ Move::Move(const std::string& input){
     if(input[index] == '0'){
         throw ParseError("Invalid move number");
     }
-    number = input[index];
+    number = input[index] - '0';
     index ++;
 
 
@@ -111,7 +111,33 @@ Move::Move(const std::string& input){
 
 std::string Move::to_string() const{
     std::string output = "";
-    output += number;
+    if(number == 1){
+        output += '1';
+    }
+    if(number == 2){
+        output += '2';
+    }
+    if(number == 3){
+        output += '3';
+    }
+    if(number == 4){
+        output += '4';
+    }
+    if(number == 5){
+        output += '5';
+    }
+    if(number == 6){
+        output += '6';
+    }
+    if(number == 7){
+        output += '7';
+    }
+    if(number == 8){
+        output += '8';
+    }
+    if(number == 9){
+        output += '9';
+    }
     output += " ";
     output += player;
     output += " ";
