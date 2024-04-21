@@ -2,8 +2,7 @@
 #include "Errors.h"
 #include "Move.h"
 #include <iostream>
-#include <string>
-#include <fstream>
+
 
 
 int main(int argc, char** argv) {
