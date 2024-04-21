@@ -87,7 +87,7 @@ void Board::result() const{
     if((win() == true) && (play == 'X')){
         std::cout << "Game over: X wins." << '\n';
     }
-    if((win() == true) && (play == 'O')){
+    else if((win() == true) && (play == 'O')){
         std::cout << "Game over: O wins." << '\n';
     }
     else{
