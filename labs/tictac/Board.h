@@ -10,7 +10,7 @@ class Board{
     char play;  // player
     char** board;
     size_t turns;
-    size_t num;
+    int num;
 
 public:
     Board();
