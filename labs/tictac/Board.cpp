@@ -104,10 +104,10 @@ void Board::result() const{
         }
         else{
             if(play == 'X'){
-                std::cout << "Game in progress: O's turn." << '\n';
+                std::cout << "Game in progress: X's turn." << '\n';
             }
             if(play == 'O'){
-                std::cout << "Game in progress: X's turn." << '\n';
+                std::cout << "Game in progress: O's turn." << '\n';
             }
         }
     }
