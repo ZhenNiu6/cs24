@@ -77,7 +77,7 @@ bool Board::win() const{
     }
 
     for(size_t i = 0; i < 3; i ++){ // check another diagonal
-        if(board[i][3-i] != play){
+        if(board[i][2-i] != play){
             break;
         }
         if(i == 2){
