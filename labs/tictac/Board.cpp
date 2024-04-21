@@ -76,7 +76,7 @@ bool Board::win() const{
         }
     }
 
-    for(size_t i = 0; i < 3; i ++){
+    for(size_t i = 0; i < 3; i ++){ // check another diagonal
         if(board[i][3-i] != play){
             break;
         }
@@ -104,10 +104,10 @@ void Board::result() const{
         }
         else{
             if(play == 'X'){
-                std::cout << "Game in progress: X's turn." << '\n';
+                std::cout << "Game in progress: O's turn." << '\n';
             }
             if(play == 'O'){
-                std::cout << "Game in progress: O's turn." << '\n';
+                std::cout << "Game in progress: X's turn." << '\n';
             }
         }
     }
