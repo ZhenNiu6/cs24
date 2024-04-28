@@ -43,9 +43,12 @@ void Node::add_weight(Node* node, Node* target){
         if(node->value > target->value){
             node->subweight ++;
             add_weight_entire(node->child[1]);
+            add_weight(node->child[0], target);
         }
-        
-        add_weight(node->child[0], target);
+        else{
+            add_weight(node->child[1], target);
+        }
+        // add_weight(node->child[0], target);
     // }
     }
     
