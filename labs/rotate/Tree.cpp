@@ -11,15 +11,26 @@ Tree::~Tree(){
     num = 0;
 }
 
+void Tree::clear(){
+    std::cout << "." << '\n';
+}
 
 size_t Tree::count() const{
     return num;
 }
 
+bool Tree::contains(const std::string& s) const{
+    Node* node = root;
+    return contains_helper(node, s);
+}
 
-// bool Tree::contains(const std::string& s) const{
-    
-// }
+size_t find(const std::string& s) const{
+    return 1;
+}
+
+std::string lookup(size_t index) const{
+    return "";
+}
 
 void Tree::insert(const std::string& s){
     if(root == nullptr){
@@ -36,4 +47,9 @@ void Tree::print() const{
     std::cout << root->value << '\n';
     print_helper(root);
     std::cout << '\n';
+}
+
+
+void remove(size_t index){
+    std::cout << "." << '\n';
 }

@@ -14,6 +14,24 @@ class Tree {
   // void rotate(Node* node){
   //   if(node->)
   // }
+
+  bool contains_helper(Node* node, const std::string& s) const{
+    if(node == nullptr){
+      return false;
+    }
+    if(node->value == s){
+      return true;
+    }
+    else{
+      if(node->value >= s){
+        return contains_helper(node->child[0], s);
+      }
+      else{
+        return contains_helper(node->child[1], s);
+      }
+    }
+  }
+
   size_t imbalance(Node* node){
     if(node == nullptr){
       return 0;
@@ -43,28 +61,30 @@ class Tree {
   }
 
   void print_helper(Node* node) const{
-    // std::cout << node->child[0]->value << '\n';
-    if((node->child[0] != nullptr) || (node->child[1] != nullptr)){
-      std::cout << "(";
-      if(node->child[0] != nullptr){
-        print_helper(node->child[0]);
-      }
-      else{
-        std::cout << "- ";
-      }
-      std::cout << " " << node->value << " ";
-      if(node->child[1] != nullptr){
-        print_helper(node->child[1]);
-      }
-      else{
-        std::cout << "-";
-      }
-      std::cout << ")";
+    if((node == nullptr) && (node == root)){
+      std::cout << "-";
     }
     else{
-      // std::cout << "(- ";
-      std::cout << node->value;
-      // std::cout << " -)";
+      if((node->child[0] != nullptr) || (node->child[1] != nullptr)){
+        std::cout << "(";
+        if(node->child[0] != nullptr){
+          print_helper(node->child[0]);
+        }
+        else{
+          std::cout << "- ";
+        }
+        std::cout << " " << node->value << " ";
+        if(node->child[1] != nullptr){
+          print_helper(node->child[1]);
+        }
+        else{
+          std::cout << "-";
+        }
+       std::cout << ")";
+     }
+      else{
+        std::cout << node->value;
+      }
     }
    
   }
