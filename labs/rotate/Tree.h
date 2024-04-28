@@ -82,27 +82,47 @@ class Tree {
 
 
 
-  void insert_helper(Node* node, const std::string& s){
-    if((s < node->value) || (s == node->value)){
+  // void insert_helper(Node* node, const std::string& s){
+  //   if((s < node->value) || (s == node->value)){
+  //     if(node->child[0] == nullptr){
+  //       node->child[0] = new Node(s);
+  //       node->subweight ++;
+  //     }
+  //     else{
+  //       insert_helper(node->child[0], s);
+  //     }
+  //   }
+  //   else{
+  //     if(node->child[1] == nullptr){
+  //       node->child[1] = new Node(s);
+  //       node->subweight ++;
+  //     }
+  //     else{
+  //       insert_helper(node->child[1], s);
+  //     }
+  //   }
+  // }
+  // void insert_h(Node* h, Node* thing);
+  void insert_helper(Node* node, Node* thing){
+    if((thing->value < node->value) || (thing->value == node->value)){
       if(node->child[0] == nullptr){
-        node->child[0] = new Node(s);
+        node->child[0] = thing;
         node->subweight ++;
       }
       else{
-        insert_helper(node->child[0], s);
+        insert_helper(node->child[0], thing);
       }
     }
     else{
       if(node->child[1] == nullptr){
-        node->child[1] = new Node(s);
+        node->child[1] = thing;
         node->subweight ++;
       }
       else{
-        insert_helper(node->child[1], s);
+        insert_helper(node->child[1], thing);
       }
     }
   }
-
 
 
   void print_helper(Node* node) const{

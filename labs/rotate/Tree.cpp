@@ -40,12 +40,52 @@ void Tree::insert(const std::string& s){
         num ++;
     }
     else{
-        insert_helper(root, s);
+        insert_helper(root, x);
         num ++;
     }
     
 
 }
+
+// void insert_h(Node* root, Node* thing){
+//     root->add_weight();
+//     //std::cout << "inserting " << thing->value << " to " << root->value << "\n";
+//     //left tree
+//     if(thing->value <= root->value){
+//         if(root->child[0] == nullptr){
+//             root->add_weight(h);
+//             root->child[0] = thing;
+//             thing->subweight = root->subweight - 1;
+//             //std::cout << "inserted: " << thing->value << thing->subweight;
+//         }
+//         else{
+//             root->add_weight(h);
+//             insert_h(root->child[0], thing);
+//         }
+//     }
+//     //right tree
+//     else{
+//         if(root->child[1] == nullptr){
+//             root->child[1] = thing;
+//             thing->subweight = root->subweight + 1;
+//             //std::cout << "data: " << thing->value << "\n";
+//             //std::cout << "left: " << root->child[0]->value << " right: " << root->child[1]->value << "\n";
+//         }
+//         else{
+//             insert_h(root->child[1], thing);
+//         }
+//     }
+// }
+
+// void Tree::insert(const std::string& s){
+//     Node* n = new Node(s);
+//     if(this->root == nullptr){
+//         this->root = n;
+//     }
+//     else{
+//         insert_h(this->root, n);
+//     }
+// }
 
 void Tree::print() const{
     // std::cout << root->value << '\n';
