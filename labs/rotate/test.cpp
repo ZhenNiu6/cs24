@@ -17,8 +17,9 @@ int main() {
   tree.insert("c");
   tree.insert("f");
   tree.print();
-  std::string result = tree.lookup(3);
+  std::string result = tree.lookup(0);
   std::cout << result << '\n';
+
 
   // Do tree things!
 

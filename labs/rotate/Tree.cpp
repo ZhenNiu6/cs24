@@ -34,8 +34,9 @@ std::string Tree::lookup(size_t index) const{
 }
 
 void Tree::insert(const std::string& s){
+    Node* x = new Node(s);
     if(root == nullptr){
-        root = new Node(s);
+        root = x;
         num ++;
     }
     else{
