@@ -92,7 +92,7 @@ class Tree {
           print_helper(node->child[0]);
         }
         else{
-          std::cout << "- ";
+          std::cout << "-";
         }
         std::cout << " " << node->value << " ";
         if(node->child[1] != nullptr){
