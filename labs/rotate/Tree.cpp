@@ -20,8 +20,7 @@ size_t Tree::count() const{
 }
 
 bool Tree::contains(const std::string& s) const{
-    Node* node = root;
-    return contains_helper(node, s);
+    return contains_helper(root, s);
 }
 
 size_t Tree::find(const std::string& s) const{
@@ -41,6 +40,7 @@ void Tree::insert(const std::string& s){
         insert_helper(root, s);
         num ++;
     }
+    delete root;
     
 
 }
