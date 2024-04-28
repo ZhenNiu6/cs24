@@ -24,7 +24,7 @@ bool Tree::contains(const std::string& s) const{
 }
 
 size_t Tree::find(const std::string& s) const{
-    return 1;
+    return find_helper(root, s);
 }
 
 std::string Tree::lookup(size_t index) const{
@@ -40,13 +40,12 @@ void Tree::insert(const std::string& s){
         insert_helper(root, s);
         num ++;
     }
-    delete root;
     
 
 }
 
 void Tree::print() const{
-    std::cout << root->value << '\n';
+    // std::cout << root->value << '\n';
     print_helper(root);
     std::cout << '\n';
 }

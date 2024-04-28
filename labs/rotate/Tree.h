@@ -32,12 +32,31 @@ class Tree {
     }
   }
 
+
+  size_t find_helper(Node* node, const std::string& s) const{
+    if(node == nullptr){
+      return 0;
+    }
+    if(node->value == s){
+      return node->subweight;
+    }
+    if(node->value >= s){
+      return find_helper(node->child[0], s);
+    }
+    else{
+      return find_helper(node->child[1], s);
+    }
+  }
+
+
   size_t imbalance(Node* node){
     if(node == nullptr){
       return 0;
     }
     return node->subweight - imbalance(node->child[1]);
   }
+
+
 
   void insert_helper(Node* node, const std::string& s){
     if((s < node->value) || (s == node->value)){
@@ -59,6 +78,8 @@ class Tree {
       }
     }
   }
+
+
 
   void print_helper(Node* node) const{
     if((node == nullptr) && (node == root)){
