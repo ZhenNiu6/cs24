@@ -9,6 +9,7 @@ struct Node {
     Node* child[2];
 
     Node(); // constructor
+    ~Node();
     Node(std::string s);
     size_t add_weight(Node* node);
 

@@ -15,6 +15,12 @@ Node::Node(std::string s){
     child[1] = nullptr;
 }
 
+Node::~Node(){
+    for(size_t i = 0; i < 2; i ++){
+        delete child[i];
+    }
+}
+
 size_t Node::add_weight(Node* node){
     if(node == nullptr){
         return 0;
