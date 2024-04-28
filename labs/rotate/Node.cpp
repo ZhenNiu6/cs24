@@ -1,4 +1,5 @@
 #include "Node.h"
+#include <iostream>
 
 // Node Function Implementations
 Node::Node(){
@@ -21,11 +22,31 @@ Node::~Node(){
     }
 }
 
-size_t Node::add_weight(Node* node){
-    if(node == nullptr){
-        return 0;
+
+void Node::add_weight_entire(Node* node){
+    if(node != nullptr){
+        node->subweight ++;
+        if(node->child[0] != nullptr){
+            add_weight_entire(node->child[0]);
+            add_weight_entire(node->child[1]);
+        }
+    }   
+}
+
+void Node::add_weight(Node* node, Node* target){
+    if(node != nullptr){
+        // std::cout << "node: " << node->subweight << '\n';
+        // node->subweight ++;
+        // if(node->child[1] != nullptr){
+        //     add_weight_entire(node->child[1]);
+        // }
+        if(node->value > target->value){
+            node->subweight ++;
+            add_weight_entire(node->child[1]);
+        }
+        
+        add_weight(node->child[0], target);
+    // }
     }
-    else{
-        return 1 + node->add_weight(node->child[0]);
-    }
+    
 }

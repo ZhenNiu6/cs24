@@ -11,7 +11,8 @@ struct Node {
     Node(); // constructor
     ~Node();
     Node(std::string s);
-    size_t add_weight(Node* node);
+    void add_weight_entire(Node* node);
+    void add_weight(Node* node, Node* target);
 
 };
 

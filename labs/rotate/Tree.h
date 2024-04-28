@@ -59,10 +59,13 @@ class Tree {
 
   std::string lookup_helper(Node* node, size_t& index) const{
     // std::cout << node->subweight << '\n';
-    if(index == node->subweight){
+    if(node == nullptr){
+      return "";
+    }
+    if(index+1 == node->subweight){
       return node->value;
     }
-    if(node->subweight < index){
+    if(node->subweight < index+1){
       return lookup_helper(node->child[1], index);
     }
     else{
@@ -78,45 +81,25 @@ class Tree {
   }
 
 
-
-  // void insert_helper(Node* node, const std::string& s){
-  //   if((s < node->value) || (s == node->value)){
-  //     if(node->child[0] == nullptr){
-  //       node->child[0] = new Node(s);
-  //       node->subweight ++;
-  //     }
-  //     else{
-  //       insert_helper(node->child[0], s);
-  //     }
-  //   }
-  //   else{
-  //     if(node->child[1] == nullptr){
-  //       node->child[1] = new Node(s);
-  //       node->subweight ++;
-  //     }
-  //     else{
-  //       insert_helper(node->child[1], s);
-  //     }
-  //   }
-  // }
-  // void insert_h(Node* h, Node* thing);
-  void insert_helper(Node* node, Node* thing){
-    if((thing->value < node->value) || (thing->value == node->value)){
+  void insert_helper(Node* node, Node* target){
+    if(target->value <= node->value){
       if(node->child[0] == nullptr){
-        node->child[0] = thing;
-        node->subweight ++;
+        node->child[0] = target;
+        node->add_weight(root, target);
+        target->subweight = node->subweight - 1;
       }
       else{
-        insert_helper(node->child[0], thing);
+        insert_helper(node->child[0], target);
       }
     }
     else{
       if(node->child[1] == nullptr){
-        node->child[1] = thing;
-        node->subweight ++;
+        node->child[1] = target;
+        node->add_weight(root, target);
+        target->subweight = node->subweight + 1;
       }
       else{
-        insert_helper(node->child[1], thing);
+        insert_helper(node->child[1], target);
       }
     }
   }

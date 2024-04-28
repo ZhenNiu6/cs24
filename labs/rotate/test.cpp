@@ -7,9 +7,6 @@
 int main() {
   
   Tree tree;
-  // tree.insert("beta");
-  // tree.insert("alpha");
-  // tree.insert("omega");
   tree.insert("d");
   tree.insert("b");
   tree.insert("e");
@@ -17,7 +14,7 @@ int main() {
   tree.insert("c");
   tree.insert("f");
   tree.print();
-  std::string result = tree.lookup(0);
+  std::string result = tree.lookup(2);
   std::cout << result << '\n';
 
 
