@@ -30,7 +30,7 @@ size_t Tree::find(const std::string& s) const{
 }
 
 std::string Tree::lookup(size_t index) const{
-    return "";
+    return lookup_helper(root, index);
 }
 
 void Tree::insert(const std::string& s){

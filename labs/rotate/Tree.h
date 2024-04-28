@@ -57,6 +57,21 @@ class Tree {
     }
   }
 
+  std::string lookup_helper(Node* node, size_t& index) const{
+    if(node == nullptr){
+      return "";
+    }
+    if(index == node->subweight){
+      return node->value;
+    }
+    if(node->subweight < index){
+      return lookup_helper(node->child[1], index);
+    }
+    else{
+      return lookup_helper(node->child[0], index);
+    }
+  }
+
   size_t imbalance(Node* node){
     if(node == nullptr){
       return 0;
