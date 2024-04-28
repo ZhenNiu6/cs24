@@ -24,11 +24,11 @@ bool Tree::contains(const std::string& s) const{
     return contains_helper(node, s);
 }
 
-size_t find(const std::string& s) const{
+size_t Tree::find(const std::string& s) const{
     return 1;
 }
 
-std::string lookup(size_t index) const{
+std::string Tree::lookup(size_t index) const{
     return "";
 }
 
@@ -50,6 +50,6 @@ void Tree::print() const{
 }
 
 
-void remove(size_t index){
+void Tree::remove(size_t index){
     std::cout << "." << '\n';
 }
