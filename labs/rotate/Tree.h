@@ -58,10 +58,7 @@ class Tree {
   }
 
   std::string lookup_helper(Node* node, size_t& index) const{
-    std::cout << node->subweight << '\n';
-    if(node == nullptr){
-      return "";
-    }
+    // std::cout << node->subweight << '\n';
     if(index == node->subweight){
       return node->value;
     }

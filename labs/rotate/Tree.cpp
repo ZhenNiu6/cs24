@@ -33,6 +33,12 @@ size_t Tree::find(const std::string& s) const{
 }
 
 std::string Tree::lookup(size_t index) const{
+    if(index >= num){
+        throw std::out_of_range("index");
+    }
+    if(root == nullptr){
+        throw std::out_of_range("null");
+    }
     return lookup_helper(root, index);
 }
 
