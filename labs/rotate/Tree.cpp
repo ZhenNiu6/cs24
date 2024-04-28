@@ -12,7 +12,9 @@ Tree::~Tree(){
 }
 
 void Tree::clear(){
-    std::cout << "." << '\n';
+    if(root != nullptr){
+        clear_helper(root);
+    }
 }
 
 size_t Tree::count() const{

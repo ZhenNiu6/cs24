@@ -11,9 +11,7 @@ class Tree {
 
 
   // Private Helper Functions
-  // void rotate(Node* node){
-  //   if(node->)
-  // }
+
 
   bool contains_helper(Node* node, const std::string& s) const{
     if(node == nullptr){
@@ -48,6 +46,16 @@ class Tree {
     }
   }
 
+
+  void clear_helper(Node* node){
+    if(node != nullptr){
+      clear_helper(node->child[0]);
+      clear_helper(node->child[1]);
+      node->child[0] = nullptr;
+      node->child[1] = nullptr;
+      delete node;
+    }
+  }
 
   size_t imbalance(Node* node){
     if(node == nullptr){
