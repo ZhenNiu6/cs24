@@ -8,13 +8,16 @@ Tree::Tree(){
 }
 
 Tree::~Tree(){
-    num = 0;
+    clear();
+    root = nullptr;
 }
 
 void Tree::clear(){
     if(root != nullptr){
         clear_helper(root);
     }
+    root = nullptr;
+    num = 0;
 }
 
 size_t Tree::count() const{
