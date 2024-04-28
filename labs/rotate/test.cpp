@@ -5,7 +5,12 @@
 // It won't be graded - do whatever you want.
 
 int main() {
+  
   Tree tree;
+  tree.insert("beta");
+  tree.insert("alpha");
+  tree.insert("omega");
+  tree.print();
 
   // Do tree things!
 
