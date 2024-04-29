@@ -33,10 +33,10 @@ class Tree {
 
   size_t find_helper(Node* node, const std::string& s) const{
     if(node == nullptr){
-      return 0;
+      return SIZE_MAX;
     }
     if(node->value == s){
-      return node->subweight;
+      return (node->subweight - 1);
     }
     if(node->value >= s){
       return find_helper(node->child[0], s);
