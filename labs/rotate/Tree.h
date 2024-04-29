@@ -36,7 +36,10 @@ class Tree {
       return SIZE_MAX;
     }
     if(node->value == s){
-      return (node->subweight - 1);
+      if(node->child[0] == nullptr){
+        return 0;
+      }
+      return (node->child[0]->weight);
     }
     if(node->value >= s){
       return find_helper(node->child[0], s);
@@ -58,14 +61,21 @@ class Tree {
   }
 
   std::string lookup_helper(Node* node, size_t& index) const{
-    // std::cout << node->subweight << '\n';
+    // std::cout << node->index_ << '\n';
     if(node == nullptr){
       return "";
     }
-    if(index+1 == node->subweight){
+    size_t root_index;
+    if(node->child[0] == nullptr){
+      root_index = 0;
+    }
+    else{
+      root_index = node->child[0]->weight;
+    }
+    if(index == root_index){
       return node->value;
     }
-    if(node->subweight < index+1){
+    if(root_index < index){
       return lookup_helper(node->child[1], index);
     }
     else{
@@ -73,20 +83,21 @@ class Tree {
     }
   }
 
-  size_t imbalance(Node* node){
-    if(node == nullptr){
-      return 0;
-    }
-    return node->subweight - imbalance(node->child[1]);
-  }
+  // size_t imbalance(Node* node){
+  //   if(node == nullptr){
+  //     return 0;
+  //   }
+  //   return node->index_ - imbalance(node->child[1]);
+  // }
+
+
 
 
   void insert_helper(Node* node, Node* target){
     if(target->value <= node->value){
       if(node->child[0] == nullptr){
         node->child[0] = target;
-        node->add_weight(root, target);
-        target->subweight = node->subweight - 1;
+
       }
       else{
         insert_helper(node->child[0], target);
@@ -95,14 +106,23 @@ class Tree {
     else{
       if(node->child[1] == nullptr){
         node->child[1] = target;
-        node->add_weight(root, target);
-        target->subweight = node->subweight + 1;
       }
       else{
         insert_helper(node->child[1], target);
       }
     }
-  }
+    node->find_weight();
+    
+}
+
+  // Node* remove_helper(Node* node, size_t index){
+  //   if(node == nullptr){
+  //     return nullptr;
+  //   }
+  //   size_t root_index = node->child[0]->find_weight();
+  //   if()
+
+  // }
 
 
   void print_helper(Node* node) const{

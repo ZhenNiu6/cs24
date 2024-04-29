@@ -52,7 +52,7 @@ void Tree::insert(const std::string& s){
         insert_helper(root, x);
         num ++;
     } 
-    // std::cout << x->subweight << '\n';
+    // std::cout << x->index_ << '\n';
 
 }
 

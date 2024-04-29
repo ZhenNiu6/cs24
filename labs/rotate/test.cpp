@@ -7,15 +7,24 @@
 int main() {
   
   Tree tree;
-  tree.insert("d");
+  // tree.insert("d");
+  // tree.insert("b");
+  // tree.insert("f");
+  // tree.insert("a");
+  // tree.insert("c");
+  // tree.insert("e");
+  // tree.insert("g");
+  tree.insert("m");
   tree.insert("b");
-  tree.insert("f");
-  tree.insert("a");
-  tree.insert("c");
-  tree.insert("e");
-  tree.insert("g");
+  tree.insert("s");
+  tree.insert("b");
+  tree.insert("m");
+  tree.insert("s");
+  tree.insert("b");
+  tree.insert("m");
   tree.print();
-  std::string result = tree.lookup(6);
+
+  std::string result = tree.lookup(3);
   std::cout << result << '\n';
 
 
