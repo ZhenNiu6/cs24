@@ -51,9 +51,8 @@ void Tree::insert(const std::string& s){
     else{
         insert_helper(root, x);
         num ++;
+        // rotation(x->parent, x);
     } 
-    // std::cout << x->index_ << '\n';
-
 }
 
 

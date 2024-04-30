@@ -14,6 +14,13 @@ int main() {
   tree.insert("c");
   tree.insert("e");
   tree.insert("g");
+  // tree.insert("a");
+  // tree.insert("b");
+  // tree.insert("c");
+  // tree.insert("d");
+  // tree.insert("e");
+  // tree.insert("f");
+  // tree.insert("g");
   // tree.insert("m");
   // tree.insert("b");
   // tree.insert("s");
@@ -22,12 +29,15 @@ int main() {
   // tree.insert("s");
   // tree.insert("b");
   // tree.insert("m");
+  // tree.insert("selenium");
+  // tree.insert("sulfur");
+  // tree.insert("tellurium");
   tree.print();
 
-  // size_t result = tree.find("f");
-  tree.remove(0);
-  tree.print();
-  // std::cout << result << '\n';
+  size_t result = tree.find("f");
+  // tree.remove(0);
+  // tree.print();
+  std::cout << result << '\n';
 
 
   // Do tree things!

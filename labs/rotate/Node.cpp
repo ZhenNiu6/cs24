@@ -14,6 +14,7 @@ Node::Node(std::string s){
     weight = 1;
     child[0] = nullptr;
     child[1] = nullptr;
+    parent = nullptr;
 }
 
 Node::~Node(){
@@ -23,11 +24,12 @@ Node::~Node(){
 }
 
 
-void Node::find_weight(){
+size_t Node::find_weight(){
     size_t subweight1, subweight2;
     subweight1 = child[0] ? child[0]->weight:0;
     subweight2 = child[1] ? child[1]->weight:0;
     weight = 1 + subweight1 + subweight2;
+    return weight;
 
 }
 
