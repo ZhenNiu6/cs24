@@ -92,7 +92,10 @@ class Tree {
     if(node->child[0] == nullptr){
       node_index = 0;
     }
-    node_index = node->child[0]->weight;
+    else{
+      node_index = node->child[0]->weight;
+    }
+   
     
     if(index == node_index){
       return node->value;
