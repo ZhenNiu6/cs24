@@ -24,8 +24,10 @@ int main() {
   // tree.insert("m");
   tree.print();
 
-  size_t result = tree.find("f");
-  std::cout << result << '\n';
+  // size_t result = tree.find("f");
+  tree.remove(0);
+  tree.print();
+  // std::cout << result << '\n';
 
 
   // Do tree things!

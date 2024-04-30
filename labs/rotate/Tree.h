@@ -68,7 +68,6 @@ class Tree {
         if(new_index !=  SIZE_MAX){
           return new_index;
         }
-        return index;
       }
       return index;
     }
@@ -85,28 +84,6 @@ class Tree {
     }
   }
 
-  // std::string lookup_helper(Node* node, size_t& index) const{
-  //   // std::cout << node->index_ << '\n';
-  //   if(node == nullptr){
-  //     return "";
-  //   }
-  //   size_t root_index;
-  //   if(node->child[0] == nullptr){
-  //     root_index = 0;
-  //   }
-  //   else{
-  //     root_index = node->child[0]->weight;
-  //   }
-  //   if(index == root_index){
-  //     return node->value;
-  //   }
-  //   if(root_index < index){
-  //     return lookup_helper(node->child[1], index);
-  //   }
-  //   else{
-  //     return lookup_helper(node->child[0], index);
-  //   }
-  // }
 
    std::string lookup_helper(Node* node, size_t index) const{
     // std::cout << node->subweight << '\n';
@@ -168,14 +145,36 @@ class Tree {
     
 }
 
-  // Node* remove_helper(Node* node, size_t index){
-  //   if(node == nullptr){
-  //     return nullptr;
-  //   }
-  //   size_t root_index = node->child[0]->find_weight();
-  //   if()
+  Node* remove_helper(Node* node, size_t index){
+    if(node == nullptr){
+      return nullptr;
+    }
+    size_t root_index;
+    if(node->child[0] != nullptr){
+      root_index = node->child[0]->weight;
+    }
+    else{
+      root_index = 0;
+    }
+    if(root_index > index){
+      if(node->child[0] != nullptr){
+        node->child[0] = remove_helper(node->child[0], index);
+      }
+    }
+    else if(root_index < index){
+      if(node->child[1] != nullptr){
+        node->child[1] = remove_helper(node->child[1], index - root_index - 1);
+      }
+    }
+    else{
+      if((node->child[0] == nullptr) && (node->child[1] == nullptr)){
+        delete node;
+        return nullptr;
+      }
+    }
+    return node;
 
-  // }
+  }
 
 
   void print_helper(Node* node) const{
@@ -205,6 +204,10 @@ class Tree {
       }
     }
    
+  }
+
+  void rotation(Node* node){
+
   }
 
 public:
