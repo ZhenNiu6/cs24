@@ -362,7 +362,7 @@ void rotation(Node*& p, Node*& c) {
     rotation(p->parent, p);
 }
 
-size_t absolute(size_t x){
+size_t absolute(int x){
   if(x < 0){
     x = -x;
   }
