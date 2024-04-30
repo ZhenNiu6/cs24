@@ -70,4 +70,5 @@ void Tree::remove(size_t index){
         throw std::out_of_range("invalid index");
     }
     root = remove_helper(root, index);
+    num --;
 }
