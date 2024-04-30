@@ -7,24 +7,24 @@
 int main() {
   
   Tree tree;
-  // tree.insert("d");
+  tree.insert("d");
+  tree.insert("b");
+  tree.insert("f");
+  tree.insert("a");
+  tree.insert("c");
+  tree.insert("e");
+  tree.insert("g");
+  // tree.insert("m");
   // tree.insert("b");
-  // tree.insert("f");
-  // tree.insert("a");
-  // tree.insert("c");
-  // tree.insert("e");
-  // tree.insert("g");
-  tree.insert("m");
-  tree.insert("b");
-  tree.insert("s");
-  tree.insert("b");
-  tree.insert("m");
-  tree.insert("s");
-  tree.insert("b");
-  tree.insert("m");
+  // tree.insert("s");
+  // tree.insert("b");
+  // tree.insert("m");
+  // tree.insert("s");
+  // tree.insert("b");
+  // tree.insert("m");
   tree.print();
 
-  size_t result = tree.find("s");
+  size_t result = tree.find("f");
   std::cout << result << '\n';
 
 

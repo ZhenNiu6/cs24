@@ -66,5 +66,7 @@ void Tree::print() const{
 
 
 void Tree::remove(size_t index){
-    std::cout << "." << '\n';
+    if(index >= num){
+        throw std::out_of_range("invalid index");
+    }
 }

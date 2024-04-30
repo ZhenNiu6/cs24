@@ -68,10 +68,9 @@ class Tree {
         if(new_index !=  SIZE_MAX){
           return new_index;
         }
+        return index;
       }
-      
       return index;
-      
     }
   }
 
