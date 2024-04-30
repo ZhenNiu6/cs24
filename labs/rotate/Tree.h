@@ -60,28 +60,60 @@ class Tree {
     }
   }
 
-  std::string lookup_helper(Node* node, size_t& index) const{
-    // std::cout << node->index_ << '\n';
+  // std::string lookup_helper(Node* node, size_t& index) const{
+  //   // std::cout << node->index_ << '\n';
+  //   if(node == nullptr){
+  //     return "";
+  //   }
+  //   size_t root_index;
+  //   if(node->child[0] == nullptr){
+  //     root_index = 0;
+  //   }
+  //   else{
+  //     root_index = node->child[0]->weight;
+  //   }
+  //   if(index == root_index){
+  //     return node->value;
+  //   }
+  //   if(root_index < index){
+  //     return lookup_helper(node->child[1], index);
+  //   }
+  //   else{
+  //     return lookup_helper(node->child[0], index);
+  //   }
+  // }
+
+   std::string lookup_helper(Node* node, size_t index) const{
+    // std::cout << node->subweight << '\n';
     if(node == nullptr){
       return "";
     }
-    size_t root_index;
+    size_t node_index;
     if(node->child[0] == nullptr){
-      root_index = 0;
+      node_index = 0;
     }
-    else{
-      root_index = node->child[0]->weight;
-    }
-    if(index == root_index){
+    node_index = node->child[0]->weight;
+    
+    if(index == node_index){
       return node->value;
     }
-    if(root_index < index){
+    else if(node_index < index){
+      // Node* x = leftmost(node);
+      index = index - node_index - 1;
       return lookup_helper(node->child[1], index);
     }
     else{
       return lookup_helper(node->child[0], index);
     }
+    
   }
+
+  // Node* leftmost(Node* node){
+  //   if(node->child[0] == nullptr){
+  //     return node;
+  //   }
+  //   return leftmost(node->child[0]);
+  // }
 
   // size_t imbalance(Node* node){
   //   if(node == nullptr){

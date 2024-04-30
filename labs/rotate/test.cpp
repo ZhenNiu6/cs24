@@ -24,7 +24,7 @@ int main() {
   tree.insert("m");
   tree.print();
 
-  std::string result = tree.lookup(3);
+  std::string result = tree.lookup(5);
   std::cout << result << '\n';
 
 
