@@ -31,21 +31,47 @@ class Tree {
   }
 
 
-  size_t find_helper(Node* node, const std::string& s) const{
+  // size_t find_helper(Node* node, const std::string& s) const{
+  //   if(node == nullptr){
+  //     return SIZE_MAX;
+  //   }
+  //   if(node->value == s){
+  //     if(node->child[0] == nullptr){
+  //       return 0;
+  //     }
+  //     return (node->child[0]->weight);
+  //   }
+  //   if(node->value >= s){
+  //     return find_helper(node->child[0], s);
+  //   }
+  //   else{
+  //     return find_helper(node->child[1], s);
+  //   }
+  // }
+
+  size_t find_helper(Node* node, const std::string& s, size_t index) const{
     if(node == nullptr){
       return SIZE_MAX;
     }
-    if(node->value == s){
-      if(node->child[0] == nullptr){
-        return 0;
-      }
-      return (node->child[0]->weight);
+    if(node->value > s){
+      return find_helper(node->child[0], s, index);
     }
-    if(node->value >= s){
-      return find_helper(node->child[0], s);
+    else if(node->value < s){
+      if(node->child[0] != nullptr){
+        return find_helper(node->child[1], s, index + 1 + node->child[0]->weight);
+      }
+      return find_helper(node->child[1], s, index + 1);
     }
     else{
-      return find_helper(node->child[1], s);
+      if(node->child[0] != nullptr){
+        size_t new_index = find_helper(node->child[0], s, index);
+        if(new_index !=  SIZE_MAX){
+          return new_index;
+        }
+      }
+      
+      return index;
+      
     }
   }
 
@@ -96,7 +122,6 @@ class Tree {
       node_index = node->child[0]->weight;
     }
    
-    
     if(index == node_index){
       return node->value;
     }
@@ -111,12 +136,6 @@ class Tree {
     
   }
 
-  // Node* leftmost(Node* node){
-  //   if(node->child[0] == nullptr){
-  //     return node;
-  //   }
-  //   return leftmost(node->child[0]);
-  // }
 
   // size_t imbalance(Node* node){
   //   if(node == nullptr){

@@ -29,7 +29,7 @@ bool Tree::contains(const std::string& s) const{
 }
 
 size_t Tree::find(const std::string& s) const{
-    return find_helper(root, s);
+    return find_helper(root, s, 0);
 }
 
 std::string Tree::lookup(size_t index) const{
