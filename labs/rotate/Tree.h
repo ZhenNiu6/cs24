@@ -256,7 +256,12 @@ size_t absolute(int x){
 
 void leftRotate(Node* p) {
     Node* q = p->child[1];
-    p->child[1] = q->child[0];
+    if(q->child[0] != nullptr){
+      p->child[1] = q->child[0];
+    }
+    else{
+      p->child[1] = nullptr;
+    }
     q->child[0] = p;
     p->weight = p->find_weight();
     q->weight = q->find_weight();
@@ -270,7 +275,12 @@ void leftRotate(Node* p) {
 void rightRotate(Node* p) {
     // std::cout << "right" << '\n';
     Node* q = p->child[0];
-    p->child[0] = q->child[1];
+    if(q->child[1] != nullptr){
+      p->child[0] = q->child[1];
+    }
+    else{
+      p->child[0] = nullptr;
+    }
     q->child[1] = p;
     p->weight = p->find_weight();
     q->weight = q->find_weight();
