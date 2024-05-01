@@ -7,13 +7,13 @@
 int main() {
   
   Tree tree;
-  tree.insert("d");
-  tree.insert("b");
-  tree.insert("f");
-  tree.insert("a");
-  tree.insert("c");
-  tree.insert("e");
-  tree.insert("g");
+  // tree.insert("d");
+  // tree.insert("b");
+  // tree.insert("f");
+  // tree.insert("a");
+  // tree.insert("c");
+  // tree.insert("e");
+  // tree.insert("g");
   // tree.insert("a");
   // tree.insert("b");
   // tree.insert("c");
@@ -29,15 +29,15 @@ int main() {
   // tree.insert("s");
   // tree.insert("b");
   // tree.insert("m");
-  // tree.insert("selenium");
-  // tree.insert("sulfur");
-  // tree.insert("tellurium");
+  tree.insert("selenium");
+  tree.insert("sulfur");
+  tree.insert("tellurium");
   tree.print();
 
-  size_t result = tree.find("f");
+  // size_t result = tree.find("f");
   // tree.remove(0);
   // tree.print();
-  std::cout << result << '\n';
+  // std::cout << result << '\n';
 
 
   // Do tree things!

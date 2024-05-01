@@ -33,35 +33,3 @@ size_t Node::find_weight(){
 
 }
 
-// void Node::add_weight_entire(Node* node){
-//     if(node != nullptr){
-//         node->index_ ++;
-//         std::cout << "current node: " << node->value << " index: " << node->index_ << '\n';
-//         if(node->child[0] != nullptr){
-//             add_weight_entire(node->child[0]);
-//             add_weight_entire(node->child[1]);
-//         }
-//     }   
-// }
-
-// void Node::add_index(Node* node, Node* target){
-//     if(node != nullptr){
-//         std::cout << "node: " << node->index_ << '\n';
-//         // node->index_ ++;
-//         // if(node->child[1] != nullptr){
-//         //     add_weight_entire(node->child[1]);
-//         // }
-//         if(node->value > target->value){
-//             node->index_ ++;
-//             add_weight_entire(node->child[1]);
-//             add_index(node->child[0], target);
-//         }
-//         else{
-//             add_index(node->child[1], target);
-//         }
-//         // add_weight(node->child[0], target);
-//     // }
-//     }
-    
-// }
-
