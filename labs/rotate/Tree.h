@@ -277,6 +277,7 @@ void leftRotate(Node* p) {
     }
     else{
       q->parent = p->parent;
+      p->parent->child[1] = q;
     }
     p->parent = q;
     
