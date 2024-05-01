@@ -44,13 +44,17 @@ std::string Tree::lookup(size_t index) const{
 
 void Tree::insert(const std::string& s){
     Node* x = new Node(s);
+    std::cout << x->value << '\n';
     if(root == nullptr){
         root = x;
         num ++;
     }
     else{
+        // std::cout << x->value << '\n';
         insert_helper(root, x);
-        rotation(x->parent, x);
+        std::cout << x->parent << '\n';
+        std::cout << x << '\n';
+        // rotation(x->parent, x);
         num ++;
     } 
 }

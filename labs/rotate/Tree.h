@@ -105,19 +105,22 @@ class Tree {
       if(node->child[0] == nullptr){
         node->child[0] = target;
         target->parent = node;
-
+        // rotate?
       }
       else{
         insert_helper(node->child[0], target);
+        rotation(node, node->child[0]);
       }
     }
     else{
       if(node->child[1] == nullptr){
         node->child[1] = target;
         target->parent = node;
+        // rotate?
       }
       else{
         insert_helper(node->child[1], target);
+        rotation(node, node->child[1]);
       }
     }
     target->weight = target->find_weight();
@@ -243,7 +246,10 @@ class Tree {
           // std::cout << "left" << '\n';
         }
       }
-      rotation(p->parent, p);
+      if(p != root){
+        rotation(p->parent, p);
+      }
+     
     }
     
 
@@ -262,20 +268,22 @@ void leftRotate(Node* p) {
     Node* q = p->child[1];
     Node* k = q->child[0];
     if(p == root){
-      q->parent = root;
+      q->parent = nullptr;
+      root = q;
     }
     else{
       q->parent = p->parent;
     }
     p->parent = q;
-    if(q->child[0] != nullptr){
-      p->child[1] = q->child[0];
-    }
+    
+    p->child[1] = q->child[0];
+    
     q->child[0] = p;
-    
-    k->parent = p;
-    
-
+    if(k != nullptr){
+      k->parent = p;
+    }
+    p->weight = p->find_weight();
+    q->weight = q->find_weight();
 }
 
 
@@ -287,16 +295,21 @@ void rightRotate(Node* p) {
     Node* k = q->child[1];
     if(p == root){
       q->parent = root;
+      root = q;
     }
     else{
       q->parent = p->parent;
     }
     p->parent = q;
-    if(q->child[1] != nullptr){
-      p->child[0] = q->child[1];
-    }
+
+    p->child[0] = q->child[1];
+    
     q->child[1] = p;
-    k->parent = p;
+    if(k != nullptr){
+      k->parent = p;
+    }
+    p->weight = p->find_weight();
+    q->weight = q->find_weight();
     
 }
 
