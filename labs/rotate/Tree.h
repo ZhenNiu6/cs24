@@ -194,8 +194,8 @@ class Tree {
       if((p == nullptr) || (c == nullptr)){
         return;
       }
-      std::cout << "parent " << p->value << '\n';
-      std::cout << "child " << c->value << '\n';
+      // std::cout << "parent " << p->value << '\n';
+      // std::cout << "child " << c->value << '\n';
 
       size_t x = 0, y = 0, z = 0;
       if(c == p->child[0]){ // need right rotation
@@ -212,9 +212,9 @@ class Tree {
         }
         // std::cout << "z " << x << '\n';
         size_t before = absolute(x + y + 1 - z);
-        std::cout << "before " << before << '\n';
+        // std::cout << "before " << before << '\n';
         size_t after = absolute(y + z + 1 - x);
-        std::cout << "after " << after << '\n';
+        // std::cout << "after " << after << '\n';
         if(after < before){
           rightRotate(p);
         }
@@ -233,13 +233,13 @@ class Tree {
         }
         // std::cout << "z " << x << '\n';
         size_t before = absolute(y + z + 1 - x);
-        std::cout << "before " << before << '\n';
+        // std::cout << "before " << before << '\n';
         size_t after = absolute(x + y + 1 - z);
-        std::cout << "after " << after << '\n';
+        // std::cout << "after " << after << '\n';
         if(after < before){
-          print();
+          // print();
           leftRotate(p);
-          std::cout << "left" << '\n';
+          // std::cout << "left" << '\n';
         }
       }
       rotation(p->parent, p);
@@ -268,7 +268,7 @@ void leftRotate(Node* p) {
 }
 
 void rightRotate(Node* p) {
-    std::cout << "right" << '\n';
+    // std::cout << "right" << '\n';
     Node* q = p->child[0];
     p->child[0] = q->child[1];
     q->child[1] = p;
