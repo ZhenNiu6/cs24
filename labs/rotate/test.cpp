@@ -32,6 +32,9 @@ int main() {
   tree.insert("selenium");
   tree.insert("sulfur");
   tree.insert("tellurium");
+  tree.insert("polonium");
+  tree.insert("oxygen");
+  
   tree.print();
 
   // size_t result = tree.find("f");
