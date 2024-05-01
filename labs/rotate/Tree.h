@@ -106,6 +106,7 @@ class Tree {
         node->child[0] = target;
         target->parent = node;
         // rotate?
+        rotation(node,target);
       }
       else{
         insert_helper(node->child[0], target);
@@ -117,6 +118,7 @@ class Tree {
         node->child[1] = target;
         target->parent = node;
         // rotate?
+        rotation(node,target);
       }
       else{
         insert_helper(node->child[1], target);
@@ -220,6 +222,7 @@ class Tree {
         // std::cout << "after " << after << '\n';
         if(after < before){
           // std::cout << "right" << '\n';
+          // print();
           rightRotate(p);
         }
       }
@@ -242,6 +245,7 @@ class Tree {
         // std::cout << "after " << after << '\n';
         if(after < before){
           // print();
+
           leftRotate(p);
           // std::cout << "left" << '\n';
         }
@@ -299,10 +303,12 @@ void rightRotate(Node* p) {
     }
     else{
       q->parent = p->parent;
+      p->parent->child[0] = q;
     }
     p->parent = q;
 
     p->child[0] = q->child[1];
+  
     
     q->child[1] = p;
     if(k != nullptr){
@@ -310,6 +316,7 @@ void rightRotate(Node* p) {
     }
     p->weight = p->find_weight();
     q->weight = q->find_weight();
+    // std::cout << q->child[1]->value << '\n';
     
 }
 
