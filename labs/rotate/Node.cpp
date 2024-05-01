@@ -7,6 +7,7 @@ Node::Node(){
     weight = 0;
     child[0] = nullptr;
     child[1] = nullptr;
+    parent = nullptr;
 }
 
 Node::Node(std::string s){

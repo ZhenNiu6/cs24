@@ -34,6 +34,16 @@ int main() {
   tree.insert("tellurium");
   tree.insert("polonium");
   tree.insert("oxygen");
+  tree.insert("a");
+  tree.insert("b");
+  tree.insert("c");
+  // tree.insert("d");
+  // tree.insert("e");
+  // tree.insert("f");
+  // tree.insert("g");
+  // tree.insert("h");
+  // tree.insert("i");
+  // tree.insert("j");
   
   tree.print();
 

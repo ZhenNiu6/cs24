@@ -277,7 +277,12 @@ void leftRotate(Node* p) {
     }
     else{
       q->parent = p->parent;
-      p->parent->child[1] = q;
+      if(p == p->parent->child[1]){
+        p->parent->child[1] = q;
+      }
+      else{
+        p->parent->child[0] = q;
+      }
     }
     p->parent = q;
     
@@ -304,7 +309,12 @@ void rightRotate(Node* p) {
     }
     else{
       q->parent = p->parent;
-      p->parent->child[0] = q;
+      if(p == p->parent->child[0]){
+        p->parent->child[0] = q;
+      }
+      else{
+        p->parent->child[1] = q;
+      }
     }
     p->parent = q;
 

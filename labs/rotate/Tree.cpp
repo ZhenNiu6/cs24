@@ -9,7 +9,6 @@ Tree::Tree(){
 
 Tree::~Tree(){
     clear();
-    root = nullptr;
 }
 
 void Tree::clear(){
