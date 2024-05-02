@@ -61,7 +61,7 @@ int main() {
   
   tree.print();
 
-  tree.remove(0);
+  tree.remove(3);
   tree.remove(2);
   tree.print();
 

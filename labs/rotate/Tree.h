@@ -85,6 +85,7 @@ class Tree {
     }
    
     if(index == node_index){
+
       return node->value;
     }
     else if(node_index < index){
@@ -170,7 +171,6 @@ class Tree {
       }
       else if((node->child[0] == nullptr) && (node->child[1] != nullptr)){ // only has left child
         Node* temp = node->child[1];
-        // if(node == root){
         node->value = temp->value;
         node->child[0] = temp->child[0];
         node->child[1] = temp->child[1];
@@ -180,19 +180,34 @@ class Tree {
         }
         return node;
       }
-      
-      // else if((node->child[1] != nullptr) && (node->child[0] == nullptr)){
-      //   Node* change = node->child[1];
-        
-      //   delete node;
-      //   return change;
-      // }
-    //   else{
-    //     return node;
-    //   }
+      else{
+        Node* temp = find_smallest(node);
+        node->value = temp->value;
+        if(temp->child[1] != nullptr){
+          Node* x = temp->child[1];
+          temp->value = x->value;
+          temp->child[0] = x->child[0];
+          temp->child[1] = x->child[1];
+          delete x;
+        }
+        else{
+          delete temp;
+        }
+        return node;
+      }
     }
     return node;
 
+  }
+
+  Node* find_smallest(Node* node){
+    if(node == nullptr){
+      return nullptr;
+    }
+    if(node->child[0] == nullptr){
+      return node;
+    }
+    return find_smallest(node->child[0]);
   }
 
   // Node* remove_helper(Node* root, size_t index){
