@@ -86,7 +86,7 @@ tree.insert("zeta");
   tree.print();
 
   // tree.remove(3);
-  tree.remove(1);
+  tree.remove(3);
   tree.print();
 
   // size_t result = tree.find("f");

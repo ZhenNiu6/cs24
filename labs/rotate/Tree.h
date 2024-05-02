@@ -184,22 +184,23 @@ Node* remove_helper(Node* node, size_t index){
       }
       else{ // has two children
         Node* temp = find_smallest(node->child[1]);
+        // std::cout << node << '\n';
+        // std::cout << temp << '\n';
         if(temp != nullptr){
           node->value = temp->value;
-          // std::cout << "here";
-          return remove_helper(temp, index);
         }
-        // if(temp->child[1] != nullptr){
-        //   Node* x = temp->child[1];
-        //   temp->value = x->value;
-        //   temp->child[0] = x->child[0];
-        //   temp->child[1] = x->child[1];
-        //   delete x;
-          
-        // }
-        // else{
-        //   delete temp;
-        // }
+        if(temp->child[1] != nullptr){
+          Node* x = temp->child[1];
+          temp->value = x->value;
+          temp->child[0] = x->child[0];
+          temp->child[1] = x->child[1];
+          delete x;
+        }
+        else{
+          // std::cout << "here" << '\n';
+          // std::cout << temp->value << '\n';
+          delete temp;
+        }
         return node;
       }
     }
