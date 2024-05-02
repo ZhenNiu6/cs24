@@ -212,7 +212,7 @@ class Tree {
           // std::cout << "here" << '\n';
           rotation(answer->parent, answer);
         }
-        return node;
+        return answer;
       }
       else{ // has two children
         Node* temp = find_smallest(node->child[1]);

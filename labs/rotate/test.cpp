@@ -62,7 +62,7 @@ int main() {
   // tree.print();
 
   // tree.remove(3);
-  tree.remove(0);
+  tree.remove(12);
   tree.print();
 
   // size_t result = tree.find("f");
