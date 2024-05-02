@@ -59,10 +59,10 @@ int main() {
     tree.insert("Poseidon");
     tree.insert("Zeus");
   
-  tree.print();
+  // tree.print();
 
-  tree.remove(3);
-  tree.remove(2);
+  // tree.remove(3);
+  tree.remove(0);
   tree.print();
 
   // size_t result = tree.find("f");

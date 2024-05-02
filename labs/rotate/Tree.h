@@ -155,48 +155,83 @@ class Tree {
     }
     else{
       if((node->child[0] == nullptr) && (node->child[1] == nullptr)){
-        delete node;
-        return nullptr;
-      }
-      else if((node->child[0] != nullptr) && (node->child[1] == nullptr)){ // only has right child
-        Node* temp = node->child[0];
-        node->value = temp->value;
-        node->child[0] = temp->child[0];
-        node->child[1] = temp->child[1];
-        delete temp;
         if(node->parent != nullptr){
           rotation(node->parent, node);
         }
-        return node;
+        delete node;
+        return nullptr;
       }
-      else if((node->child[0] == nullptr) && (node->child[1] != nullptr)){ // only has left child
-        Node* temp = node->child[1];
-        node->value = temp->value;
-        node->child[0] = temp->child[0];
-        node->child[1] = temp->child[1];
-        delete temp;
-        if(node->parent != nullptr){
-          rotation(node->parent, node);
+      else if((node->child[0] != nullptr) && (node->child[1] == nullptr)){ // only has left child
+        Node* answer = nullptr;
+        if(node == root){
+          root = node->child[0];
+          root->parent = nullptr;
+        }
+        else{
+          Node* x = node->parent;
+          if(node == x->child[0]){
+            x->child[0] = node->child[0];
+            node->child[0]->parent = x;
+          }
+          else{
+            x->child[1] = node->child[0];
+            node->child[0]->parent = x;
+          }
+          
+        }
+        answer = node->child[0];
+        delete node;
+        if(answer->parent != nullptr){
+          std::cout << "here h" << '\n';
+          rotation(answer->parent, answer);
+        }
+        return answer;
+      }
+      else if((node->child[0] == nullptr) && (node->child[1] != nullptr)){ // only has right child
+        Node* answer = nullptr;
+        if(node == root){
+          root = node->child[1];
+          root->parent = nullptr;
+        }
+        else{
+          Node* x = node->parent;
+          if(node == x->child[0]){
+            x->child[0] = node->child[1];
+            node->child[1]->parent = x;
+          }
+          else{
+            x->child[1] = node->child[1];
+            node->child[1]->parent = x;
+          }
+          answer = node->child[1];
+          delete node;
+          
+          
+        }
+        if(answer->parent != nullptr){
+          std::cout << "here" << '\n';
+          rotation(answer->parent, answer);
         }
         return node;
       }
       else{ // has two children
         Node* temp = find_smallest(node->child[1]);
-        if(temp != nullptr){
-          node->value = temp->value;
-        }
-        if(temp->child[1] != nullptr){
-          Node* x = temp->child[1];
-          temp->value = x->value;
-          temp->child[0] = x->child[0];
-          temp->child[1] = x->child[1];
-          delete x;
-          
-        }
-        else{
-          delete temp;
-        }
-        return node;
+        node->value = temp->value;
+        return remove_helper(temp, index);
+        // if(temp->child[1] != nullptr){
+        //   Node* x = temp->child[1];
+        //   temp->value = x->value;
+        //   temp->child[0] = x->child[0];
+        //   temp->child[1] = x->child[1];
+        //   if(x->parent != nullptr){
+        //     rotation(x->parent, x);
+        //   }
+        //   delete x; 
+        // }
+        // else{
+        //   delete temp;
+        // }
+        // return node;
       }
     }
     return node;
@@ -251,8 +286,8 @@ class Tree {
       if((p == nullptr) || (c == nullptr)){
         return;
       }
-      // std::cout << "parent " << p->value << '\n';
-      // std::cout << "child " << c->value << '\n';
+      std::cout << "parent " << p->value << '\n';
+      std::cout << "child " << c->value << '\n';
 
       size_t x = 0, y = 0, z = 0;
       if(c == p->child[0]){ // need right rotation
