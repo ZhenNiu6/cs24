@@ -157,10 +157,164 @@ class Tree {
         delete node;
         return nullptr;
       }
+      else if((node->child[0] != nullptr) && (node->child[1] == nullptr)){ // only has right child
+        Node* temp = node->child[0];
+        if(node == root){
+          temp->parent = nullptr;
+          root = temp;
+          delete node;
+          return temp;
+        }
+        else{
+          temp->parent = node->parent;
+          if(node->parent->child[0] == node){
+            node->parent->child[0] = temp;
+          }
+          else if(node->parent->child[1] == node){
+            node->parent->child[1] = temp;
+          }
+          rotation(temp->parent, temp);
+          delete node;
+          return temp;
+        }
+        // delete node;
+        // return temp;
+      }
+      else if((node->child[0] == nullptr) && (node->child[1] != nullptr)){
+        Node* temp = node->child[1];
+        if(node == root){
+          temp->parent = nullptr;
+          root = temp;
+          delete node;
+          return temp;
+        }
+        else{
+          temp->parent = node->parent;
+          if(node->parent->child[0] == node){
+            node->parent->child[0] = temp;
+          }
+          else if(node->parent->child[1] == node){
+            node->parent->child[1] = temp;
+          }
+          rotation(temp->parent, temp);
+          delete node;
+          return temp;
+        }
+      }
+    //   else if((node->child[1] != nullptr) && (node->child[0] == nullptr)){
+    //     Node* change = node->child[1];
+    //     if(node->parent == nullptr){
+    //       change->parent = nullptr;
+    //     }
+    //     else{
+    //       change->parent = node->parent;
+    //       if(node->parent->child[0] == node){
+    //         node->parent->child[0] = change;
+    //       }
+    //       else{
+    //         node->parent->child[1] = change;
+    //       }
+    //     }
+    //     delete node;
+    //     return change;
+    //   }
+    //   else{
+    //     return node;
+    //   }
     }
     return node;
 
   }
+
+  // Node* remove_helper(Node* root, size_t index){
+  //   std::cout << root->value << '\n';
+  //   if(root == nullptr){
+  //     return root;
+  //   }
+  //   size_t root_index;
+  //   if(root->child[0] != nullptr){
+  //     root_index = root->child[0]->weight;
+  //   }
+  //   else{
+  //     root_index = 0;
+  //   }
+  //   if(index < root->weight){
+  //     std::cout << "left" << '\n';
+  //     if(root->child[0] != nullptr){
+  //       root->child[0] = remove_helper(root->child[0], index);
+  //     }
+     
+  //   }
+  //   else if(index > root->weight){
+  //     std::cout << "right" << '\n';
+  //     if(root->child[1] != nullptr){
+  //       root->child[1] = remove_helper(root->child[1], index - root_index - 1);
+        
+  //     }
+      
+  //   }
+  //   if(root->child[0] == nullptr){
+  //     Node* temp;
+  //     if(root->child[1] != nullptr){
+  //       temp = root->child[1];
+  //     }
+  //     else{
+  //       delete root;
+  //       return nullptr;
+  //     }
+  //     if(root->parent != nullptr){
+  //       if(root->parent->child[0] == root){
+  //         root->parent->child[0] = temp;
+  //       }
+  //       else{
+  //         root->parent->child[1] = temp;
+  //       }
+  //     }
+  //     else{
+  //       root = temp;
+  //     }
+  //     delete root;
+  //     return temp;
+  //   }
+  //   else if(root->child[1] == nullptr){
+  //     Node* temp;
+  //     if(root->child[0] != nullptr){
+  //       temp = root->child[0];
+  //     }
+  //     else{
+  //       delete root;
+  //       return nullptr;
+  //     }
+  //     if(root->parent != nullptr){
+  //       if(root->parent->child[0] == root){
+  //         root->parent->child[0] = temp;
+  //       }
+  //       else{
+  //         root->parent->child[1] = temp;
+  //       }
+  //     }
+  //     else{
+  //       root = temp;
+  //     }
+  //     delete root;
+  //     return temp;
+  //   }
+  //   Node* right = root->child[1];
+  //   Node* p = root;
+  //   while(right->child[0] != nullptr){
+  //     p = right;
+  //     right = right->child[0];
+  //   }
+  //   root->weight = right->weight;
+  //   if(p->child[0] == right){
+  //     p->child[0] = right->child[1];
+  //   }
+  //   else{
+  //     p->child[1] = right->child[1];
+  //   }
+  //   delete right;
+  //   return root;
+  // }
 
 
   void print_helper(Node* node) const{
