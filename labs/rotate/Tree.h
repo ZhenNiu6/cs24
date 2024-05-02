@@ -156,10 +156,10 @@ class Tree {
     else{
       if((node->child[0] == nullptr) && (node->child[1] == nullptr)){
         if(node->parent != nullptr){
-          rotation(node->parent, node);
+          Node* par = rotation(node->parent, node);
         }
         delete node;
-        return nullptr;
+        return par;
       }
       else if((node->child[0] != nullptr) && (node->child[1] == nullptr)){ // only has left child
         Node* answer = nullptr;
@@ -183,9 +183,9 @@ class Tree {
         delete node;
         if(answer->parent != nullptr){
           // std::cout << "here h" << '\n';
-          rotation(answer->parent, answer);
+          Node* par = rotation(answer->parent, answer);
         }
-        return answer;
+        return par;
       }
       else if((node->child[0] == nullptr) && (node->child[1] != nullptr)){ // only has right child
         Node* answer = nullptr;
@@ -210,9 +210,9 @@ class Tree {
         }
         if(answer->parent != nullptr){
           // std::cout << "here" << '\n';
-          rotation(answer->parent, answer);
+          Node* par = rotation(answer->parent, answer);
         }
-        return answer;
+        return par;
       }
       else{ // has two children
         Node* temp = find_smallest(node->child[1]);
@@ -282,9 +282,9 @@ class Tree {
 
 
 
-    void rotation(Node* p, Node* c){
+    Node* rotation(Node* p, Node* c){
       if((p == nullptr) || (c == nullptr)){
-        return;
+        return nullptr;
       }
       // std::cout << "parent " << p->value << '\n';
       // std::cout << "child " << c->value << '\n';
@@ -338,10 +338,76 @@ class Tree {
         }
       }
       if(p != root){
-        rotation(p->parent, p);
+        return rotation(p->parent, p);
+      }
+      else{
+        return p;
       }
      
     }
+
+
+    // void rotation(Node* p, Node* c){
+    //   if((p == nullptr) || (c == nullptr)){
+    //     return;
+    //   }
+    //   // std::cout << "parent " << p->value << '\n';
+    //   // std::cout << "child " << c->value << '\n';
+
+    //   size_t x = 0, y = 0, z = 0;
+    //   if(c == p->child[0]){ // need right rotation
+    //     if(c->child[0] != nullptr){
+    //       x = c->child[0]->find_weight();
+    //     }
+    //     // std::cout << "x " << x << '\n';
+    //     if(c->child[1] != nullptr){
+    //       y = c->child[1]->find_weight();
+    //     }
+    //     // std::cout << "y " << x << '\n';
+    //     if(p->child[1] != nullptr){
+    //       z = p->child[1]->find_weight();
+    //     }
+    //     // std::cout << "z " << x << '\n';
+    //     size_t before = absolute(x + y + 1 - z);
+    //     // std::cout << "before " << before << '\n';
+    //     size_t after = absolute(y + z + 1 - x);
+    //     // std::cout << "after " << after << '\n';
+    //     if(after < before){
+    //       // std::cout << "right" << '\n';
+    //       // print();
+    //       rightRotate(p);
+    //     }
+    //   }
+    //   else{
+    //     if(p->child[0] != nullptr){
+    //       x = p->child[0]->find_weight();
+    //     }
+    //     // std::cout << "x " << x << '\n';
+    //     if(c->child[0] != nullptr){
+    //       y = c->child[0]->find_weight();
+    //     }
+    //     // std::cout << "y " << x << '\n';
+    //     if(c->child[1] != nullptr){
+    //       z = c->child[1]->find_weight();
+    //     }
+    //     // std::cout << "z " << x << '\n';
+    //     size_t before = absolute(y + z + 1 - x);
+    //     // std::cout << "before " << before << '\n';
+    //     size_t after = absolute(x + y + 1 - z);
+    //     // std::cout << "after " << after << '\n';
+    //     if(after < before){
+    //       // print();
+
+    //       leftRotate(p);
+    //       // std::cout << "left" << '\n';
+    //     }
+    //   }
+    //   if(p != root){
+    //     rotation(p->parent, p);
+    //   }
+     
+    // }
+    
     
 
 size_t absolute(int x){
