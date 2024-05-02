@@ -39,8 +39,6 @@ size_t Node::find_weight(){
     else{
         subweight2 = child[1]->weight;
     }
-    // subweight1 = child[0] != nullptr ? child[0]->weight:0;
-    // subweight2 = child[1] != nullptr ? child[1]->weight:0;
     weight = 1 + subweight1 + subweight2;
     return weight;
 

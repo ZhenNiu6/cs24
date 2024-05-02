@@ -159,65 +159,34 @@ class Tree {
       }
       else if((node->child[0] != nullptr) && (node->child[1] == nullptr)){ // only has right child
         Node* temp = node->child[0];
-        if(node == root){
-          temp->parent = nullptr;
-          root = temp;
-          delete node;
-          return temp;
+        node->value = temp->value;
+        node->child[0] = temp->child[0];
+        node->child[1] = temp->child[1];
+        delete temp;
+        if(node->parent != nullptr){
+          rotation(node->parent, node);
         }
-        else{
-          temp->parent = node->parent;
-          if(node->parent->child[0] == node){
-            node->parent->child[0] = temp;
-          }
-          else if(node->parent->child[1] == node){
-            node->parent->child[1] = temp;
-          }
-          rotation(temp->parent, temp);
-          delete node;
-          return temp;
-        }
-        // delete node;
-        // return temp;
+        return node;
       }
-      else if((node->child[0] == nullptr) && (node->child[1] != nullptr)){
+      else if((node->child[0] == nullptr) && (node->child[1] != nullptr)){ // only has left child
         Node* temp = node->child[1];
-        if(node == root){
-          temp->parent = nullptr;
-          root = temp;
-          delete node;
-          return temp;
+        // if(node == root){
+        node->value = temp->value;
+        node->child[0] = temp->child[0];
+        node->child[1] = temp->child[1];
+        delete temp;
+        if(node->parent != nullptr){
+          rotation(node->parent, node);
         }
-        else{
-          temp->parent = node->parent;
-          if(node->parent->child[0] == node){
-            node->parent->child[0] = temp;
-          }
-          else if(node->parent->child[1] == node){
-            node->parent->child[1] = temp;
-          }
-          rotation(temp->parent, temp);
-          delete node;
-          return temp;
-        }
+        return node;
       }
-    //   else if((node->child[1] != nullptr) && (node->child[0] == nullptr)){
-    //     Node* change = node->child[1];
-    //     if(node->parent == nullptr){
-    //       change->parent = nullptr;
-    //     }
-    //     else{
-    //       change->parent = node->parent;
-    //       if(node->parent->child[0] == node){
-    //         node->parent->child[0] = change;
-    //       }
-    //       else{
-    //         node->parent->child[1] = change;
-    //       }
-    //     }
-    //     delete node;
-    //     return change;
-    //   }
+      
+      // else if((node->child[1] != nullptr) && (node->child[0] == nullptr)){
+      //   Node* change = node->child[1];
+        
+      //   delete node;
+      //   return change;
+      // }
     //   else{
     //     return node;
     //   }
