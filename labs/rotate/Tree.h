@@ -182,7 +182,7 @@ class Tree {
         answer = node->child[0];
         delete node;
         if(answer->parent != nullptr){
-          std::cout << "here h" << '\n';
+          // std::cout << "here h" << '\n';
           rotation(answer->parent, answer);
         }
         return answer;
@@ -209,7 +209,7 @@ class Tree {
           
         }
         if(answer->parent != nullptr){
-          std::cout << "here" << '\n';
+          // std::cout << "here" << '\n';
           rotation(answer->parent, answer);
         }
         return node;
@@ -286,8 +286,8 @@ class Tree {
       if((p == nullptr) || (c == nullptr)){
         return;
       }
-      std::cout << "parent " << p->value << '\n';
-      std::cout << "child " << c->value << '\n';
+      // std::cout << "parent " << p->value << '\n';
+      // std::cout << "child " << c->value << '\n';
 
       size_t x = 0, y = 0, z = 0;
       if(c == p->child[0]){ // need right rotation
