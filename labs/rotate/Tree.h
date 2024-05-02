@@ -155,8 +155,9 @@ class Tree {
     }
     else{
       if((node->child[0] == nullptr) && (node->child[1] == nullptr)){
+        Node* par = nullptr;
         if(node->parent != nullptr){
-          Node* par = rotation(node->parent, node);
+          par = rotation(node->parent, node);
         }
         delete node;
         return par;
@@ -181,9 +182,10 @@ class Tree {
         }
         answer = node->child[0];
         delete node;
+        Node* par = nullptr;
         if(answer->parent != nullptr){
           // std::cout << "here h" << '\n';
-          Node* par = rotation(answer->parent, answer);
+          par = rotation(answer->parent, answer);
         }
         return par;
       }
@@ -208,9 +210,10 @@ class Tree {
           
           
         }
+        Node* par = nullptr;
         if(answer->parent != nullptr){
           // std::cout << "here" << '\n';
-          Node* par = rotation(answer->parent, answer);
+          par = rotation(answer->parent, answer);
         }
         return par;
       }
