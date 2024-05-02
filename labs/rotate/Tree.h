@@ -188,8 +188,8 @@ Node* remove_helper(Node* node, size_t index){
       }
       else{ // has two children
         Node* temp = find_smallest(node->child[1]);
-        std::cout << node << '\n';
-        std::cout << temp << '\n';
+        // std::cout << node << '\n';
+        // std::cout << temp << '\n';
         if(temp != nullptr){
           node->value = temp->value;
         }
