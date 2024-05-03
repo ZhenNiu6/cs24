@@ -175,6 +175,7 @@ Node* remove_helper(Node* node, size_t index){
           // std::cout << "here1" << '\n';
           // rotation(node->parent, node);
           Node* sibling = find_sibling(node);
+          rotation(node->parent, node);
           if(sibling != nullptr){
             rotation(node->parent, sibling);
           }
@@ -196,10 +197,10 @@ Node* remove_helper(Node* node, size_t index){
         delete temp;
         if(node->parent != nullptr){
           // std::cout << "here2" << '\n';
+          // rotation(node->parent, node);
           Node* sibling = find_sibling(node);
+          rotation(node->parent, node);
           if(sibling != nullptr){
-            // std::cout << sibling->value << '\n';
-            // std::cout << node->parent->value << '\n';
             rotation(node->parent, sibling);
           }
         }
@@ -237,6 +238,7 @@ Node* remove_helper(Node* node, size_t index){
         }
         if(node->parent != nullptr){
           Node* sibling = find_sibling(node);
+          rotation(node->parent, node);
           if(sibling != nullptr){
             rotation(node->parent, sibling);
           }
@@ -367,6 +369,71 @@ Node* remove_helper(Node* node, size_t index){
      
     }
     
+
+bool imbalance_left(Node* p, Node* c){
+  if((p == nullptr) || (c == nullptr)){
+      return false;
+  }
+  size_t x = 0, y = 0, z = 0;
+  if(p->child[0] != nullptr){
+    x = p->child[0]->find_weight();
+  }
+        // std::cout << "x " << x << '\n';
+  if(c->child[0] != nullptr){
+    y = c->child[0]->find_weight();
+  }
+        // std::cout << "y " << x << '\n';
+  if(c->child[1] != nullptr){
+  z = c->child[1]->find_weight();
+  }
+        // std::cout << "z " << x << '\n';
+  size_t before = absolute(y + z + 1 - x);
+        // std::cout << "before " << before << '\n';
+  size_t after = absolute(x + y + 1 - z);
+        // std::cout << "after " << after << '\n';
+  if(after < before){
+          // print();
+
+    return true;
+          // std::cout << "left" << '\n';
+  }
+  return false;
+}
+
+bool imbalance_right(Node* p, Node* c){
+  if((p == nullptr) || (c == nullptr)){
+        return false;
+  }
+      // std::cout << "parent " << p->value << '\n';
+      // std::cout << "child " << c->value << '\n';
+
+  size_t x = 0, y = 0, z = 0;
+  if(c == p->child[0]){ // need right rotation
+    if(c->child[0] != nullptr){
+      x = c->child[0]->find_weight();
+    }
+        // std::cout << "x " << x << '\n';
+    if(c->child[1] != nullptr){
+      y = c->child[1]->find_weight();
+    }
+        // std::cout << "y " << x << '\n';
+    if(p->child[1] != nullptr){
+      z = p->child[1]->find_weight();
+    }
+        // std::cout << "z " << x << '\n';
+    size_t before = absolute(x + y + 1 - z);
+        // std::cout << "before " << before << '\n';
+    size_t after = absolute(y + z + 1 - x);
+        // std::cout << "after " << after << '\n';
+    if(after < before){
+          // std::cout << "right" << '\n';
+          // print();
+      return true;
+    }
+   
+  }
+  return false;
+}
     
 
 size_t absolute(int x){
