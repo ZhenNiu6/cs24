@@ -163,6 +163,8 @@ Node* remove_helper(Node* node, size_t index){
         node->value = temp->value;
         node->child[0] = temp->child[0];
         node->child[1] = temp->child[1];
+        temp->child[0] = nullptr;
+        temp->child[1] = nullptr;
         if(temp->child[0] != nullptr){
           temp->child[0]->parent = node;
         }
@@ -179,6 +181,8 @@ Node* remove_helper(Node* node, size_t index){
         node->value = temp->value;
         node->child[0] = temp->child[0];
         node->child[1] = temp->child[1];
+        temp->child[0] = nullptr;
+        temp->child[1] = nullptr;
         if(temp->child[0] != nullptr){
           temp->child[0]->parent = node;
         }
@@ -202,6 +206,8 @@ Node* remove_helper(Node* node, size_t index){
           temp->value = x->value;
           temp->child[0] = x->child[0];
           temp->child[1] = x->child[1];
+          x->child[0] = nullptr;
+          x->child[1] = nullptr;
           if(x->child[0] != nullptr){
             x->child[0]->parent = temp;
           }
