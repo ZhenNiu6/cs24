@@ -168,8 +168,10 @@ Node* remove_helper(Node* node, size_t index){
         if(node->parent != nullptr){
           // std::cout << "here1" << '\n';
           // rotation(node->parent, node);
-          rotation(node->parent, node->parent->child[0]);
-
+          Node* sibling = find_sibling(node);
+          if(sibling != nullptr){
+            rotation(node->parent, sibling);
+          }
         }
         return node;
       }
@@ -182,7 +184,11 @@ Node* remove_helper(Node* node, size_t index){
         delete temp;
         if(node->parent != nullptr){
           // std::cout << "here2" << '\n';
-          rotation(node->parent, node->parent->child[0]);
+          Node* sibling = find_sibling(node);
+          if(sibling != nullptr){
+            // std::cout << sibling->value << '\n';
+            rotation(node->parent, sibling);
+          }
         }
         return node;
       }
@@ -211,7 +217,10 @@ Node* remove_helper(Node* node, size_t index){
           delete temp;
         }
         if(node->parent != nullptr){
-          rotation(node->parent, node);
+          Node* sibling = find_sibling(node);
+          if(sibling != nullptr){
+            rotation(node->parent, sibling);
+          }
         }
         return node;
       }
@@ -229,6 +238,22 @@ Node* remove_helper(Node* node, size_t index){
       return node;
     }
     return find_smallest(node->child[0]);
+  }
+
+  Node* find_sibling(Node* node){
+    Node* x = node->parent;
+    Node* sibling = nullptr;
+    if(node == x->child[0]){
+      if(x->child[1] != nullptr){
+        sibling = x->child[1];
+      }
+    }
+    else{
+      if(x->child[0] != nullptr){
+        sibling = x->child[0];
+      }
+    }
+    return sibling;
   }
 
 
