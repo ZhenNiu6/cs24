@@ -234,7 +234,7 @@ Node* remove_helper(Node* node, size_t index){
     }
     if((node->parent->child[0] != nullptr) && (node->parent->child[1] != nullptr)){
       rotation(node->parent, node->parent->child[0]);
-      rotation(node->parent, node->parent->child[0]);
+      rotation(node->parent, node->parent->child[1]);
       // std::cout << "here" << '\n';
       // std::cout << node->parent->value << '\n';
       
