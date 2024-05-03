@@ -173,8 +173,8 @@ Node* remove_helper(Node* node, size_t index){
         }
         // node->weight = node->find_weight();
         delete temp;
-        std::cout << "here2" << '\n';
-        print();
+        // std::cout << "here2" << '\n';
+        // print();
         remove_rotation(node);
         return node;
       }
@@ -193,8 +193,8 @@ Node* remove_helper(Node* node, size_t index){
         }
         // node->weight = node->find_weight();
         delete temp;
-        std::cout << "here" << '\n';
-        print();
+        // std::cout << "here" << '\n';
+        // print();
         remove_rotation(node);
         return node;
       }
@@ -336,8 +336,8 @@ Node* remove_helper(Node* node, size_t index){
       if((p == nullptr) || (c == nullptr)){
         return;
       }
-      std::cout << "parent " << p->value << '\n';
-      std::cout << "child " << c->value << '\n';
+      // std::cout << "parent " << p->value << '\n';
+      // std::cout << "child " << c->value << '\n';
 
       size_t x = 0, y = 0, z = 0;
       if(c == p->child[0]){ // need right rotation
