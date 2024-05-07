@@ -45,7 +45,7 @@ void Stack::push(Node* node){
     // std::cout << "number " << node.value() << '\n';
 }
 
-Node* Stack::pop(){ //check empty?
+Node* Stack::pop(){ 
     if(num == 0){
         throw std::runtime_error("Not enough operands.");
     }
@@ -64,24 +64,24 @@ Node* Stack::pop(){ //check empty?
     // std::cout << "after pop " << num << '\n';
 }
 
-Node* Stack::top(){
-    if(num >= 1){
-        // std::cout << "num-1 " << num-1 << '\n';
-        // std::cout << "top value " << tree[num-1].value() << '\n';;
-        return tree[num-1];
-    }
-    throw std::runtime_error("No input.");
-}
+// Node* Stack::top(){
+//     if(num >= 1){
+//         // std::cout << "num-1 " << num-1 << '\n';
+//         // std::cout << "top value " << tree[num-1].value() << '\n';;
+//         return tree[num-1];
+//     }
+//     throw std::runtime_error("No input.");
+// }
 
-void Stack::see_top() const{
-    std::cout << "top value " << tree[num-1]->value() << '\n';
-    std::cout << "prefix " << tree[num-1]->prefix() << '\n';
-    tree[num-1]->see_var();
-}
+// void Stack::see_top() const{
+//     std::cout << "top value " << tree[num-1]->value() << '\n';
+//     std::cout << "prefix " << tree[num-1]->prefix() << '\n';
+//     tree[num-1]->see_var();
+// }
 
-Node* Stack::lookup(size_t index) const{
-    if(index < num){
-        return tree[index];
-    }
-    return nullptr;
-}
+// Node* Stack::lookup(size_t index) const{
+//     if(index < num){
+//         return tree[index];
+//     }
+//     return nullptr;
+// }

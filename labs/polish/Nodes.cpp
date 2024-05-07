@@ -30,6 +30,11 @@ Node::Node(double val){
   operation = '\0';
 }
 
+Node::~Node(){
+  delete left;
+  delete right;
+}
+
 void Node::see_var() const{
   
   std::cout << "number " << number << '\n';

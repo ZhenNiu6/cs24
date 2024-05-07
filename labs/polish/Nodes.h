@@ -99,6 +99,7 @@ class Node: public AST{
 public:
     Node();
     Node(double val);
+    ~Node();
     void see_var() const;
     void set_operator(char x);
     void set_value(double val);

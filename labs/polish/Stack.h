@@ -17,11 +17,11 @@ public:
     Stack(const Stack& other);
     ~Stack();
     size_t count() const;
-    void see_top() const;
+    // void see_top() const;
     Node* pop();
     void push(Node* node);
-    Node* top();
-    Node* lookup(size_t index) const;
+    // Node* top();
+    // Node* lookup(size_t index) const;
 };
 
 
