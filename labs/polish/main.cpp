@@ -47,9 +47,9 @@ int main(int argc, char** argv) {
             }
             else {
                 double result = ast->value();
-                if((std::isnan(result)) || (std::isinf(result))){
-                    throw std::runtime_error("Division by zero.");
-                }
+                // if((std::isnan(result)) || (std::isinf(result))){
+                //     throw std::runtime_error("Division by zero.");
+                // }
                 std::cout << result << '\n';
             }
         }

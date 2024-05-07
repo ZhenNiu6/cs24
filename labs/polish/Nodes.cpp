@@ -100,9 +100,11 @@ std::string Node::postfix() const{
     return left->postfix() + " " + right->postfix() + " *";
   }
   else if(operation == '/'){
+    
     return left->postfix() + " " + right->postfix() + " /";
   }
   else if(operation == '%'){
+    
     return left->postfix() + " " + right->postfix() + " %";
   }
   else{
@@ -124,12 +126,43 @@ double Node::value() const{
     return left->value() * right->value();
   }
   else if(operation == '/'){
+    if(right->value() == 0){
+      throw std::runtime_error("Division by zero.");
+    }
     return left->value() / right->value();
   }
   else if(operation == '%'){
+    if(right->value() == 0){
+      throw std::runtime_error("Division by zero.");
+    }
     return fmod(left->value(),right->value());
   }
   else{
     return -1 * left->value();
+  }
+}
+
+
+double Node::get_value() const{
+  if(operation == '\0'){
+    return number;
+  }
+  else if(operation == '+'){
+    return left->get_value() + right->get_value();
+  }
+  else if(operation == '-'){
+    return left->get_value() - right->get_value();
+  }
+  else if(operation == '*'){
+    return left->get_value() * right->get_value();
+  }
+  else if(operation == '/'){
+    return left->get_value() / right->get_value();
+  }
+  else if(operation == '%'){
+    return fmod(left->get_value(),right->get_value());
+  }
+  else{
+    return -1 * left->get_value();
   }
 }

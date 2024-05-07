@@ -104,6 +104,7 @@ public:
     void set_operator(char x);
     void set_value(double val);
     Node* get_right();
+    double get_value() const;
     void left_operand(Node* node);
     void right_operand(Node* node);
     std::string prefix() const;

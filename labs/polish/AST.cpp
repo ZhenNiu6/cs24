@@ -36,7 +36,7 @@ AST* AST::parse(const std::string& expression) {
             add->left_operand(stack.pop());
             // std::cout << "hh" << '\n';
             // add->see_var();
-            double ans = add->value(); 
+            double ans = add->get_value(); 
             // add.see_var();
             
             add->set_value(ans);
@@ -51,7 +51,7 @@ AST* AST::parse(const std::string& expression) {
             subtract->left_operand(stack.pop());
             // std::cout << "hh" << '\n';
             // subtract->see_var();
-            double ans = subtract->value(); 
+            double ans = subtract->get_value(); 
             // add.see_var();
             
             subtract->set_value(ans);
@@ -65,7 +65,7 @@ AST* AST::parse(const std::string& expression) {
             
             multiply->left_operand(stack.pop());
             
-            double ans = multiply->value(); 
+            double ans = multiply->get_value(); 
             multiply->set_value(ans);
             stack.push(multiply);
         }
@@ -80,7 +80,7 @@ AST* AST::parse(const std::string& expression) {
             //     throw std::runtime_error("Division by zero.");
             // }
             
-            double ans = divide->value(); 
+            double ans = divide->get_value(); 
             
             divide->set_value(ans);
             stack.push(divide);
@@ -92,7 +92,7 @@ AST* AST::parse(const std::string& expression) {
             
             modulo->left_operand(stack.pop());
             
-            double ans = modulo->value(); 
+            double ans = modulo->get_value(); 
             modulo->set_value(ans);
             stack.push(modulo);
         }
@@ -101,7 +101,7 @@ AST* AST::parse(const std::string& expression) {
             negate->set_operator('~'); 
             negate->left_operand(stack.pop());
             
-            double ans = negate->value(); 
+            double ans = negate->get_value(); 
             
             negate->set_value(ans);
             stack.push(negate);
