@@ -20,6 +20,9 @@ Stack::Stack(const Stack& other){
 }
 
 Stack::~Stack(){
+    for(size_t i = 0; i < num; i ++){
+        delete tree[i];
+    }
     delete [] tree;
 }
 

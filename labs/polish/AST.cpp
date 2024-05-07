@@ -75,10 +75,6 @@ AST* AST::parse(const std::string& expression) {
             divide->right_operand(stack.pop());
             
             divide->left_operand(stack.pop());
-            // Node* r_operand = divide->get_right();
-            // if(r_operand->value() == 0){
-            //     throw std::runtime_error("Division by zero.");
-            // }
             
             double ans = divide->get_value(); 
             
@@ -140,10 +136,7 @@ AST* AST::parse(const std::string& expression) {
             }
             double val = std::stod(token);
             Node* number = new Node(val);
-            // std::cout << "here" << '\n';
             stack.push(number);
-            // std::cout << "count " << stack.count() << '\n';
-            // stack.see_top();
         }
     }
     if(stack.count() == 0){
