@@ -14,6 +14,9 @@ AST* AST::parse(const std::string& expression) {
         // std::cout << token << '\n';
         if((token == "+") || (token == "-") || (token == "*") || (token == "/") || (token == "%")){
             if(stack.count() < 2){
+                while(stack.count() > 0){
+                    delete stack.pop();
+                }
                 std::runtime_error("Not enough operands.");
             }
         }
@@ -117,9 +120,7 @@ AST* AST::parse(const std::string& expression) {
                         }
                     }
                     else{
-                        while(stack.count() > 0){
-                            delete stack.pop();
-                        }
+                        ~stack();
                         throw std::runtime_error("Invalid token: " + token);
                     }
                 }
