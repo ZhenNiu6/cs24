@@ -10,7 +10,7 @@
 class Stack{
     size_t num;
     size_t cap;
-    Node* tree;
+    Node** tree;
 
 public:
     Stack();
@@ -18,8 +18,8 @@ public:
     ~Stack();
     size_t count() const;
     void see_top() const;
-    void pop();
-    void push(Node node);
+    Node* pop();
+    void push(Node* node);
     Node* top();
     Node* lookup(size_t index) const;
 };

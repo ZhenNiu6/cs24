@@ -30,19 +30,6 @@ AST* AST::parse(const std::string& expression) {
 
 
         if(token == "+"){
-            // Node* add = dynamic_cast<Node*>(stack.top());
-            // Node* add = new Node();
-            // add->set_operator('+');
-            // Node* r_operand = stack.top();
-            // add->right_operand(r_operand);
-            // stack.pop();
-            // Node* l_operand = stack.top();
-            // add->left_operand(l_operand);
-            // stack.pop();
-            // double ans = add->value();
-            // Node* add_ans = new Node(ans);
-            // stack.push(add_ans);
-            // delete add;
             Node add; 
             add.set_operator('+'); 
             Node r_operand = stack.top();

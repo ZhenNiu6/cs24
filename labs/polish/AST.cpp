@@ -11,7 +11,7 @@ AST* AST::parse(const std::string& expression) {
     Stack stack;
 
     while(stream >> token) {
-        std::cout << token << '\n';
+        // std::cout << token << '\n';
         if((token == "+") || (token == "-") || (token == "*") || (token == "/") || (token == "%")){
             if(stack.count() < 2){
                 std::runtime_error("Not enough operands.");
@@ -26,83 +26,78 @@ AST* AST::parse(const std::string& expression) {
 
         if(token == "+"){
             // std::cout << "hhh" << '\n';
-            Node add; 
-            add.set_operator('+'); 
+            Node* add = new Node(); 
+            add->set_operator('+'); 
             // std::cout << "iii" << '\n';
-            add.right_operand(stack.lookup(stack.count()-1));
-            
-            // std::cout << "h" << '\n';
-            add.left_operand(stack.lookup(stack.count()-2));
+            add->right_operand(stack.pop());
+            add->left_operand(stack.pop());
             // std::cout << "hh" << '\n';
+            // add->see_var();
+            double ans = add->value(); 
+            // add.see_var();
             
-            double ans = add.value(); 
-            // std::cout << "hi" << '\n';
-            stack.pop();
-            stack.pop();
-            Node add_ans(ans);
-            stack.push(add_ans);
+            add->set_value(ans);
+            stack.push(add);
+            
         }
         else if(token == "-"){
-            Node subtract; 
-            subtract.set_operator('-'); 
-            subtract.right_operand(stack.lookup(stack.count()-1));
+            Node* subtract = new Node(); 
+            subtract->set_operator('-'); 
+            // std::cout << "iii" << '\n';
+            subtract->right_operand(stack.pop());
+            subtract->left_operand(stack.pop());
+            // std::cout << "hh" << '\n';
+            // subtract->see_var();
+            double ans = subtract->value(); 
+            // add.see_var();
             
-            subtract.left_operand(stack.lookup(stack.count()-2));
+            subtract->set_value(ans);
+            stack.push(subtract);
             
-            double ans = subtract.value(); 
-            stack.pop(); 
-            stack.pop(); 
-            Node subtract_ans(ans);
-            stack.push(subtract_ans);
         }
         else if(token == "*"){
-            Node multiply; 
-            multiply.set_operator('*'); 
-            multiply.right_operand(stack.lookup(stack.count()-1));
+            Node* multiply = new Node(); 
+            multiply->set_operator('*'); 
+            multiply->right_operand(stack.pop());
             
-            multiply.left_operand(stack.lookup(stack.count()-2));
+            multiply->left_operand(stack.pop());
             
-            double ans = multiply.value(); 
-            stack.pop(); 
-            stack.pop(); 
-            Node multiply_ans(ans);
-            stack.push(multiply_ans);
+            double ans = multiply->value(); 
+            multiply->set_value(ans);
+            stack.push(multiply);
         }
         else if(token == "/"){
-            Node divide; 
-            divide.set_operator('/'); 
-            divide.right_operand(stack.lookup(stack.count()-1));
+            Node* divide = new Node(); 
+            divide->set_operator('/'); 
+            divide->right_operand(stack.pop());
             
-            divide.left_operand(stack.lookup(stack.count()-2));
+            divide->left_operand(stack.pop());
             
-            double ans = divide.value(); 
-            stack.pop(); 
-            stack.pop(); 
-            Node divide_ans(ans);
-            stack.push(divide_ans);
+            double ans = divide->value(); 
+            
+            divide->set_value(ans);
+            stack.push(divide);
         }
         else if(token == "%"){
-            Node modulo; 
-            modulo.set_operator('%'); 
-            modulo.right_operand(stack.lookup(stack.count()-1));
+            Node* modulo = new Node(); 
+            modulo->set_operator('%'); 
+            modulo->right_operand(stack.pop());
             
-            modulo.left_operand(stack.lookup(stack.count()-2));
+            modulo->left_operand(stack.pop());
             
-            double ans = modulo.value(); 
-            stack.pop(); 
-            stack.pop(); 
-            Node modulo_ans(ans);
-            stack.push(modulo_ans);
+            double ans = modulo->value(); 
+            modulo->set_value(ans);
+            stack.push(modulo);
         }
         else if(token == "~"){
-            Node negate; 
-            negate.set_operator('~'); 
-            negate.left_operand(stack.lookup(stack.count()-1));
+            Node* negate = new Node(); 
+            negate->set_operator('~'); 
+            negate->left_operand(stack.pop());
             
-            double ans = negate.value(); 
-            stack.pop(); 
-            Node negate_ans(ans);
-            stack.push(negate_ans);
+            double ans = negate->value(); 
+            
+            negate->set_value(ans);
+            stack.push(negate);
         }
         else{
             for(size_t i = 0; i < token.length(); i ++){
@@ -123,20 +118,25 @@ AST* AST::parse(const std::string& expression) {
                 }
             }
             double val = std::stod(token);
-            Node number(val);
-            std::cout << "here" << '\n';
+            Node* number = new Node(val);
+            // std::cout << "here" << '\n';
             stack.push(number);
-            std::cout << "count " << stack.count() << '\n';
-            stack.see_top();
+            // std::cout << "count " << stack.count() << '\n';
+            // stack.see_top();
         }
     }
     if(stack.count() == 0){
         throw std::runtime_error("No input.");
     }
-    if(stack.count() > 1){
-        throw std::runtime_error("Too many operands.");
-    }
-    return stack.top();
+    // if(stack.count() > 1){
+    //     throw std::runtime_error("Too many operands.");
+    // }
+    // std::cout << "hiiii" << '\n';
+    // std::cout << stack.count() << '\n';
+    // std::cout << stack.top()->prefix() << '\n';
+    // stack.see_top();
+
+    return stack.pop();
 
     // ...
 }
