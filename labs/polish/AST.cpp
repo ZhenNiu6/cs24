@@ -107,16 +107,27 @@ AST* AST::parse(const std::string& expression) {
             stack.push(negate);
         }
         else{
+            bool dot = false;
             for(size_t i = 0; i < token.length(); i ++){
                 if(!isdigit(token[i])){
                     if((token[i] == '+') || (token[i] == '-')){
                         if(i == 0){
                             continue;
                         }
+                        else{
+                            throw std::runtime_error("Invalid token: " + token);
+                        }
                     }
                     else if(token[i] == '.'){
                         if(i != token.length() - 1){
-                            continue;
+                            if(dot != true){ // only one dot 
+                                dot = true;
+                                continue;
+                            }
+                            throw std::runtime_error("Invalid token: " + token);
+                        }
+                        else{
+                            throw std::runtime_error("Invalid token: " + token);
                         }
                     }
                     else{
