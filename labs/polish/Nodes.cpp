@@ -45,6 +45,10 @@ void Node::set_value(double val){
   number = val;
 }
 
+Node* Node::get_right(){
+  return right;
+}
+
 void Node::left_operand(Node* node){
   left = node;
 }

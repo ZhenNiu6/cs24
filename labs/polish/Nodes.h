@@ -102,6 +102,7 @@ public:
     void see_var() const;
     void set_operator(char x);
     void set_value(double val);
+    Node* get_right();
     void left_operand(Node* node);
     void right_operand(Node* node);
     std::string prefix() const;

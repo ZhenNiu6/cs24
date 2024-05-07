@@ -72,6 +72,10 @@ AST* AST::parse(const std::string& expression) {
             divide->right_operand(stack.pop());
             
             divide->left_operand(stack.pop());
+            // Node* r_operand = divide->get_right();
+            // if(r_operand->value() == 0){
+            //     throw std::runtime_error("Division by zero.");
+            // }
             
             double ans = divide->value(); 
             
@@ -128,13 +132,9 @@ AST* AST::parse(const std::string& expression) {
     if(stack.count() == 0){
         throw std::runtime_error("No input.");
     }
-    // if(stack.count() > 1){
-    //     throw std::runtime_error("Too many operands.");
-    // }
-    // std::cout << "hiiii" << '\n';
-    // std::cout << stack.count() << '\n';
-    // std::cout << stack.top()->prefix() << '\n';
-    // stack.see_top();
+    if(stack.count() > 1){
+        throw std::runtime_error("Too many operands.");
+    }
 
     return stack.pop();
 

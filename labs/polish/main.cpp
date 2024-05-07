@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include "AST.h"
 
 // This file provides an interactive read-evaluate-print loop.
@@ -46,6 +47,9 @@ int main(int argc, char** argv) {
             }
             else {
                 double result = ast->value();
+                if((std::isnan(result)) || (std::isinf(result))){
+                    throw std::runtime_error("Division by zero.");
+                }
                 std::cout << result << '\n';
             }
         }
