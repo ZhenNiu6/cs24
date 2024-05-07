@@ -111,6 +111,9 @@ AST* AST::parse(const std::string& expression) {
                             continue;
                         }
                         else{
+                            while(stack.count() > 0){
+                                delete stack.pop();
+                            }
                             throw std::runtime_error("Invalid token: " + token);
                         }
                     }
@@ -120,9 +123,15 @@ AST* AST::parse(const std::string& expression) {
                                 dot = true;
                                 continue;
                             }
+                            while(stack.count() > 0){
+                                delete stack.pop();
+                            }
                             throw std::runtime_error("Invalid token: " + token);
                         }
                         else{
+                            while(stack.count() > 0){
+                                delete stack.pop();
+                            }
                             throw std::runtime_error("Invalid token: " + token);
                         }
                     }
