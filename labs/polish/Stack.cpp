@@ -40,6 +40,9 @@ void Stack::push(Node* node){
         temp[i] = tree[i];
     }
     temp[num] = node;
+    // for(size_t i = 0; i < num; i ++){
+    //     delete tree[i];
+    // }
     delete [] tree;
     tree = temp;
     cap = n_cap;
@@ -59,6 +62,9 @@ Node* Stack::pop(){
     }
     // delete tree[num-1];
     Node* x = tree[num-1];
+    // for(size_t i = 0; i < num - 1; i ++){
+    //     delete tree[i];
+    // }
     delete [] tree;
     tree = temp;
     cap = n_cap;

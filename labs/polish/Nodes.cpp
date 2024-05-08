@@ -127,12 +127,16 @@ double Node::value() const{
   }
   else if(operation == '/'){
     if(right->value() == 0){
+      delete left;
+      delete right;
       throw std::runtime_error("Division by zero.");
     }
     return left->value() / right->value();
   }
   else if(operation == '%'){
     if(right->value() == 0){
+      delete left;
+      delete right;
       throw std::runtime_error("Division by zero.");
     }
     return fmod(left->value(),right->value());
