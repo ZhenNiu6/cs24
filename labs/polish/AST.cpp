@@ -17,12 +17,12 @@ AST* AST::parse(const std::string& expression) {
                 while(stack.count() > 0){
                     delete stack.pop();
                 }
-                std::runtime_error("Not enough operands.");
+                throw std::runtime_error("Not enough operands.");
             }
         }
         else if(token == "~"){
             if(stack.count() < 1){
-                std::runtime_error("Not enough operands.");
+                throw std::runtime_error("Not enough operands.");
             }
         }
 
