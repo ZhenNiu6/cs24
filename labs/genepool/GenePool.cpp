@@ -22,7 +22,6 @@ GenePool::GenePool(std::istream& stream){
         std::istringstream linestream(line);
         std::string name, gender_str, motherName, fatherName;
 
-        // Red name, gender, mother name, and father name from linestream
         // linestream >> name >> gender_str >> motherName >> fatherName;
         std::getline(linestream, name, '\t');
         std::getline(linestream, gender_str, '\t');
@@ -39,16 +38,22 @@ GenePool::GenePool(std::istream& stream){
             gender = Gender::ANY;
         }
         Person* mother = nullptr;
-        if(motherName == "???"){
+        if(motherName != "???"){
             mother = pool[motherName];
         }
         Person* father = nullptr;
-        if(fatherName == "???"){
+        if(fatherName != "???"){
             father = pool[fatherName];
         }
         // Create new Person object
         Person* person = new Person(name, gender, mother, father);
         pool[name] = person;
+        if(mother){
+            mother->add_child(person);
+        }
+        if(father){
+            father->add_child(person);
+        }
         // std::cout << person->name() << " " << person << '\n';
         // std::cout << person << '\n';
     }
@@ -65,6 +70,7 @@ GenePool::~GenePool(){
     for(const auto& pair: pool){
         delete pair.second;
     }
+    pool.clear();
 }
 
 
@@ -74,13 +80,6 @@ std::set<Person*> GenePool::everyone() const{
     for(const auto& pair: pool){
         // std::cout << "here" << '\n';
         people.insert(pair.second);
-        // if(pair.second != nullptr) {
-        //     std::cout << pair.second->name() << '\n';
-        // }
-        // std::cout << pair.second<< '\n';
-        // if(pair.second == nullptr){
-        //     std::cout << "here" << '\n';
-        // }
         
     }
     return people;
