@@ -17,14 +17,15 @@ class Person {
   Gender mGender;
   Person* mMother;
   Person* mFather;
-  std::set<Person*> mChildren;
+  // std::set<Person*> mChildren;
 
   // Helper Functions
+  
 
 public:
   // Constructor
   Person();
-  Person(std::string name, Gender gender, Person* mother, Person* father, std::set<Person*> children);
+  Person(std::string name, Gender gender, Person* mother, Person* father);
   ~Person();
   // Destructor
 

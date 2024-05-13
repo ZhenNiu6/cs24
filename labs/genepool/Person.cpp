@@ -6,23 +6,22 @@ Person::Person(){
     mGender = Gender::ANY;
     mMother = nullptr;
     mFather = nullptr;
-    mChildren = std::set<Person*>();
+    // mChildren = std::set<Person*>();
 }
 
-Person::Person(std::string name, Gender gender, Person* mother, Person* father, std::set<Person*> children){
+Person::Person(std::string name, Gender gender, Person* mother, Person* father){
     mName = name;
     mGender = gender;
     mMother = mother;
     mFather = father;
-    mChildren = children;
 }
 
 Person::~Person(){
-    delete mMother;
-    delete mFather;
-    for(auto child: mChildren){
-        delete child;
-    }
+    // delete mMother;
+    // delete mFather;
+    // for(auto child: mChildren){
+    //     delete child;
+    // }
 }
 
 const std::string& Person::name() const{
