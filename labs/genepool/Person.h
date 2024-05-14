@@ -20,8 +20,9 @@ class Person {
   std::set<Person*> mChildren;
 
   // Helper Functions
-  void m_ancestors(Person* person, std::set<Person*>& ancestors);
-  void p_ancestors(Person* person, std::set<Person*>& ancestors);
+  void ancestors_helper(Person* person, std::set<Person*>& ancestors);
+  // void p_ancestors(Person* person, std::set<Person*>& ancestors);
+  void descendants_helper(Person* person, std::set<Person*>& descendants);
   
 
 public:
@@ -36,8 +37,10 @@ public:
   Gender             gender() const;
   Person*            mother();
   Person*            father();
+  // std::set<Person*>  get_children();
 
   void add_child(Person* child);
+ 
 
   // Required Relationship Functions
   std::set<Person*> ancestors(PMod pmod = PMod::ANY);
