@@ -273,7 +273,6 @@ std::set<Person*> Person::daughters(){
 }
 std::set<Person*> Person::descendants(){
     std::set<Person*> x;
-    x.insert(this);
     descendants_helper(this, x);
     return x;
 }
@@ -282,7 +281,9 @@ void Person::descendants_helper(Person* person, std::set<Person*>& descendants){
     if(person == nullptr){
         return;
     }
-    descendants.insert(person);
+    if(person != this){
+        descendants.insert(person);
+    }
     for(auto child: person->children()){
         descendants_helper(child, descendants);
     }
