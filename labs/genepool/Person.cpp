@@ -273,6 +273,7 @@ std::set<Person*> Person::daughters(){
 }
 std::set<Person*> Person::descendants(){
     std::set<Person*> x;
+    x.insert(this);
     descendants_helper(this, x);
     return x;
 }
@@ -429,79 +430,6 @@ std::set<Person*> Person::parents(PMod pmod){
     }
     return x;
 }
-// std::set<Person*> Person::siblings(PMod pmod, SMod smod){
-//     std::set<Person*> x;
-//     if((mMother == nullptr) && (mFather == nullptr)){
-//         return x;
-//     }
-//     if(mMother != nullptr){
-//     for(auto m_sibling: mMother->children()){
-//         if(mFather != nullptr){
-//         for(auto p_sibling: mFather->children()){
-//             if(smod == SMod::FULL){ // full siblings
-//                 if((m_sibling == p_sibling) && (m_sibling != this)){
-//                     x.insert(m_sibling);
-//                 }
-//             }
-//             else if(smod == SMod::HALF){
-//                 if(pmod == PMod::MATERNAL){ //half maternal siblings
-//                     if((m_sibling->mother() == mMother) && (p_sibling->mother() == mMother)
-//                     && (m_sibling->father() != p_sibling->father()) && (m_sibling != this)
-//                     && (p_sibling != this)){
-//                         x.insert(m_sibling);
-//                         // x.insert(p_sibling);
-//                     }
-//                 }
-//                 else if(pmod == PMod::PATERNAL){ // half paternal siblings
-//                     if((m_sibling->father() == mFather) && (p_sibling->father() == mFather)
-//                     && (m_sibling->mother() != p_sibling->mother()) && (m_sibling != this)
-//                     && (p_sibling != this)){
-//                         // x.insert(m_sibling);
-//                         x.insert(p_sibling);
-//                     }
-//                 }
-//                 else{ // all half siblings
-//                     if((m_sibling->mother() == mMother) && (p_sibling->mother() == mMother)
-//                     && (m_sibling->father() != p_sibling->father()) && (m_sibling != this)
-//                     && (p_sibling != this)){
-//                         x.insert(m_sibling);
-//                         // x.insert(p_sibling);
-//                     }
-//                     if((m_sibling->father() == mFather) && (p_sibling->father() == mFather)
-//                     && (m_sibling->mother() != p_sibling->mother()) && (m_sibling != this)
-//                     && (p_sibling != this)){
-//                         // x.insert(m_sibling);
-//                         x.insert(p_sibling);
-//                     }
-                    
-//                 }
-//             }
-//             else if(pmod == PMod::MATERNAL){ //maternal siblings
-//                 if((m_sibling->mother() == mMother) && (p_sibling->mother() == mMother)
-//                 && (m_sibling != this) && (p_sibling != this)){
-//                     x.insert(m_sibling);
-//                     x.insert(p_sibling);
-//                 }
-//             }
-//             else if(pmod == PMod::PATERNAL){ //paternal siblings
-//                 if((m_sibling->father() == mFather) && (p_sibling->father() == mFather)
-//                 && (m_sibling != this) && (p_sibling != this)){
-//                     x.insert(m_sibling);
-//                     x.insert(p_sibling);
-//                 }
-//             }
-//             else{ // all siblings
-//                 if((m_sibling != this) && (p_sibling != this)){
-//                     x.insert(m_sibling);
-//                     x.insert(p_sibling);
-//                 }
-//             }
-//         }
-//         }
-//     }
-//     }
-//     return x;
-// }
 
 std::set<Person*> Person::siblings(PMod pmod, SMod smod){
     std::set<Person*> x;
@@ -630,127 +558,6 @@ std::set<Person*> Person::siblings(PMod pmod, SMod smod){
             }
         }
     }
-
-
-
-    // else if(pmod == PMod::MATERNAL){
-    //     if(smod == SMod::HALF){
-    //         if(mMother == nullptr){
-    //             return x;
-    //         }
-    //         for(auto m_sibling: mMother->children()){
-    //             if(mFather != nullptr){
-    //                 for(auto p_sibling: mFather->children()){
-    //                     if((m_sibling->mother() == mMother) && (p_sibling->mother() == mMother)
-    //                     && (m_sibling->father() != p_sibling->father()) && (m_sibling != this)
-    //                     && (p_sibling != this)){
-    //                         x.insert(m_sibling);
-    //                     }
-    //                 }
-    //             }
-    //             else{
-    //                 if(m_sibling != this){
-    //                     x.insert(m_sibling);
-    //                 }
-    //             }
-    //         }
-
-    //     }
-    //     else{
-    //         if(mMother != nullptr){
-    //             for(auto m_sibling: mMother->children()){
-    //                 if(m_sibling != this){
-    //                     x.insert(m_sibling);
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
-    // else if(pmod == PMod::PATERNAL){
-    //     if(smod == SMod::HALF){
-    //         if(mFather == nullptr){
-    //             return x;
-    //         }
-    //         for(auto p_sibling: mFather->children()){
-    //             if(mMother != nullptr){
-    //                 for(auto m_sibling: mMother->children()){
-    //                     if((m_sibling->father() == mFather) && (p_sibling->father() == mFather)
-    //                     && (m_sibling->mother() != p_sibling->mother()) && (m_sibling != this)
-    //                     && (p_sibling != this)){
-    //                         x.insert(p_sibling);
-    //                     }
-    //                 }
-    //             }
-    //             else{
-    //                 if(p_sibling != this){
-    //                     x.insert(p_sibling);
-    //                 }
-    //             }
-    //         }
-
-    //     }
-    //     else{
-    //         if(mFather != nullptr){
-    //             for(auto p_sibling: mFather->children()){
-    //                 if(p_sibling != this){
-    //                     x.insert(p_sibling);
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
-    // else{
-    //     if(smod == SMod::HALF){
-    //         // std::cout << "3" << '\n';
-    //         if((mMother != nullptr) && (mFather != nullptr)){
-    //             // std::cout << "6" << '\n';
-    //             for(auto m_sibling: mMother->children()){
-    //                 for(auto p_sibling: mFather->children()){
-    //                     if((m_sibling->mother() == mMother) && (p_sibling->mother() == mMother)
-    //                     && (m_sibling->father() != p_sibling->father()) && (m_sibling != this)
-    //                     && (p_sibling != this)){
-    //                         x.insert(m_sibling);
-    //                     }
-    //                     else if((m_sibling->father() == mFather) && (p_sibling->father() == mFather)
-    //                     && (m_sibling->mother() != p_sibling->mother()) && (m_sibling != this)
-    //                     && (p_sibling != this)){
-    //                         x.insert(p_sibling);
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //         else if(mMother != nullptr){
-    //             for(auto m_sibling: mMother->children()){
-    //                 if(m_sibling != this){
-    //                     x.insert(m_sibling);
-    //                 }
-    //             }
-    //         }
-    //         else{
-    //             for(auto p_sibling: mFather->children()){
-    //                 if(p_sibling != this){
-    //                     x.insert(p_sibling);
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     else{
-    //         if(mMother != nullptr){
-    //             for(auto m_sibling: mMother->children()){
-    //                 if(m_sibling != this){
-    //                     x.insert(m_sibling);
-    //                 }
-    //             }
-    //         }
-    //         if(mFather != nullptr){
-    //             for(auto p_sibling: mFather->children()){
-    //                 if(p_sibling != this){
-    //                     x.insert(p_sibling);
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
     return x;
 }
 
