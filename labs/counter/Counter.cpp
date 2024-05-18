@@ -41,7 +41,7 @@ void Counter::dec(const std::string& key, int by){
         target->value -= by;
     }
     else{
-        list.insert(key, by);
+        list.insert(key, -by);
     }
 }
 
