@@ -3,12 +3,9 @@
 
 // Index Member Functions
 Index::Index(){
-    capacity = 5;
+    capacity = 10000;
     table = new List[capacity];
     count = 0;
-    // for(size_t i = 0; i < capacity; i ++){
-    //     table[i] = List();
-    // }
 }
 
 Index::~Index(){
