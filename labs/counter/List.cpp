@@ -54,7 +54,7 @@ Node* List::lookup(std::string x) const{
 }
 
 void List::remove(Node* node){
-    if(head == nullptr){
+    if(!head){
         return;
     }
     if(node == head){
