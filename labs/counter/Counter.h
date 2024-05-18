@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <string>
 #include "List.h"
+#include "Index.h"
 
 // This is the Counter class you need to implement.
 // It includes the Counter::Iterator as a nested class.
@@ -28,6 +29,7 @@ public:
 private:
   // Member Variables
   List list;
+  Index index;
 
 private:
   // Helper Functions
