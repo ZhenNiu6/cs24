@@ -72,3 +72,14 @@ void List::remove(Node* node){
     }
     delete node;
 }
+
+void List::clear(){
+    Node* current = head;
+    while(current){
+        Node* next = current->after;
+        delete current;
+        current = next;
+    }
+    head = nullptr;
+    tail = nullptr;
+}

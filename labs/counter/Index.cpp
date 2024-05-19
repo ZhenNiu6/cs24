@@ -21,6 +21,7 @@ void Index::resize(size_t n_capacity){
             n_table[index].insert(current->key, current->value);
             current = current->after;
         }
+        table[i].clear();
     }
     delete [] table;
     table = n_table;
