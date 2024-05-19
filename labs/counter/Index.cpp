@@ -37,7 +37,7 @@ void Index::table_insert(const std::string& key, int value){
     unsigned int index = hash_value(key, capacity);
     table[index].insert(key, value);
     count ++;
-    if(count >= capacity * 0.8){
+    if(count >= capacity / 2){
         resize(capacity * 2);
     }
 }
@@ -52,6 +52,7 @@ void Index::table_remove(const std::string& key){
     Node* target = table[index].lookup(key);
     if(target){
         table[index].remove(target);
+        count --;
     }
 }
 
