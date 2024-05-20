@@ -3,7 +3,7 @@
 
 // Index Member Functions
 Index::Index(){
-    capacity = 5;
+    capacity = 7;
     table = new List[capacity];
     count = 0;
 }
@@ -28,10 +28,23 @@ void Index::resize(size_t n_capacity){
     capacity = n_capacity;
 }
 
-unsigned int Index::hash_value(const std::string& key, size_t cap) const{
-    std::hash<std::string> hasher;
-    unsigned int temp = hasher(key);
-    return temp % cap;
+// unsigned int Index::hash_value(const std::string& key, size_t cap) const{
+//     std::hash<std::string> hasher;
+//     unsigned int temp = hasher(key);
+//     return temp % cap;
+// }
+
+unsigned int Index::hash_value(const std::string& key, size_t cap) const {
+    const unsigned int fnv_prime = 16777619u;
+    const unsigned int fnv_offset_basis = 2166136261u;
+    unsigned int hash = fnv_offset_basis;
+
+    for (char c : key) {
+        hash ^= static_cast<unsigned int>(c);
+        hash *= fnv_prime;
+    }
+
+    return hash % cap;
 }
 
 void Index::table_insert(const std::string& key, int value){
