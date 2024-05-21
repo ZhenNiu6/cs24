@@ -6,7 +6,8 @@
 // TODO...
 class Index{
     size_t capacity;
-    List* table;
+    // List* table;
+    Node** table;
     size_t count;
 
 public:
