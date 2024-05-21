@@ -14,7 +14,7 @@ Index::~Index(){
     // for(size_t i = 0; i < count; i ++){
     //     delete table[i];
     // }
-    delete [] table;
+    // delete [] table;
 }
 
 size_t Index::get_count() const{
@@ -38,29 +38,6 @@ void Index::resize(size_t n_capacity){
     capacity = n_capacity;
 }
 
-// void Index::resize(size_t n_capacity){
-//     Node** n_table = new Node*[n_capacity];
-//     count = 0;
-//     for(size_t i = 0; i < capacity; i ++){
-//         Node* current = table[i];
-//         while(current){
-//             unsigned int index = hash_value(current->key, current->value);
-//             Node* next = current->after;
-//             current->after = nullptr;
-//             current->before = nullptr;
-//             if(n_table[index]){
-//                 n_table[index]->before = current;
-//             }
-//             current->after = n_table[index];
-//             n_table[index] = current;
-//             current = next;
-//             count ++;
-//         }
-//     }
-//     delete [] table;
-//     table = n_table;
-//     capacity = n_capacity;
-// }
 
 unsigned int Index::hash_value(const std::string& key, size_t cap) const{
     std::hash<std::string> hasher;
@@ -129,4 +106,29 @@ void Index::table_remove(const std::string& key){
     //     current = current->after;
     // }
 }
+
+
+// void Index::resize(size_t n_capacity){
+//     Node** n_table = new Node*[n_capacity];
+//     count = 0;
+//     for(size_t i = 0; i < capacity; i ++){
+//         Node* current = table[i];
+//         while(current){
+//             unsigned int index = hash_value(current->key, current->value);
+//             Node* next = current->after;
+//             current->after = nullptr;
+//             current->before = nullptr;
+//             if(n_table[index]){
+//                 n_table[index]->before = current;
+//             }
+//             current->after = n_table[index];
+//             n_table[index] = current;
+//             current = next;
+//             count ++;
+//         }
+//     }
+//     delete [] table;
+//     table = n_table;
+//     capacity = n_capacity;
+// }
 
