@@ -30,6 +30,8 @@ private:
   // Member Variables
   List list;
   Index index;
+  size_t mCount;
+  size_t mTotal;
 
 private:
   // Helper Functions

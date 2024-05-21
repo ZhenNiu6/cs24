@@ -6,13 +6,14 @@
 // TODO...
 class Index{
     size_t capacity;
-    List* table;
-    // Node** table;
+    // List* table;
+    Node** table;
     size_t count;
 
 public:
     Index();
     ~Index();
+    size_t get_count() const;
     void resize(size_t n_capacity);
     unsigned int hash_value(const std::string& key, size_t cap) const;
     void table_insert(const std::string& node_key, int node_value);

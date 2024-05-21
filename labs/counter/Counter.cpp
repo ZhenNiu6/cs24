@@ -6,23 +6,25 @@ Counter::Counter(){}
 Counter::~Counter(){}
 
 size_t Counter::count() const{
-    Node* current = list.head;
-    size_t num = 0;
-    while(current){
-        num ++;
-        current = current->after;
-    }
-    return num;
+    // Node* current = list.head;
+    // size_t num = 0;
+    // while(current){
+    //     num ++;
+    //     current = current->after;
+    // }
+    // return num;
+    return mCount;
 }
 
 int Counter::total() const{
-    Node* current = list.head;
-    int num = 0;
-    while(current){
-        num += current->value;
-        current = current->after;
-    }
-    return num;
+    // Node* current = list.head;
+    // int num = 0;
+    // while(current){
+    //     num += current->value;
+    //     current = current->after;
+    // }
+    // return num;
+    return mTotal;
 }
 
 void Counter::inc(const std::string& key, int by){
@@ -33,7 +35,9 @@ void Counter::inc(const std::string& key, int by){
     else{
         list.insert(key, by);
         index.table_insert(key, by);
+        mCount ++;
     }
+    mTotal += by;
 }
 
 void Counter::dec(const std::string& key, int by){
@@ -44,14 +48,18 @@ void Counter::dec(const std::string& key, int by){
     else{
         list.insert(key, -by);
         index.table_insert(key, -by);
+        mCount ++;
     }
+    mTotal -= by;
 }
 
 void Counter::del(const std::string& key){
     Node* target = index.table_lookup(key);
     if(target){
+        mTotal -= target->value;
         list.remove(target);
         index.table_remove(target->key);
+        mCount --;
     }
 }
 
@@ -69,11 +77,15 @@ void Counter::set(const std::string& key, int count){
     Node* target = index.table_lookup(key);
     // Node* target = list.lookup(key);
     if(target){
+        mTotal -= target->value;
         target->value = count;
+        mTotal += count;
     }
     else{
-        // list.insert(key, count);
+        list.insert(key, count);
         index.table_insert(key, count);
+        mCount ++;
+        mTotal += count;
     }
 }
 

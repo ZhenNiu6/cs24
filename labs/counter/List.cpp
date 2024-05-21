@@ -24,6 +24,8 @@ List::~List(){
         current = next;
     }
     delete current;
+    head = nullptr;
+    tail = nullptr;
 }
 
 void List::insert(std::string node_key, int node_value){
@@ -54,24 +56,27 @@ Node* List::lookup(std::string x) const{
 }
 
 void List::remove(Node* node){
-    // std::cout << "1" << '\n';
     if(!head){
         return;
     }
     if(node == head){
-        // std::cout << "2" << '\n';
         head = node->after;
-        // std::cout << "3" << '\n';
     }
     else{
-        node->before->after = node->after;
+        if(node->before){
+            node->before->after = node->after;
+        }
+        // node->before->after = node->after;
     }
 
     if(node == tail){
         tail = node->before;
     }
     else{
-        node->after->before = node->before;
+        if(node->after){
+            node->after->before = node->before;
+        }
+        // node->after->before = node->before;
     }
     delete node;
 }
