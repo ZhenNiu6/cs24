@@ -82,7 +82,7 @@ void Index::table_insert(const std::string& key, int value){
     }
     table[index] = node;
     count ++;
-    if(count >= capacity / 2){
+    if(count > capacity * 0.7){
         resize(capacity * 2);
     }
 }
