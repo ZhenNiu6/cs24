@@ -2,7 +2,10 @@
 #include <iostream>
 
 // Counter Member Functions
-Counter::Counter(){}
+Counter::Counter(){
+    mCount = 0;
+    mTotal = 0;
+}
 Counter::~Counter(){}
 
 size_t Counter::count() const{
@@ -38,6 +41,7 @@ void Counter::inc(const std::string& key, int by){
         mCount ++;
     }
     mTotal += by;
+    // std::cout << "inc: key=" << key << ", by=" << by << ", mTotal=" << mTotal << std::endl;
 }
 
 void Counter::dec(const std::string& key, int by){
@@ -51,6 +55,7 @@ void Counter::dec(const std::string& key, int by){
         mCount ++;
     }
     mTotal -= by;
+    // std::cout << "dec: key=" << key << ", by=" << by << ", mTotal=" << mTotal << std::endl;
 }
 
 void Counter::del(const std::string& key){
@@ -61,6 +66,7 @@ void Counter::del(const std::string& key){
         index.table_remove(target->key);
         mCount --;
     }
+    // std::cout << "del: key=" << key << ", mTotal=" << mTotal << std::endl;
 }
 
 int Counter::get(const std::string& key) const{
@@ -87,6 +93,7 @@ void Counter::set(const std::string& key, int count){
         mCount ++;
         mTotal += count;
     }
+    // std::cout << "set: key=" << key << ", count=" << count << ", mTotal=" << mTotal << std::endl;
 }
 
 

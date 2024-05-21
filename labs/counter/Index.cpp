@@ -23,7 +23,7 @@ size_t Index::get_count() const{
 
 void Index::resize(size_t n_capacity){
     List* n_table = new List[n_capacity];
-    count = 0;
+    // count = 0;
     for(size_t i = 0; i < capacity; i ++){
         Node* current = table[i].head;
         while(current){
@@ -77,7 +77,7 @@ void Index::table_remove(const std::string& key){
     unsigned int index = hash_value(key, capacity);
     Node* target = table[index].lookup(key);
     if(target){
-        // table[index].remove(target);
+        table[index].remove(target);
         count --;
     }
     // Node* current = table[index];
