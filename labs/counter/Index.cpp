@@ -14,7 +14,7 @@ Index::~Index(){
     // for(size_t i = 0; i < count; i ++){
     //     delete table[i];
     // }
-    // delete [] table;
+    delete [] table;
 }
 
 size_t Index::get_count() const{
@@ -74,11 +74,10 @@ Node* Index::table_lookup(const std::string& key) const{
 }
 
 void Index::table_remove(const std::string& key){
-    // std::cout << "1" << '\n';
     unsigned int index = hash_value(key, capacity);
     Node* target = table[index].lookup(key);
     if(target){
-        table[index].remove(target);
+        // table[index].remove(target);
         count --;
     }
     // Node* current = table[index];
