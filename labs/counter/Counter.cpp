@@ -26,34 +26,37 @@ int Counter::total() const{
 }
 
 void Counter::inc(const std::string& key, int by){
-    Node* target = list.lookup(key);
+    Node* target = index.table_lookup(key);
     if(target){
         target->value += by;
     }
     else{
         list.insert(key, by);
+        index.table_insert(key, by);
     }
 }
 
 void Counter::dec(const std::string& key, int by){
-    Node* target = list.lookup(key);
+    Node* target = index.table_lookup(key);
     if(target){
         target->value -= by;
     }
     else{
         list.insert(key, -by);
+        index.table_insert(key, -by);
     }
 }
 
 void Counter::del(const std::string& key){
-    Node* target = list.lookup(key);
+    Node* target = index.table_lookup(key);
     if(target){
         list.remove(target);
+        index.table_remove(target->key);
     }
 }
 
 int Counter::get(const std::string& key) const{
-    Node* target = list.lookup(key);
+    Node* target = index.table_lookup(key);
     if(target){
         return target->value;
     }
@@ -63,12 +66,14 @@ int Counter::get(const std::string& key) const{
 }
 
 void Counter::set(const std::string& key, int count){
-    Node* target = list.lookup(key);
+    Node* target = index.table_lookup(key);
+    // Node* target = list.lookup(key);
     if(target){
         target->value = count;
     }
     else{
-        list.insert(key, count);
+        // list.insert(key, count);
+        index.table_insert(key, count);
     }
 }
 

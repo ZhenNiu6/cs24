@@ -54,11 +54,14 @@ Node* List::lookup(std::string x) const{
 }
 
 void List::remove(Node* node){
+    // std::cout << "1" << '\n';
     if(!head){
         return;
     }
     if(node == head){
+        // std::cout << "2" << '\n';
         head = node->after;
+        // std::cout << "3" << '\n';
     }
     else{
         node->before->after = node->after;
