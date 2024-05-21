@@ -4,13 +4,16 @@
 
 // Index Member Functions
 Index::Index(){
-    capacity = 7;
+    capacity = 3;
     // table = new List[capacity];
     table = new Node*[capacity]();
     count = 0;
 }
 
 Index::~Index(){
+    for(size_t i = 0; i < count; i ++){
+        delete table[i];
+    }
     delete [] table;
 }
 
@@ -42,13 +45,15 @@ void Index::resize(size_t n_capacity){
         while(current){
             unsigned int index = hash_value(current->key, current->value);
             Node* next = current->after;
-            current->after = n_table[index];
+            current->after = nullptr;
             current->before = nullptr;
             if(n_table[index]){
                 n_table[index]->before = current;
             }
+            current->after = n_table[index];
             n_table[index] = current;
             current = next;
+            count ++;
         }
     }
     delete [] table;
@@ -117,7 +122,7 @@ void Index::table_remove(const std::string& key){
             delete current;
             // std::cout << "5" << '\n';
             count --;
-            std::cout << "count - 1" << '\n';
+            // std::cout << "count - 1" << '\n';
             return;
         }
         current = current->after;
