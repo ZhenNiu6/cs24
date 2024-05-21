@@ -4,7 +4,7 @@
 
 // Index Member Functions
 Index::Index(){
-    capacity = 3;
+    capacity = 982451653;
     table = new List[capacity];
     // table = new Node*[capacity]();
     count = 0;
@@ -29,9 +29,12 @@ void Index::resize(size_t n_capacity){
         while(current){
             unsigned int index = hash_value(current->key, n_capacity);
             n_table[index].insert(current->key, current->value);
+            if(n_table[index].tail->before){
+                n_table[index].tail->before->after = n_table[index].tail;
+            }
             current = current->after;
         }
-        table[i].clear();
+        // table[i].clear();
     }
     delete [] table;
     table = n_table;
@@ -76,8 +79,10 @@ Node* Index::table_lookup(const std::string& key) const{
 void Index::table_remove(const std::string& key){
     unsigned int index = hash_value(key, capacity);
     Node* target = table[index].lookup(key);
+
     if(target){
         table[index].remove(target);
+        delete target;
         count --;
     }
     // Node* current = table[index];

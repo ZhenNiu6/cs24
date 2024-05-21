@@ -62,7 +62,7 @@ void Counter::del(const std::string& key){
     Node* target = index.table_lookup(key);
     if(target){
         mTotal -= target->value;
-        list.remove(target);
+        // list.remove(target);
         index.table_remove(target->key);
         mCount --;
     }
@@ -89,7 +89,9 @@ void Counter::set(const std::string& key, int count){
     }
     else{
         list.insert(key, count);
+        // std::cout << "here" << '\n';
         index.table_insert(key, count);
+        // std::cout << "here2" << '\n';
         mCount ++;
         mTotal += count;
     }
