@@ -49,7 +49,11 @@ unsigned int Index::hash_value(const std::string& key, size_t cap) const {
 
 void Index::table_insert(const std::string& key, int value){
     unsigned int index = hash_value(key, capacity);
-    table[index].insert(key, value);
+    // table[index].insert(key, value);
+    Node* new_node = new Node(key, value);
+    new_node->after = table[index].head;
+    table[index].head = new_node;
+
     count ++;
     if(count >= capacity / 2){
         resize(capacity * 2);
