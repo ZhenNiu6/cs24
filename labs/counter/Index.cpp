@@ -5,7 +5,7 @@
 // Index Member Functions
 
 Index::Index(){
-    capacity = 8;
+    capacity = 3;
     table = new Node*[capacity]();
     count = 0;
 }
@@ -93,7 +93,7 @@ void Index::remove(Node* node){
                 }  
             }
             // table[index] = current->next;
-            delete current;
+            // delete current;
             count --;
             return;
         }
