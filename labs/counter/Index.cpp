@@ -5,7 +5,7 @@
 // Index Member Functions
 
 Index::Index(){
-    capacity = 100;
+    capacity = 10000019;
     table = new Node*[capacity]();
     count = 0;
     last = nullptr;
@@ -202,21 +202,7 @@ void Index::remove(Node* node){
 // }
 
 
-// Node* Index::lookup(const std::string& key) const{
-//     unsigned int index = hash_value(key, capacity);
-//     for(size_t i = 0; i < capacity; i ++){
-//         unsigned int probe = (index + i*i) % capacity;
-//         if(!table[probe]){
-//             return nullptr;
-//         }
-//         else{
-//             if(table[probe]->key == key){
-//                 return table[probe];
-//             }
-//         }
-//     }
-//     return nullptr;
-// }
+
 
 
 unsigned int Index::hash_value(const std::string& key, size_t cap) const {
