@@ -8,8 +8,10 @@ class Index{
     size_t capacity;
     Node** table;
     size_t count;
+    
 
 public:
+    mutable Node* last;
     Index();
     ~Index();
     size_t get_count() const;

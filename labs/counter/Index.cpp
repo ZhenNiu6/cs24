@@ -8,6 +8,7 @@ Index::Index(){
     capacity = 3;
     table = new Node*[capacity]();
     count = 0;
+    last = nullptr;
 }
 
 Index::~Index(){
@@ -52,14 +53,21 @@ void Index::insert(Node* node){
 }
 
 Node* Index::lookup(const std::string& key) const{
+    if(last){
+        if(last->key == key){
+            return last;
+        }
+    }
     unsigned int index = hash_value(key, capacity);
     Node* current = table[index];
     while(current){
         if(current->key == key){
+            last = current;
             return current;
         }
         current = current->next;
     }
+    last = nullptr;
     return nullptr;
 }
 

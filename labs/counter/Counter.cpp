@@ -51,6 +51,7 @@ void Counter::del(const std::string& key){
         index.remove(target);
         list.remove(target);
         mCount --;
+        index.last = nullptr;
     }
 }
 
