@@ -15,9 +15,9 @@ public:
     size_t get_count() const;
     void resize(size_t n_cap);
     unsigned int hash_value(const std::string& key, size_t cap) const;
-    void insert(const std::string& node_key, int node_value);
+    void insert(Node* node);
     Node* lookup(const std::string& key) const;
-    void remove(const std::string& key);
+    void remove(Node* node);
 };
 
 // void Index::table_insert(const std::string& key, int value){

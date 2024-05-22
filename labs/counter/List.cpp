@@ -32,16 +32,15 @@ List::~List(){
     tail = nullptr;
 }
 
-void List::insert(std::string node_key, int node_value){
-    Node* x = new Node(node_key, node_value);
+void List::insert(Node* node){
     if(head != nullptr){
-        tail->after = x;
-        x->before = tail;
-        tail = x;
+        tail->after = node;
+        node->before = tail;
+        tail = node;
     }
     else{
-        head = x;
-        tail = x;
+        head = node;
+        tail = node;
     }
 }
 

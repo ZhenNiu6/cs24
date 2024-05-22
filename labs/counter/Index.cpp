@@ -19,7 +19,7 @@ size_t Index::get_count() const{
 }
 
 void Index::resize(size_t n_cap){
-    Node** n_table = new Node*[n_cap];
+    Node** n_table = new Node*[n_cap]();
     size_t o_cap = capacity;
     capacity = n_cap;
     for(size_t i = 0; i < o_cap; i ++){
@@ -36,9 +36,9 @@ void Index::resize(size_t n_cap){
     table = n_table;
 }
 
-void Index::insert(const std::string& key, int value){
-    unsigned int index = hash_value(key, capacity);
-    Node* node = new Node(key, value);
+void Index::insert(Node* node){
+    unsigned int index = hash_value(node->key, capacity);
+    // Node* node = new Node(key, value);
     if(!table[index]){
         table[index] = node;
     }
@@ -64,12 +64,12 @@ Node* Index::lookup(const std::string& key) const{
     return nullptr;
 }
 
-void Index::remove(const std::string& key){
-    unsigned int index = hash_value(key, capacity);
+void Index::remove(Node* node){
+    unsigned int index = hash_value(node->key, capacity);
     Node* current = table[index];
     Node* prev = nullptr;
     while(current){
-        if(current->key == key){
+        if(current == node){
             if(prev){
                 prev->next = current->next;
             }
@@ -191,6 +191,7 @@ unsigned int Index::hash_value(const std::string& key, size_t cap) const{
     std::hash<std::string> hasher;
     unsigned int temp = hasher(key);
     return temp % cap;
+
 }
 
 // void Index::table_insert(const std::string& key, int value){

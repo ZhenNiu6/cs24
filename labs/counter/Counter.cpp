@@ -13,11 +13,6 @@ size_t Counter::count() const{
 }
 
 int Counter::total() const{
-    // size_t num = 0;
-    // for(Iterator i = begin(); i != end(); i.operator ++()){
-    //     num += i.value();
-    // }
-    // return num;
     return mTotal;
 }
 
@@ -27,8 +22,9 @@ void Counter::inc(const std::string& key, int by){
         target->value += by;
     }
     else{
-        list.insert(key, by);
-        index.insert(key, by);
+        Node* x = new Node(key, by);
+        list.insert(x);
+        index.insert(x);
         mCount ++;
     }
     mTotal += by;
@@ -40,8 +36,9 @@ void Counter::dec(const std::string& key, int by){
         target->value -= by;
     }
     else{
-        list.insert(key, -by);
-        index.insert(key, -by);
+        Node* x = new Node(key, -by);
+        list.insert(x);
+        index.insert(x);
         mCount ++;
     }
     mTotal -= by;
@@ -52,7 +49,7 @@ void Counter::del(const std::string& key){
     if(target){
         mTotal -= target->value;
         list.remove(target);
-        index.remove(target->key);
+        index.remove(target);
         mCount --;
     }
 }
@@ -76,9 +73,10 @@ void Counter::set(const std::string& key, int count){
         mTotal += count;
     }
     else{
-        list.insert(key, count);
+        Node* x = new Node(key, count);
+        list.insert(x);
         // std::cout << "here" << '\n';
-        index.insert(key, count);
+        index.insert(x);
         // std::cout << "here2" << '\n';
         mCount ++;
         mTotal += count;

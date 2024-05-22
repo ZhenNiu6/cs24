@@ -23,7 +23,7 @@ public:
 
     List();
     ~List();
-    void insert(std::string node_key, int node_value);
+    void insert(Node* node);
     Node* lookup(std::string x) const;
     void remove(Node* node);
     void clear();
