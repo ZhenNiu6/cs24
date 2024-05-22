@@ -66,7 +66,6 @@ int Counter::get(const std::string& key) const{
 
 void Counter::set(const std::string& key, int count){
     Node* target = index.lookup(key);
-    // Node* target = list.lookup(key);
     if(target){
         mTotal -= target->value;
         target->value = count;
@@ -75,9 +74,7 @@ void Counter::set(const std::string& key, int count){
     else{
         Node* x = new Node(key, count);
         list.insert(x);
-        // std::cout << "here" << '\n';
         index.insert(x);
-        // std::cout << "here2" << '\n';
         mCount ++;
         mTotal += count;
     }

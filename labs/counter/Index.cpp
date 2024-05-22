@@ -38,7 +38,6 @@ void Index::resize(size_t n_cap){
 
 void Index::insert(Node* node){
     unsigned int index = hash_value(node->key, capacity);
-    // Node* node = new Node(key, value);
     if(!table[index]){
         table[index] = node;
     }
@@ -67,20 +66,37 @@ Node* Index::lookup(const std::string& key) const{
 void Index::remove(Node* node){
     unsigned int index = hash_value(node->key, capacity);
     Node* current = table[index];
-    Node* prev = nullptr;
+    if(!current){
+        return;
+    }
+    Node* follow = current->next;
     while(current){
+        follow = current->next;
         if(current == node){
-            if(prev){
-                prev->next = current->next;
+            if(current == table[index]){
+                if(follow){
+                    table[index] = follow;
+                }
             }
             else{
-                table[index] = current->next;
+                Node* traverse = table[index];
+                while(traverse){
+                    if(traverse->next == current){
+                        if(follow){
+                            traverse->next = follow;
+                        }
+                        else{
+                            traverse->next = nullptr;
+                        }
+                    }
+                    traverse = traverse->next;
+                }  
             }
+            // table[index] = current->next;
             delete current;
             count --;
             return;
         }
-        prev = current;
         current = current->next;
     }
 }
