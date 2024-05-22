@@ -69,37 +69,45 @@ void Index::remove(Node* node){
     if(!current){
         return;
     }
+    // if(current == node){
+    //     table[index] = current->next;
+    // }
+    // else{
+    //     while(current){
+    //         if(current->next == node){
+    //             current->next = node->next;
+    //             break;
+    //         }
+    //         current = current->next;
+    //     }
+    // }
+    // node->next = nullptr;
     Node* follow = current->next;
     while(current){
         follow = current->next;
         if(current == node){
             if(current == table[index]){
-                if(follow){
-                    table[index] = follow;
-                }
+                table[index] = follow;
+                
             }
             else{
                 Node* traverse = table[index];
                 while(traverse){
                     if(traverse->next == current){
-                        if(follow){
-                            traverse->next = follow;
-                        }
-                        else{
-                            traverse->next = nullptr;
-                        }
+                        traverse->next = follow;
+                        break;
                     }
                     traverse = traverse->next;
                 }  
             }
-            // table[index] = current->next;
-            // delete current;
             count --;
             return;
         }
         current = current->next;
     }
 }
+
+
 
 
 

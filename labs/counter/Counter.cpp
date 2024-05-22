@@ -48,8 +48,8 @@ void Counter::del(const std::string& key){
     Node* target = index.lookup(key);
     if(target){
         mTotal -= target->value;
-        list.remove(target);
         index.remove(target);
+        list.remove(target);
         mCount --;
     }
 }

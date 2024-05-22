@@ -122,9 +122,9 @@ int main(int argc, char** argv) {
         throw std::runtime_error("Too many operands for command: " + command);
       }
 
-      // if(interactive && command != "print") {
-      //   print(counter);
-      // }
+      if(interactive && command != "print") {
+        print(counter);
+      }
     }
     catch(const std::runtime_error& e) {
       std::cout << "ERROR: " << e.what() << '\n';
