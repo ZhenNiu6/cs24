@@ -5,7 +5,7 @@
 // Index Member Functions
 
 Index::Index(){
-    capacity = 2;
+    capacity = 16;
     table = new Node*[capacity]();
     count = 0;
     last = nullptr;
@@ -48,7 +48,7 @@ void Index::insert(Node* node){
     }
     count ++;
     if(count > capacity * 0.7){
-        resize(capacity * capacity);
+        resize(capacity * 2);
     }
 }
 
@@ -117,94 +117,6 @@ void Index::remove(Node* node){
 
 
 
-
-
-// Index::Index(){
-//     capacity = 982451653;
-//     table = new Node*[capacity]();
-//     count = 0;
-// }
-
-// Index::~Index(){
-//     for(size_t i = 0; i < capacity; i ++){
-//         if(table[i]){
-//             if(table[i]->key == "already dirty"){
-//                 delete table[i];
-//             }
-//         }
-//     }
-//     delete [] table;
-// }
-
-
-// size_t Index::get_count() const{
-//     return count;
-// }
-
-// void Index::remove(const std::string& key){
-//     unsigned int index = hash_value(key, capacity);
-//     for(size_t i = 0; i < capacity; i ++){
-//         unsigned int probe = (index + i*i) % capacity;
-//         // dirty or nullptr
-//         if(!table[probe]){
-//             return;
-//         }
-//         if(table[probe]->key == key){
-//             delete table[probe];
-//             Node* occupy = new Node("already dirty", 0);
-//             table[probe] = occupy;
-//             count --;
-//         }
-//     }
-// }
-
-
-// void Index::insert(const std::string& node_key, int node_value){
-//     unsigned int index = hash_value(node_key, capacity);
-//     for(size_t i = 0; i < capacity; i ++){
-//         unsigned int probe = (index + i*i) % capacity;
-//         if(!table[probe]){
-//             Node* node = new Node(node_key, node_value);
-//             table[probe] = node;
-//             count ++;
-//             if(count > capacity * 0.7){
-//                 resize(capacity * 2);
-//             }
-//             break;
-//         }
-//     }
-// }
-
-
-// void Index::resize(size_t n_cap){
-//     Node** n_table = new Node*[n_cap]();
-//     size_t o_cap = capacity;
-//     capacity = n_cap;
-//     for(size_t i = 0; i < o_cap; i ++){
-//         Node* current = table[i];
-//         if(current){
-//             if(n_table[i]->key == "already dirty"){
-//                 delete n_table[i];
-//                 continue;
-//             }
-//             unsigned int index = hash_value(current->key, n_cap);
-//             for(size_t j = 0; j < n_cap; j ++){
-//                 unsigned int probe = (index + j*j) % n_cap;
-//                 if(!n_table[probe]){
-//                     n_table[probe] = current;
-//                     break;
-//                 }
-//             }
-//         }
-//     }
-//     delete [] table;
-//     table = n_table;
-// }
-
-
-
-
-
 unsigned int Index::hash_value(const std::string& key, size_t cap) const {
     const unsigned int fnv_prime = 0x01000193;
     const unsigned int offset_basis = 0x811C9DC5;
@@ -216,6 +128,7 @@ unsigned int Index::hash_value(const std::string& key, size_t cap) const {
     }
 
     return hash & (cap-1);
+    // return hash % cap;
 }
 
 // unsigned in                                                                    t Index::hash_value(const std::string& key, size_t cap) const{
@@ -311,4 +224,88 @@ unsigned int Index::hash_value(const std::string& key, size_t cap) const {
 // //     table = n_table;
 // //     capacity = n_capacity;
 // // }
+
+
+
+// Index::Index(){
+//     capacity = 982451653;
+//     table = new Node*[capacity]();
+//     count = 0;
+// }
+
+// Index::~Index(){
+//     for(size_t i = 0; i < capacity; i ++){
+//         if(table[i]){
+//             if(table[i]->key == "already dirty"){
+//                 delete table[i];
+//             }
+//         }
+//     }
+//     delete [] table;
+// }
+
+
+// size_t Index::get_count() const{
+//     return count;
+// }
+
+// void Index::remove(const std::string& key){
+//     unsigned int index = hash_value(key, capacity);
+//     for(size_t i = 0; i < capacity; i ++){
+//         unsigned int probe = (index + i*i) % capacity;
+//         // dirty or nullptr
+//         if(!table[probe]){
+//             return;
+//         }
+//         if(table[probe]->key == key){
+//             delete table[probe];
+//             Node* occupy = new Node("already dirty", 0);
+//             table[probe] = occupy;
+//             count --;
+//         }
+//     }
+// }
+
+
+// void Index::insert(const std::string& node_key, int node_value){
+//     unsigned int index = hash_value(node_key, capacity);
+//     for(size_t i = 0; i < capacity; i ++){
+//         unsigned int probe = (index + i*i) % capacity;
+//         if(!table[probe]){
+//             Node* node = new Node(node_key, node_value);
+//             table[probe] = node;
+//             count ++;
+//             if(count > capacity * 0.7){
+//                 resize(capacity * 2);
+//             }
+//             break;
+//         }
+//     }
+// }
+
+
+// void Index::resize(size_t n_cap){
+//     Node** n_table = new Node*[n_cap]();
+//     size_t o_cap = capacity;
+//     capacity = n_cap;
+//     for(size_t i = 0; i < o_cap; i ++){
+//         Node* current = table[i];
+//         if(current){
+//             if(n_table[i]->key == "already dirty"){
+//                 delete n_table[i];
+//                 continue;
+//             }
+//             unsigned int index = hash_value(current->key, n_cap);
+//             for(size_t j = 0; j < n_cap; j ++){
+//                 unsigned int probe = (index + j*j) % n_cap;
+//                 if(!n_table[probe]){
+//                     n_table[probe] = current;
+//                     break;
+//                 }
+//             }
+//         }
+//     }
+//     delete [] table;
+//     table = n_table;
+// }
 
