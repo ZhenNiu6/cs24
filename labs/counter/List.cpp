@@ -83,8 +83,8 @@ void List::remove(Node* node){
     }
     // std::cout << node << '\n';
     delete node;
-    node->before = nullptr;
-    node->after = nullptr;
+    // node->before = nullptr;
+    // node->after = nullptr;
 }
 
 void List::clear(){
