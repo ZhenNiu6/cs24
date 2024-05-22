@@ -5,7 +5,7 @@
 // Index Member Functions
 
 Index::Index(){
-    capacity = 10000019;
+    capacity = 2;
     table = new Node*[capacity]();
     count = 0;
     last = nullptr;
@@ -48,7 +48,7 @@ void Index::insert(Node* node){
     }
     count ++;
     if(count > capacity * 0.7){
-        resize(capacity * 2);
+        resize(capacity * capacity);
     }
 }
 
@@ -206,19 +206,19 @@ void Index::remove(Node* node){
 
 
 unsigned int Index::hash_value(const std::string& key, size_t cap) const {
-        const unsigned int fnv_prime = 0x01000193;
-        const unsigned int offset_basis = 0x811C9DC5;
-        unsigned int hash = offset_basis;
+    const unsigned int fnv_prime = 0x01000193;
+    const unsigned int offset_basis = 0x811C9DC5;
+    unsigned int hash = offset_basis;
 
-        for (size_t i = 0; i < key.size(); ++i) {
-            hash ^= static_cast<unsigned char>(key[i]);
-            hash *= fnv_prime;
-        }
-
-        return hash % cap;
+    for (size_t i = 0; i < key.size(); ++i) {
+        hash ^= static_cast<unsigned char>(key[i]);
+        hash *= fnv_prime;
     }
 
-// unsigned int Index::hash_value(const std::string& key, size_t cap) const{
+    return hash & (cap-1);
+}
+
+// unsigned in                                                                    t Index::hash_value(const std::string& key, size_t cap) const{
 //     std::hash<std::string> hasher;
 //     unsigned int temp = hasher(key);
 //     return temp % cap;

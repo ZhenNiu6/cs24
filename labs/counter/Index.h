@@ -22,19 +22,5 @@ public:
     void remove(Node* node);
 };
 
-// void Index::table_insert(const std::string& key, int value){
-//     unsigned int index = hash_value(key, capacity);
-//     table[index].insert(key, value);
-//     // Node* node = new Node(key, value);
-//     // node->after = table[index];
-//     // if(table[index]){
-//     //     table[index]->before = node;
-//     // }
-//     // table[index] = node;
-//     count ++;
-//     if(count > capacity * 0.7){
-//         resize(capacity * 2);
-//     }
-// }
 
 #endif
