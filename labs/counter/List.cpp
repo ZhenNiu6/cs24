@@ -39,16 +39,6 @@ void List::insert(std::string node_key, int node_value){
         head = x;
         tail = x;
     }
-    // if (x->before != nullptr) {
-    //     std::cout << "Node " << x->key << " is linked before " << x->before->key << '\n';
-    // }
-    // if (x->after != nullptr) {
-    //     std::cout << "Node " << x->key << " is linked after " << x->after->key << '\n';
-    // }
-    // else {
-    //     std::cout << "Node " << x->key << " is tail" << '\n';
-    // }
-    // std::cout << x << '\n';
 }
 
 Node* List::lookup(std::string x) const{
@@ -89,7 +79,7 @@ void List::remove(Node* node){
         // node->after->before = node->before;
     }
     // std::cout << node << '\n';
-    // delete node;
+    delete node;
     node->before = nullptr;
     node->after = nullptr;
 }

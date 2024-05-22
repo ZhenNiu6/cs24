@@ -6,8 +6,7 @@
 // TODO...
 class Index{
     size_t capacity;
-    List* table;
-    // Node** table;
+    Node** table;
     size_t count;
 
 public:
@@ -16,9 +15,9 @@ public:
     size_t get_count() const;
     void resize(size_t n_capacity);
     unsigned int hash_value(const std::string& key, size_t cap) const;
-    void table_insert(const std::string& node_key, int node_value);
-    Node* table_lookup(const std::string& key) const;
-    void table_remove(const std::string& key);
+    void insert(const std::string& node_key, int node_value);
+    Node* lookup(const std::string& key) const;
+    void remove(const std::string& key);
 };
 
 
