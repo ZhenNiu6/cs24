@@ -5,7 +5,7 @@
 // Index Member Functions
 
 Index::Index(){
-    capacity = 131072;
+    capacity = 524288;
     table = new Node*[capacity]();
     count = 0;
     last = nullptr;
