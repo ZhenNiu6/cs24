@@ -19,6 +19,9 @@ List::List(){
 
 List::~List(){
     Node* current = head;
+    if(!current){
+        return;
+    }
     while(current != tail){
         Node* next = current->after;
         delete current;
