@@ -10,11 +10,13 @@ Index::Index(){
 }
 
 Index::~Index(){
-    // for(size_t i = 0; i < capacity; i ++){
-    //     if(table[i]->key == "already dirty"){
-    //         delete table[i];
-    //     }
-    // }
+    for(size_t i = 0; i < capacity; i ++){
+        if(table[i]){
+            if(table[i]->key == "already dirty"){
+                delete table[i];
+            }
+        }
+    }
     delete [] table;
 }
 
