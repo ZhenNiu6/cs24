@@ -7,6 +7,7 @@ Node::Node(std::string node_key, int node_value){
     value = node_value;
     before = nullptr;
     after = nullptr;
+    next = nullptr;
 }
 
 

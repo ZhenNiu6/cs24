@@ -11,6 +11,7 @@ public:
     int value;
     Node* before;
     Node* after;
+    Node* next;
 
     Node(std::string node_key, int node_value);
 };

@@ -31,7 +31,7 @@ private:
   List list;
   Index index;
   size_t mCount;
-  size_t mTotal;
+  // size_t mTotal;
 
 private:
   // Helper Functions

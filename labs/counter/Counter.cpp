@@ -4,7 +4,7 @@
 // Counter Member Functions
 Counter::Counter(){
     mCount = 0;
-    mTotal = 0;
+    // mTotal = 0;
 }
 Counter::~Counter(){}
 
@@ -13,7 +13,11 @@ size_t Counter::count() const{
 }
 
 int Counter::total() const{
-    return mTotal;
+    size_t num = 0;
+    for(Iterator i = begin(); i != end(); i.operator ++()){
+        num += i.value();
+    }
+    return num;
 }
 
 void Counter::inc(const std::string& key, int by){
@@ -26,7 +30,7 @@ void Counter::inc(const std::string& key, int by){
         index.insert(key, by);
         mCount ++;
     }
-    mTotal += by;
+    // mTotal += by;
 }
 
 void Counter::dec(const std::string& key, int by){
@@ -39,13 +43,13 @@ void Counter::dec(const std::string& key, int by){
         index.insert(key, -by);
         mCount ++;
     }
-    mTotal -= by;
+    // mTotal -= by;
 }
 
 void Counter::del(const std::string& key){
     Node* target = index.lookup(key);
     if(target){
-        mTotal -= target->value;
+        // mTotal -= target->value;
         list.remove(target);
         index.remove(target->key);
         mCount --;
@@ -66,9 +70,9 @@ void Counter::set(const std::string& key, int count){
     Node* target = index.lookup(key);
     // Node* target = list.lookup(key);
     if(target){
-        mTotal -= target->value;
+        // mTotal -= target->value;
         target->value = count;
-        mTotal += count;
+        // mTotal += count;
     }
     else{
         list.insert(key, count);
@@ -76,7 +80,7 @@ void Counter::set(const std::string& key, int count){
         index.insert(key, count);
         // std::cout << "here2" << '\n';
         mCount ++;
-        mTotal += count;
+        // mTotal += count;
     }
 }
 
