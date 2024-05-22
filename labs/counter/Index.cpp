@@ -65,7 +65,7 @@ Node* Index::lookup(const std::string& key) const{
 
 void Index::remove(Node* node){
     unsigned int index = hash_value(node->key, capacity);
-    // Node* current = table[index];
+    Node* current = table[index];
     // if(!current){
     //     return;
     // }
@@ -81,7 +81,7 @@ void Index::remove(Node* node){
             current = current->next;
         }
     }
-    // node->next = nullptr;
+    node->next = nullptr;
     // Node* follow = current->next;
     // while(current){
     //     follow = current->next;
