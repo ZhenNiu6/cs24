@@ -65,46 +65,46 @@ Node* Index::lookup(const std::string& key) const{
 
 void Index::remove(Node* node){
     unsigned int index = hash_value(node->key, capacity);
-    Node* current = table[index];
-    if(!current){
-        return;
+    // Node* current = table[index];
+    // if(!current){
+    //     return;
+    // }
+    if(current == node){
+        table[index] = current->next;
     }
-    // if(current == node){
-    //     table[index] = current->next;
-    // }
-    // else{
-    //     while(current){
-    //         if(current->next == node){
-    //             current->next = node->next;
-    //             break;
-    //         }
-    //         current = current->next;
-    //     }
-    // }
-    // node->next = nullptr;
-    Node* follow = current->next;
-    while(current){
-        follow = current->next;
-        if(current == node){
-            if(current == table[index]){
-                table[index] = follow;
-                
+    else{
+        while(current){
+            if(current->next == node){
+                current->next = node->next;
+                break;
             }
-            else{
-                Node* traverse = table[index];
-                while(traverse){
-                    if(traverse->next == current){
-                        traverse->next = follow;
-                        break;
-                    }
-                    traverse = traverse->next;
-                }  
-            }
-            count --;
-            return;
+            current = current->next;
         }
-        current = current->next;
     }
+    // node->next = nullptr;
+    // Node* follow = current->next;
+    // while(current){
+    //     follow = current->next;
+    //     if(current == node){
+    //         if(current == table[index]){
+    //             table[index] = follow;
+                
+    //         }
+    //         else{
+    //             Node* traverse = table[index];
+    //             while(traverse){
+    //                 if(traverse->next == current){
+    //                     traverse->next = follow;
+    //                     break;
+    //                 }
+    //                 traverse = traverse->next;
+    //             }  
+    //         }
+    //         count --;
+    //         return;
+    //     }
+    //     current = current->next;
+    // }
 }
 
 
