@@ -19,6 +19,9 @@ int Counter::total() const{
 void Counter::inc(const std::string& key, int by){
     if((key.size() == 1) && (isalpha(key[0]))){
         index.inc_char(key[0]);
+        mCount ++;
+        mTotal += by;
+        return;
     }
     Node* target = index.lookup(key);
     if(target){
@@ -36,6 +39,9 @@ void Counter::inc(const std::string& key, int by){
 void Counter::dec(const std::string& key, int by){
     if((key.size() == 1) && (isalpha(key[0]))){
         index.dec_char(key[0]);
+        mCount ++;
+        mTotal -= by;
+        return;
     }
     Node* target = index.lookup(key);
     if(target){
@@ -53,6 +59,11 @@ void Counter::dec(const std::string& key, int by){
 void Counter::del(const std::string& key){
     if((key.size() == 1) && (isalpha(key[0]))){
         index.del_char(key[0]);
+        if(mTotal != 0){
+            mTotal --;
+        }
+        mCount --;
+        return;
     }
     Node* target = index.lookup(key);
     if(target){
