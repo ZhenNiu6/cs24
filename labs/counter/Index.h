@@ -9,6 +9,7 @@ class Index{
     Node** table;
     // Node** c_table;
     size_t count;
+    int c_table[52];
     // size_t c_count;
     
 
@@ -22,6 +23,9 @@ public:
     void insert(Node* node);
     Node* lookup(const std::string& key) const;
     void remove(Node* node);
+    void inc_char(char c);
+    void dec_char(char c);
+    int get_char(char c) const;
     
 };
 

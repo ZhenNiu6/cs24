@@ -1,6 +1,7 @@
 #include "Index.h"
 #include <functional>
 #include <iostream>
+#include <cctype>
 
 // Index Member Functions
 
@@ -11,6 +12,7 @@ Index::Index(){
     count = 0;
     // c_count = 0;
     last = nullptr;
+    std::fill_n(c_table, 52, 0);
 }
 
 Index::~Index(){
@@ -133,6 +135,43 @@ unsigned int Index::hash_value(const std::string& key, size_t cap) const {
     return hash & (cap-1);
     // return hash % cap;
 }
+
+void Index::inc_char(char c){
+    int index;
+    if(isupper(c)){
+        index = c - 'A';
+    }
+    else{
+        index = c - 'a' + 26;
+    }
+    c_table[index] ++;
+}
+
+void Index::dec_char(char c){
+    int index;
+    if(isupper(c)){
+        index = c - 'A';
+    }
+    else{
+        index = c - 'a' + 26;
+    }
+    if(c_table[index] > 0){
+        c_table[index] --;
+    }
+}
+
+int Index::get_char(char c) const{
+    int index;
+    if(isupper(c)){
+        index = c - 'A';
+    }
+    else{
+        index = c - 'a' + 26;
+    }
+    return c_table[index];
+}
+
+
 
 
 
