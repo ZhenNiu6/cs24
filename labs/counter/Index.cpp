@@ -15,7 +15,7 @@ Index::Index(){
 
 Index::~Index(){
     delete [] table;
-    delete [] c_table;
+    // delete [] c_table;
 }
 
 size_t Index::get_count() const{
