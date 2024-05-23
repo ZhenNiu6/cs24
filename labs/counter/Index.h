@@ -9,7 +9,7 @@ class Index{
     Node** table;
     // Node** c_table;
     size_t count;
-    int c_table[52];
+    // int c_table[52];
     // size_t c_count;
     
 
