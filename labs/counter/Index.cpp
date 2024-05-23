@@ -52,7 +52,7 @@ void Index::insert(Node* node){
         table[index] = node;
     }
     count ++;
-    if(count > capacity * 0.7){
+    if(count > capacity * 0.8){
         resize(capacity * 2);
     }
 }
