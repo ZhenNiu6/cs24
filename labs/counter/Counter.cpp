@@ -76,14 +76,17 @@ void Counter::del(const std::string& key){
 }
 
 int Counter::get(const std::string& key) const{
-    if((key.size() == 1) && (isalpha(key[0]))){
-        // return index.get_char(key[0]);
-    }
+    // if((key.size() == 1) && (isalpha(key[0]))){
+    //     return index.get_char(key[0]);
+    // }
     Node* target = index.lookup(key);
     if(target){
         return target->value;
     }
     else{
+        if((key.size() == 1) && (isalpha(key[0]))){
+            return index.get_char(key[0]);
+        }
         return 0;
     }
 }
