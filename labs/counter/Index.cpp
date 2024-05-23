@@ -155,9 +155,7 @@ void Index::dec_char(char c){
     else{
         index = c - 'a' + 26;
     }
-    if(c_table[index] > 0){
-        c_table[index] --;
-    }
+    c_table[index] --;
 }
 
 int Index::get_char(char c) const{
@@ -169,6 +167,20 @@ int Index::get_char(char c) const{
         index = c - 'a' + 26;
     }
     return c_table[index];
+}
+
+void Index::del_char(char c){
+    int index;
+    if(isupper(c)){
+        index = c - 'A';
+    }
+    else{
+        index = c - 'a' + 26;
+    }
+    if(c_table[index] > 0){
+        c_table[index] --;
+    }
+//     c_table[index] --;
 }
 
 

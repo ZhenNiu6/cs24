@@ -26,6 +26,7 @@ public:
     void inc_char(char c);
     void dec_char(char c);
     int get_char(char c) const;
+    void del_char(char c);
     
 };
 
