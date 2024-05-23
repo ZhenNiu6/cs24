@@ -4,132 +4,137 @@
 
 // Index Member Functions
 
-// Index::Index(){
-//     capacity = 524288;
-//     table = new Node*[capacity]();
-//     count = 0;
-//     last = nullptr;
-// }
+Index::Index(){
+    capacity = 524288;
+    table = new Node*[capacity]();
+    // c_table = new Node*[52];
+    count = 0;
+    // c_count = 0;
+    last = nullptr;
+}
 
-// Index::~Index(){
-//     delete [] table;
-// }
+Index::~Index(){
+    delete [] table;
+    delete [] c_table;
+}
 
-// size_t Index::get_count() const{
-//     return count;
-// }
+size_t Index::get_count() const{
+    return count;
+}
 
-// void Index::resize(size_t n_cap){
-//     Node** n_table = new Node*[n_cap]();
-//     size_t o_cap = capacity;
-//     capacity = n_cap;
-//     for(size_t i = 0; i < o_cap; i ++){
-//         Node* current = table[i];
-//         while(current){
-//             Node* x = current->next;
-//             unsigned int index = hash_value(current->key, n_cap);
-//             current->next = n_table[index];
-//             n_table[index] = current;
-//             current = x;
-//         }
-//     }
-//     delete [] table;
-//     table = n_table;
-// }
+void Index::resize(size_t n_cap){
+    Node** n_table = new Node*[n_cap]();
+    size_t o_cap = capacity;
+    capacity = n_cap;
+    for(size_t i = 0; i < o_cap; i ++){
+        Node* current = table[i];
+        while(current){
+            Node* x = current->next;
+            unsigned int index = hash_value(current->key, n_cap);
+            current->next = n_table[index];
+            n_table[index] = current;
+            current = x;
+        }
+    }
+    delete [] table;
+    table = n_table;
+}
 
-// void Index::insert(Node* node){
-//     unsigned int index = hash_value(node->key, capacity);
-//     if(!table[index]){
-//         table[index] = node;
-//     }
-//     else{
-//         node->next = table[index];
-//         table[index] = node;
-//     }
-//     count ++;
-//     if(count > capacity * 0.7){
-//         resize(capacity * 2);
-//     }
-// }
+void Index::insert(Node* node){
+    unsigned int index = hash_value(node->key, capacity);
+    if(!table[index]){
+        table[index] = node;
+    }
+    else{
+        node->next = table[index];
+        table[index] = node;
+    }
+    count ++;
+    if(count > capacity * 0.7){
+        resize(capacity * 2);
+    }
+}
 
-// Node* Index::lookup(const std::string& key) const{
-//     if(last){
-//         if(last->key == key){
-//             return last;
-//         }
-//     }
-//     unsigned int index = hash_value(key, capacity);
-//     Node* current = table[index];
-//     while(current){
-//         if(current->key == key){
-//             last = current;
-//             return current;
-//         }
-//         current = current->next;
-//     }
-//     last = nullptr;
-//     return nullptr;
-// }
+Node* Index::lookup(const std::string& key) const{
+    if(last){
+        if(last->key == key){
+            return last;
+        }
+    }
+    unsigned int index = hash_value(key, capacity);
+    Node* current = table[index];
+    while(current){
+        if(current->key == key){
+            last = current;
+            return current;
+        }
+        current = current->next;
+    }
+    last = nullptr;
+    return nullptr;
+}
 
-// void Index::remove(Node* node){
-//     unsigned int index = hash_value(node->key, capacity);
-//     Node* current = table[index];
-//     // if(!current){
-//     //     return;
-//     // }
-//     if(current == node){
-//         table[index] = current->next;
-//     }
-//     else{
-//         while(current){
-//             if(current->next == node){
-//                 current->next = node->next;
-//                 break;
-//             }
-//             current = current->next;
-//         }
-//     }
-//     node->next = nullptr;
-//     // Node* follow = current->next;
-//     // while(current){
-//     //     follow = current->next;
-//     //     if(current == node){
-//     //         if(current == table[index]){
-//     //             table[index] = follow;
+void Index::remove(Node* node){
+    unsigned int index = hash_value(node->key, capacity);
+    Node* current = table[index];
+    // if(!current){
+    //     return;
+    // }
+    if(current == node){
+        table[index] = current->next;
+    }
+    else{
+        while(current){
+            if(current->next == node){
+                current->next = node->next;
+                break;
+            }
+            current = current->next;
+        }
+    }
+    node->next = nullptr;
+    // Node* follow = current->next;
+    // while(current){
+    //     follow = current->next;
+    //     if(current == node){
+    //         if(current == table[index]){
+    //             table[index] = follow;
                 
-//     //         }
-//     //         else{
-//     //             Node* traverse = table[index];
-//     //             while(traverse){
-//     //                 if(traverse->next == current){
-//     //                     traverse->next = follow;
-//     //                     break;
-//     //                 }
-//     //                 traverse = traverse->next;
-//     //             }  
-//     //         }
-//     //         count --;
-//     //         return;
-//     //     }
-//     //     current = current->next;
-//     // }
-// }
+    //         }
+    //         else{
+    //             Node* traverse = table[index];
+    //             while(traverse){
+    //                 if(traverse->next == current){
+    //                     traverse->next = follow;
+    //                     break;
+    //                 }
+    //                 traverse = traverse->next;
+    //             }  
+    //         }
+    //         count --;
+    //         return;
+    //     }
+    //     current = current->next;
+    // }
+}
 
 
 
-// unsigned int Index::hash_value(const std::string& key, size_t cap) const {
-//     const unsigned int fnv_prime = 0x01000193;
-//     const unsigned int offset_basis = 0x811C9DC5;
-//     unsigned int hash = offset_basis;
+unsigned int Index::hash_value(const std::string& key, size_t cap) const {
+    const unsigned int fnv_prime = 0x01000193;
+    const unsigned int offset_basis = 0x811C9DC5;
+    unsigned int hash = offset_basis;
 
-//     for (size_t i = 0; i < key.size(); ++i) {
-//         hash ^= static_cast<unsigned char>(key[i]);
-//         hash *= fnv_prime;
-//     }
+    for (size_t i = 0; i < key.size(); ++i) {
+        hash ^= static_cast<unsigned char>(key[i]);
+        hash *= fnv_prime;
+    }
 
-//     return hash & (cap-1);
-//     // return hash % cap;
-// }
+    return hash & (cap-1);
+    // return hash % cap;
+}
+
+
 
 // unsigned in                                                                    t Index::hash_value(const std::string& key, size_t cap) const{
 //     std::hash<std::string> hasher;
