@@ -30,7 +30,7 @@ size_t Heap::count() const{
 }
 
 const Heap::Entry& Heap::lookup(size_t index) const{
-    if(index >= mCapacity){
+    if(index >= mCount){
         throw std::out_of_range("");
     }
     return mData[index];
@@ -48,19 +48,17 @@ Heap::Entry Heap::pop(){
     size_t p_index = 0;
     while(l_index < mCount){ // l_index is valid
         int smaller = l_index;
-        if(r_index < mCount){ // r_index is valid
-            if(mData[r_index].score < mData[l_index].score){
-                smaller = r_index; // right child is smaller
-            }
-            if(mData[smaller].score < mData[p_index].score){
-                std::swap(mData[smaller], mData[p_index]); // swap with the smaller child
-                p_index = smaller;
-                l_index = smaller * 2 + 1;
-                r_index = smaller * 2 + 2;
-            }
-            else{ // parent is smaller than both children
-                break;
-            }
+        if((r_index < mCount) && (mData[r_index].score < mData[l_index].score)){ // r_index is valid
+            smaller = r_index; // right child is smaller
+        }
+        if(mData[smaller].score < mData[p_index].score){
+            std::swap(mData[smaller], mData[p_index]); // swap with the smaller child
+            p_index = smaller;
+            l_index = smaller * 2 + 1;
+            r_index = smaller * 2 + 2;
+        }
+        else{ // parent is smaller than both children
+            break;
         }
     }
     return smallest;
