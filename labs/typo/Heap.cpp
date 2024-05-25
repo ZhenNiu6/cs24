@@ -1,5 +1,6 @@
 #include "Heap.h"
 #include <utility>
+#include <stdexcept>
 
 Heap::Heap(size_t capacity){
     mCapacity = capacity;
