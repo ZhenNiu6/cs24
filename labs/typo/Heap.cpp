@@ -17,7 +17,7 @@ Heap::Heap(const Heap& other){
 }
 
 Heap::~Heap(){
-    delete [] Entry;
+    delete [] mData;
 }
 
 size_t Heap::capacity() const{
@@ -28,30 +28,30 @@ size_t Heap::count() const{
     return mCount;
 }
 
-const Entry& Heap::lookup(size_t index) const{
+const Heap::Entry& Heap::lookup(size_t index) const{
     if(index >= mCapacity){
         throw std::out_of_range("");
     }
     return mData[index];
 }
 
-Entry Heap::pop(){
+Heap::Entry Heap::pop(){
     if(mCount == 0){
         throw std::underflow_error("");
     }
     Entry smallest = mData[0];
     mData[0] = mData[mCount - 1]; // replaced the root by the last entry
     mCount --;
-    int l_index = 1;
-    int r_index = 2;
-    int p_index = 0;
+    size_t l_index = 1;
+    size_t r_index = 2;
+    size_t p_index = 0;
     while(l_index < mCount){ // l_index is valid
         int smaller = l_index;
         if(r_index < mCount){ // r_index is valid
             if(mData[r_index].score < mData[l_index].score){
                 smaller = r_index; // right child is smaller
             }
-            if(mData[smaller].score < mData[p_index]){
+            if(mData[smaller].score < mData[p_index].score){
                 std::swap(mData[smaller], mData[p_index]); // swap with the smaller child
                 p_index = smaller;
                 l_index = smaller * 2 + 1;
@@ -65,23 +65,23 @@ Entry Heap::pop(){
     return smallest;
 }
 
-Entry Heap::pushpop(const std::string& value, float score){
+Heap::Entry Heap::pushpop(const std::string& value, float score){
     if(mCount == 0){
         throw std::underflow_error("");
     }
     Entry smallest = mData[0];
     mData[0].value = value;
     mData[0].score = score;
-    int l_index = 1;
-    int r_index = 2;
-    int p_index = 0;
+    size_t l_index = 1;
+    size_t r_index = 2;
+    size_t p_index = 0;
     while(l_index < mCount){ // l_index is valid
         int smaller = l_index;
         if(r_index < mCount){ // r_index is valid
             if(mData[r_index].score < mData[l_index].score){
                 smaller = r_index; // right child is smaller
             }
-            if(mData[smaller].score < mData[p_index]){
+            if(mData[smaller].score < mData[p_index].score){
                 std::swap(mData[smaller], mData[p_index]); // swap with the smaller child
                 p_index = smaller;
                 l_index = smaller * 2 + 1;
@@ -101,8 +101,8 @@ void Heap::push(const std::string& value, float score){
     }
     mData[mCount].value = value;
     mData[mCount].score = score;
-    int p_index = (mCount - 1) / 2;
-    int c_index = mCount;
+    size_t p_index = (mCount - 1) / 2;
+    size_t c_index = mCount;
     if(c_index == 0){ // No parent
         mCount ++;
         return;
@@ -118,7 +118,7 @@ void Heap::push(const std::string& value, float score){
     mCount ++;
 }
 
-const Entry& Heap::top() const{
+const Heap::Entry& Heap::top() const{
     if(mCount == 0){
         throw std::underflow_error("");
     }
