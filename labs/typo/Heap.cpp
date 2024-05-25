@@ -76,19 +76,17 @@ Heap::Entry Heap::pushpop(const std::string& value, float score){
     size_t p_index = 0;
     while(l_index < mCount){ // l_index is valid
         int smaller = l_index;
-        if(r_index < mCount){ // r_index is valid
-            if(mData[r_index].score < mData[l_index].score){
-                smaller = r_index; // right child is smaller
-            }
-            if(mData[smaller].score < mData[p_index].score){
-                std::swap(mData[smaller], mData[p_index]); // swap with the smaller child
-                p_index = smaller;
-                l_index = smaller * 2 + 1;
-                r_index = smaller * 2 + 2;
-            }
-            else{ // parent is smaller than both children
-                break;
-            }
+        if((r_index < mCount) && (mData[r_index].score < mData[l_index].score)){ // r_index is valid
+            smaller = r_index; // right child is smaller
+        }
+        if(mData[smaller].score < mData[p_index].score){
+            std::swap(mData[smaller], mData[p_index]); // swap with the smaller child
+            p_index = smaller;
+            l_index = smaller * 2 + 1;
+            r_index = smaller * 2 + 2;
+        }
+        else{ // parent is smaller than both children
+            break;
         }
     }
     return smallest;
@@ -100,19 +98,16 @@ void Heap::push(const std::string& value, float score){
     }
     mData[mCount].value = value;
     mData[mCount].score = score;
-    size_t p_index = (mCount - 1) / 2;
     size_t c_index = mCount;
+    size_t p_index = (c_index - 1) / 2;
     if(c_index == 0){ // No parent
         mCount ++;
         return;
     }
-    while(mData[p_index].score > mData[c_index].score){
+    while((c_index > 0) && (mData[p_index].score > mData[c_index].score)){
         std::swap(mData[c_index], mData[p_index]);
         c_index = p_index;
         p_index = (c_index - 1) / 2;
-        // if(p_index < 0){
-        //     break;
-        // }
     }
     mCount ++;
 }
