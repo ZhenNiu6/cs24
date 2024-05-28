@@ -10,7 +10,7 @@ CXX      = g++
 #  $+ is a list of all the dependencies
 #  $< is the first dependency
 
-typo: main.o Heap.o 
+typo: main.o Heap.o WordList.o Point.o
 	${CXX} $(CXXFLAGS) -o $@ $+
 
 main.o: main.cpp Heap.h
@@ -19,12 +19,12 @@ main.o: main.cpp Heap.h
 Heap.o: Heap.cpp Heap.h
 	${CXX} $(CXXFLAGS) -c -o $@ $<
 
-# Counter.o: Counter.cpp Counter.h Index.h
-# 	${CXX} $(CXXFLAGS) -c -o $@ $<
+WordList.o: WordList.cpp WordList.h Point.h
+	${CXX} $(CXXFLAGS) -c -o $@ $<
 
-# Index.o: Index.cpp Index.h 
-# 	${CXX} $(CXXFLAGS) -c -o $@ $<
+Point.o: Point.cpp Point.h
+	${CXX} $(CXXFLAGS) -c -o $@ $<
 
 
 clean:
-	rm -f counter main.o Heap.o
+	rm -f counter main.o Heap.o WordList.o Point.o

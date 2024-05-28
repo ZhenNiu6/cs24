@@ -69,7 +69,7 @@ Heap::Entry Heap::pushpop(const std::string& value, float score){
         throw std::underflow_error("");
     }
     Entry smallest = mData[0];
-    mData[0].value = value;
+    mData[0].value = value; // replace the smallest by the new added one
     mData[0].score = score;
     size_t l_index = 1;
     size_t r_index = 2;
