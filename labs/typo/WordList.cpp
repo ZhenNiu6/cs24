@@ -19,7 +19,16 @@ WordList::WordList(std::istream& stream){
             }
         }
         if(lower){
-            mWords.push_back(word);
+            bool exists = false;
+            for(const std::string& w: mWords){
+                if(w == word){
+                    exists = true;
+                    break;
+                }
+            }
+            if(!exists){
+                mWords.push_back(word);
+            }
         }
     }
 }
@@ -40,9 +49,18 @@ Heap WordList::correct(const std::vector<Point>& points, size_t maxcount, float 
             total += score;
         }
         float average = total / word.length();
-        if(average >= cutoff){
+        if(heap.count() == maxcount){
+            if(average < heap.top().score){
+                continue;
+            }
+            heap.pushpop(word, average);
+        }
+        else{
             heap.push(word, average);
         }
+        // if(average >= cutoff){
+        //     heap.push(word, average);
+        // }
     }
     return heap;
 }
