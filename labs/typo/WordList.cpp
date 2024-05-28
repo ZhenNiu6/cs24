@@ -49,16 +49,24 @@ Heap WordList::correct(const std::vector<Point>& points, size_t maxcount, float 
             total += score;
         }
         float average = total / word.length();
-        if(heap.count() == maxcount){
-            if(average < heap.top().score){
-                continue;
+        if(average >= cutoff){
+            if(heap.count() == maxcount){
+                if(average < heap.top().score){
+                    continue;
+                }
+                heap.pushpop(word, average);
             }
-            heap.pushpop(word, average);
+            else{
+                heap.push(word, average);
+            }
         }
-        else{
-            heap.push(word, average);
-        }
-        // if(average >= cutoff){
+        // if(heap.count() == maxcount){
+        //     if(average < heap.top().score){
+        //         continue;
+        //     }
+        //     heap.pushpop(word, average);
+        // }
+        // else{
         //     heap.push(word, average);
         // }
     }
