@@ -27,4 +27,4 @@ Point.o: Point.cpp Point.h
 
 
 clean:
-	rm -f counter main.o Heap.o WordList.o Point.o
+	rm -f typo main.o Heap.o WordList.o Point.o
