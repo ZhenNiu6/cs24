@@ -54,7 +54,7 @@ VoxMap::VoxMap(std::istream& stream) {
     for(auto& layer: voxmap){
         layer.resize(length);
         for(auto& line: layer){
-            line.resize(width / 4, false);
+            line.resize(width, false);
         }
     }
 
