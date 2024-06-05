@@ -50,11 +50,18 @@ VoxMap::VoxMap(std::istream& stream) {
     std::istringstream(height_str) >> height;
 
     stream.ignore(); // ignore the newline
+    // voxmap.resize(height);
+    // for(auto& layer: voxmap){
+    //     layer.resize(length);
+    //     for(auto& line: layer){
+    //         line.resize(width, false);
+    //     }
+    // }
     voxmap.resize(height);
-    for(auto& layer: voxmap){
-        layer.resize(length);
-        for(auto& line: layer){
-            line.resize(width / 4, false);
+    for (int z = 0; z < height; ++z) {
+        voxmap[z].resize(length);
+        for (int y = 0; y < length; ++y) {
+            voxmap[z][y].resize(width, false); // Initialize to false
         }
     }
 
@@ -73,7 +80,6 @@ VoxMap::VoxMap(std::istream& stream) {
             }
         }
     }
-
 }
 
 VoxMap::~VoxMap() {}
