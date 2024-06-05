@@ -53,7 +53,6 @@ VoxMap::VoxMap(std::istream& stream) {
 VoxMap::~VoxMap() {}
 
 Route VoxMap::route(Point src, Point dst) {
-    // Point floor_s(src.x, src.y, src.z - 1);
     if((src.z < 0) || (src.z >= height) || (src.y < 0) || (src.y >= length) || (src.x < 0) || (src.x >= width)){
         throw InvalidPoint(src);
     }
@@ -66,7 +65,6 @@ Route VoxMap::route(Point src, Point dst) {
     if(!voxmap[src.z-1][src.y][src.x]){
         throw InvalidPoint(src);
     }
-    // Point floor_d(dst.x, dst.y, dst.z - 1);
     if((dst.z < 0) || (dst.y < 0) || (dst.x < 0) || (dst.x >= width) || (dst.y >= length) || (dst.z >= height)){
         throw InvalidPoint(dst);
     }
@@ -79,6 +77,9 @@ Route VoxMap::route(Point src, Point dst) {
     if(!voxmap[dst.z-1][dst.y][dst.x]){
         throw InvalidPoint(dst);
     }
+
+    std::vector<Point> directions = {{0, 1, 0}, {0, -1, 0}, {-1, 0, 0}, {1, 0, 0}} // north, south, west, east
+
     throw NoRoute(src, dst);
 }
 
