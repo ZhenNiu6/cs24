@@ -4,41 +4,8 @@
 #include <sstream>
 #include <queue>
 
-// VoxMap::VoxMap(std::istream& stream) {
-//   std::string width, length, height;
-//   stream >> width >> length >> height;
-//   voxmap.resize(height, std::vector<std::vector<std::bitset<4>>>(length, std::vector<std::bitset<4>>(width / 4)));
-//   std::string line;
-//   std::getline(stream, line); // a newline 
-//   for(size_t z = 0; z < height; z ++){ // z-axis
-//     std::getline(stream, line);
-//     for(size_t y = 0; y < length; y ++){
-//       std::getline(stream, line);
-//       for(size_t x = 0; x < width / 4; x ++){
-//         char digit = line[x];
-//         int value = (digit >= '0' && digit <= '9') ? digit - '0' : digit - 'A' + 10;
-//         voxmap[z][y][x] = std::bitset<4>(value);
-//         // for(size_t i = 0; i < 4; i ++){
-//         //   int a = (digit >= '0' && digit <= '9') ? digit - '0' : digit - 'A' + 10;
-//         //   int b = 1 << i;
-//         //   int c = a & b;
-//         //   bool filled;
-//         //   if(c != 0){
-//         //     filled = true;
-//         //   }
-//         //   else{
-//         //     filled = false;
-//         //   }
-//         //   voxmap[z][y][x * 4 + i] = filled;
-//         // }
-//       }
-//     }
-//   }
-// }
-
-
 VoxMap::VoxMap(std::istream& stream) {
-    int width, length, height; // Use integer variables for dimensions
+    // int width, length, height; // Use integer variables for dimensions
     std::string width_str, length_str, height_str;
 
     // Read dimension strings from the stream
@@ -50,13 +17,6 @@ VoxMap::VoxMap(std::istream& stream) {
     std::istringstream(height_str) >> height;
 
     stream.ignore(); // ignore the newline
-    // voxmap.resize(height);
-    // for(auto& layer: voxmap){
-    //     layer.resize(length);
-    //     for(auto& line: layer){
-    //         line.resize(width, false);
-    //     }
-    // }
     voxmap.resize(height);
     for (int z = 0; z < height; ++z) {
         voxmap[z].resize(length);
@@ -93,6 +53,14 @@ VoxMap::VoxMap(std::istream& stream) {
 VoxMap::~VoxMap() {}
 
 Route VoxMap::route(Point src, Point dst) {
-  throw NoRoute(src, dst);
+    // Point floor_s(src.x, src.y, src.z - 1);
+    if((voxmap[src.z][src.y][src.x]) || (src.z == 0) || (!voxmap[src.z-1][src.y][src.x]) || (src.x >= width) || (src.x < 0) || (src.y >= length) || (src.y < 0) || (src.z >= height) || (src.z < 0)){
+        throw InvalidPoint(src);
+    }
+    // Point floor_d(dst.x, dst.y, dst.z - 1);
+    if((voxmap[dst.z][dst.y][dst.x]) || (dst.z == 0) || (!voxmap[dst.z-1][dst.y][dst.x]) || (dst.x >= width) || (dst.x < 0) || (dst.y >= length) || (dst.y < 0) || (dst.z >= height) || (dst.z < 0)){
+        throw InvalidPoint(dst);
+    }
+    throw NoRoute(src, dst);
 }
 
