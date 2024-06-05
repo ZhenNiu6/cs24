@@ -7,8 +7,11 @@
 #include "Point.h"
 #include "Route.h"
 
+
 class VoxMap {
   // Member Variables
+  std::vector<std::vector<std::vector<bool>>> voxmap;
+
 
 
   // Helper Functions
