@@ -10,7 +10,7 @@
 
 class VoxMap {
   // Member Variables
-  std::vector<std::vector<std::vector<bool>>> voxmap;
+  std::vector<std::vector<std::vector<bool> > > voxmap;
 
 
 
