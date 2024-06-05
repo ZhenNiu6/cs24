@@ -54,10 +54,16 @@ VoxMap::~VoxMap() {}
 
 Route VoxMap::route(Point src, Point dst) {
     // Point floor_s(src.x, src.y, src.z - 1);
+    if((src.z < 0) || (src.y < 0) || (src.x < 0)){
+        throw InvalidPoint(src);
+    }
     if((voxmap[src.z][src.y][src.x]) || (src.z == 0) || (!voxmap[src.z-1][src.y][src.x]) || (src.x >= width) || (src.x < 0) || (src.y >= length) || (src.y < 0) || (src.z >= height) || (src.z < 0)){
         throw InvalidPoint(src);
     }
     // Point floor_d(dst.x, dst.y, dst.z - 1);
+    if((dst.z < 0) || (dst.y < 0) || (dst.x < 0)){
+        throw InvalidPoint(src);
+    }
     if((voxmap[dst.z][dst.y][dst.x]) || (dst.z == 0) || (!voxmap[dst.z-1][dst.y][dst.x]) || (dst.x >= width) || (dst.x < 0) || (dst.y >= length) || (dst.y < 0) || (dst.z >= height) || (dst.z < 0)){
         throw InvalidPoint(dst);
     }
