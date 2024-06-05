@@ -75,7 +75,12 @@ VoxMap::VoxMap(std::istream& stream) {
                 int value = (digit >= '0' && digit <= '9') ? digit - '0' : digit - 'A' + 10;
                 for (int i = 0; i < 4; ++i) {
                     int bit = (value >> (3 - i)) & 1; // Extract each bit from the hex value
-                    voxmap[z][y][x * 4 + i] = bit; 
+                    if(bit == 0){
+                        voxmap[z][y][x * 4 + i] = false; 
+                    }
+                    else{
+                        voxmap[z][y][x * 4 + i] = true; 
+                    } 
                 }
             }
         }
