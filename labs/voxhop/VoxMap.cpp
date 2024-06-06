@@ -90,9 +90,6 @@ Route VoxMap::route(Point src, Point dst) {
         if((current_point.x == dst.x) && (current_point.y == dst.y) && (current_point.z == dst.z)){
             return current_route;
         }
-        
-        // x ++;
-        // std::cout << x << '\n';
         for(auto move: moves){
             
             Point next_point = current_point;
@@ -111,19 +108,18 @@ Route VoxMap::route(Point src, Point dst) {
                     break;
             }
             
-            if(!bound_check(next_point)){
+            if((!bound_check(next_point)) || (visited.count(next_point))){
                 continue;
             }
-            if((bound_check(next_point)) && (!visited.count(next_point)) && (!voxmap[next_point.z][next_point.y][next_point.x])){
+            if((!voxmap[next_point.z][next_point.y][next_point.x])){
                 Route next_route = current_route;
                 next_route.push_back(move);
                 q.push_back({next_point, next_route});
                 visited.insert(next_point);
                 continue;
             }
-            // std::cout << "here" << '\n';
-            // std::cout << next_point.x << " " << next_point.y << " " << next_point.z << '\n';
-            Point jump_point = jump(next_point);
+            
+            Point jump_point = jump(next_point, move);
             // std::cout << "here6" << '\n';
             if((bound_check(jump_point)) && (!visited.count(jump_point)) && (!voxmap[jump_point.z][jump_point.y][jump_point.x])){
                 // std::cout << "here2" << '\n';
@@ -135,6 +131,7 @@ Route VoxMap::route(Point src, Point dst) {
                 continue;
             }
             // std::cout << "here7" << '\n';
+            
             Point fall_point = fall(next_point);
             // std::cout << "here8" << '\n';
             if((bound_check(fall_point)) && (!visited.count(fall_point)) && (!voxmap[fall_point.z][fall_point.y][fall_point.x])){
@@ -151,9 +148,36 @@ Route VoxMap::route(Point src, Point dst) {
     throw NoRoute(src, dst);
 }
 
-Point VoxMap::jump(Point point) const{
-    if((point.z < height - 1) && (!voxmap[point.z + 1][point.y][point.x])){
-        point.z ++;
+Point VoxMap::jump(Point point, Move move) const{
+    Point temp = point;
+    if((point.z < height - 2)){
+        if(!voxmap[point.z + 1][point.y][point.x]){ // jump into the ceilings    
+            switch (move) {
+                case Move::NORTH: // must have a ground (z + 1 can't be empty) and should have space to jump (z + 2 must be empty)
+                    if ((point.y < length - 1) && (voxmap[point.z + 1][point.y + 1][point.x]) && (!voxmap[point.z + 2][point.y + 1][point.x])) {
+                        point.z++;
+                    }
+                    break;
+                case Move::EAST:
+                    if ((point.x < width - 1) && (voxmap[point.z + 1][point.y][point.x + 1]) && (!voxmap[point.z + 2][point.y][point.x + 1])) {
+                        point.z++;
+                    }
+                    break;
+                case Move::SOUTH:
+                    if ((point.y > 0) && (voxmap[point.z + 1][point.y - 1][point.x]) && (!voxmap[point.z + 2][point.y - 1][point.x])) {
+                        point.z++;
+                    }
+                    break;
+                case Move::WEST:
+                    if ((point.x > 0) && (voxmap[point.z + 1][point.y][point.x - 1]) && (!voxmap[point.z + 2][point.y][point.x - 1])) {
+                        point.z++;
+                    }
+                    break;
+            }
+        }
+    }
+    if(point.z == temp.z){
+        point.z = -1;
     }
     return point;
 }
@@ -161,6 +185,9 @@ Point VoxMap::jump(Point point) const{
 Point VoxMap::fall(Point point) const{
     while((point.z > 1) && (!voxmap[point.z - 1][point.y][point.x])){
         point.z --;
+    }
+    if((point.z == 1) && (!voxmap[point.z - 1][point.y][point.x])){ // fall into the water 
+        point.z = -1; 
     }
     return point;
 }
