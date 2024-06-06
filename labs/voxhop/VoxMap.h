@@ -16,7 +16,7 @@ class VoxMap {
 
 
   // Helper Functions
-  Point jump(Point point, Move move) const;
+  Point jump(Point point) const;
   Point fall(Point point) const;
   bool bound_check(Point point) const;
 

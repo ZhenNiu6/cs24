@@ -119,7 +119,7 @@ Route VoxMap::route(Point src, Point dst) {
                 continue;
             }
             
-            Point jump_point = jump(next_point, move);
+            Point jump_point = jump(next_point);
             // std::cout << "here6" << '\n';
             if((bound_check(jump_point)) && (!visited.count(jump_point)) && (!voxmap[jump_point.z][jump_point.y][jump_point.x])){
                 // std::cout << "here2" << '\n';
@@ -148,44 +148,52 @@ Route VoxMap::route(Point src, Point dst) {
     throw NoRoute(src, dst);
 }
 
-Point VoxMap::jump(Point point, Move move) const{
-    Point temp = point;
-    if((point.z < height - 2)){
-        if(!voxmap[point.z + 1][point.y][point.x]){ // jump into the ceilings    
-            switch (move) {
-                case Move::NORTH: // must have a ground (z + 1 can't be empty) and should have space to jump (z + 2 must be empty)
-                    if ((point.y < length - 1) && (voxmap[point.z + 1][point.y + 1][point.x]) && (!voxmap[point.z + 2][point.y + 1][point.x])) {
-                        point.z++;
-                    }
-                    break;
-                case Move::EAST:
-                    if ((point.x < width - 1) && (voxmap[point.z + 1][point.y][point.x + 1]) && (!voxmap[point.z + 2][point.y][point.x + 1])) {
-                        point.z++;
-                    }
-                    break;
-                case Move::SOUTH:
-                    if ((point.y > 0) && (voxmap[point.z + 1][point.y - 1][point.x]) && (!voxmap[point.z + 2][point.y - 1][point.x])) {
-                        point.z++;
-                    }
-                    break;
-                case Move::WEST:
-                    if ((point.x > 0) && (voxmap[point.z + 1][point.y][point.x - 1]) && (!voxmap[point.z + 2][point.y][point.x - 1])) {
-                        point.z++;
-                    }
-                    break;
-            }
-        }
-    }
-    if(point.z == temp.z){
-        point.z = -1;
+// Point VoxMap::jump(Point point, Move move) const{
+//     Point temp = point;
+//     if((point.z < height - 2)){
+//         if(!voxmap[point.z + 1][point.y][point.x]){ // jump into the ceilings    
+//             switch (move) {
+//                 case Move::NORTH: // must have a ground (z + 1 can't be empty) and should have space to jump (z + 2 must be empty)
+//                     if ((point.y < length - 1) && (voxmap[point.z + 1][point.y + 1][point.x]) && (!voxmap[point.z + 2][point.y + 1][point.x])) {
+//                         point.z++;
+//                     }
+//                     break;
+//                 case Move::EAST:
+//                     if ((point.x < width - 1) && (voxmap[point.z + 1][point.y][point.x + 1]) && (!voxmap[point.z + 2][point.y][point.x + 1])) {
+//                         point.z++;
+//                     }
+//                     break;
+//                 case Move::SOUTH:
+//                     if ((point.y > 0) && (voxmap[point.z + 1][point.y - 1][point.x]) && (!voxmap[point.z + 2][point.y - 1][point.x])) {
+//                         point.z++;
+//                     }
+//                     break;
+//                 case Move::WEST:
+//                     if ((point.x > 0) && (voxmap[point.z + 1][point.y][point.x - 1]) && (!voxmap[point.z + 2][point.y][point.x - 1])) {
+//                         point.z++;
+//                     }
+//                     break;
+//             }
+//         }
+//     }
+//     if(point.z == temp.z){
+//         point.z = -1;
+//     }
+//     return point;
+// }
+
+
+Point VoxMap::jump(Point point) const{
+    if((point.z < height - 1) && (!voxmap[point.z + 1][point.y][point.x])){
+        point.z ++;
     }
     return point;
 }
 
 Point VoxMap::fall(Point point) const{
-    while((point.z > 1) && (!voxmap[point.z - 1][point.y][point.x])){
-        point.z --;
-    }
+    // while((point.z > 1) && (!voxmap[point.z - 1][point.y][point.x])){
+    //     point.z --;
+    // }
     if((point.z == 1) && (!voxmap[point.z - 1][point.y][point.x])){ // fall into the water 
         point.z = -1; 
     }
