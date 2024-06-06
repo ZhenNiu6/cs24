@@ -148,7 +148,7 @@ Route VoxMap::route(Point src, Point dst) {
 }
 
 Point VoxMap::jump(Point point) const{
-    while((point.z < height - 1) && (!voxmap[point.z + 1][point.y][point.x])){
+    if((point.z < height - 1) && (!voxmap[point.z + 1][point.y][point.x])){
         point.z ++;
     }
     return point;
