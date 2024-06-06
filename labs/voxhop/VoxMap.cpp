@@ -111,6 +111,9 @@ Route VoxMap::route(Point src, Point dst) {
                     break;
             }
             
+            if(!bound_check(next_point)){
+                continue;
+            }
             if((bound_check(next_point)) && (!visited.count(next_point)) && (!voxmap[next_point.z][next_point.y][next_point.x])){
                 Route next_route = current_route;
                 next_route.push_back(move);
@@ -119,6 +122,7 @@ Route VoxMap::route(Point src, Point dst) {
                 continue;
             }
             // std::cout << "here" << '\n';
+            // std::cout << next_point.x << " " << next_point.y << " " << next_point.z << '\n';
             Point jump_point = jump(next_point);
             // std::cout << "here6" << '\n';
             if((bound_check(jump_point)) && (!visited.count(jump_point)) && (!voxmap[jump_point.z][jump_point.y][jump_point.x])){
@@ -155,7 +159,7 @@ Point VoxMap::jump(Point point) const{
 }
 
 Point VoxMap::fall(Point point) const{
-    if((point.z > 1) && (!voxmap[point.z - 1][point.y][point.x])){
+    while((point.z > 1) && (!voxmap[point.z - 1][point.y][point.x])){
         point.z --;
     }
     return point;
