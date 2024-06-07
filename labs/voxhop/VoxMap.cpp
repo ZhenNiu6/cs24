@@ -7,15 +7,28 @@
 #include <unordered_set>
 #include <iostream>
 
+struct Node{
+    Point point;
+    Route route;
+    int cost;
+    int heuristic;
+
+    Node(Point p, Route, r, int c, int h) : point(p), route(r), cost(c), heuristic(h) {}
+    bool operator>(const Node& other) const {
+        return (cost + heuristic) > (other.cost + other.heuristic);
+    }
+};
+
+int heuristic(const Point& a, const Point& b) {
+    return abs(a.x - b.x) + abs(a.y - b.y) + abs(a.z - b.z);
+}
+
 VoxMap::VoxMap(std::istream& stream) {
     std::string width_str, length_str, height_str;
     stream >> width_str >> length_str >> height_str;
     width = std::stoi(width_str);
     length = std::stoi(length_str);
     height = std::stoi(height_str);
-    // std::istringstream(width_str) >> width;
-    // std::istringstream(length_str) >> length;
-    // std::istringstream(height_str) >> height;
 
     stream.ignore(); // ignore the newline
     voxmap.resize(height);
