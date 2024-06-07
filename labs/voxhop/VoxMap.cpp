@@ -131,11 +131,15 @@ Route VoxMap::route(Point src, Point dst) {
                 }
             }
             else{
-                if(voxmap[current_point.z + 1][current_point.y][current_point.x]){ // has a voxel above
-                    continue;
-                }  
-                else if(voxmap[next_point.z + 1][next_point.y][next_point.x]){ // there's a wall
-                    continue;
+                if(current_point.z < height - 1){
+                    if(voxmap[current_point.z + 1][current_point.y][current_point.x]){ // a voxel above
+                        continue;
+                    }
+                }
+                else if(next_point.z < height - 1){
+                    if(voxmap[next_point.z + 1][next_point.y][next_point.x]){
+                        continue;
+                    }
                 }
                 Point jump_point = jump(next_point);
                 if((bound_check(jump_point)) && (!visited.count(jump_point))){
