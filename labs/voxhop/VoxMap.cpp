@@ -13,10 +13,7 @@ VoxMap::VoxMap(std::istream& stream) {
     width = std::stoi(width_str);
     length = std::stoi(length_str);
     height = std::stoi(height_str);
-    // std::istringstream(width_str) >> width;
-    // std::istringstream(length_str) >> length;
-    // std::istringstream(height_str) >> height;
-
+    
     stream.ignore(); // ignore the newline
     voxmap.resize(height);
     for (int z = 0; z < height; ++z) {
