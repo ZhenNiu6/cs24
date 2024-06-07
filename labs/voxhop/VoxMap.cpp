@@ -90,7 +90,6 @@ Route VoxMap::route(Point src, Point dst) {
             return current_route;
         }
         for(auto move: moves){
-            
             Point next_point = current_point;
             switch (move) {
                 case Move::NORTH:
