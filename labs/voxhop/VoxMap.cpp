@@ -4,15 +4,18 @@
 #include <sstream>
 #include <queue>
 #include <set>
+#include <unordered_set>
 #include <iostream>
 
 VoxMap::VoxMap(std::istream& stream) {
     std::string width_str, length_str, height_str;
     stream >> width_str >> length_str >> height_str;
-
-    std::istringstream(width_str) >> width;
-    std::istringstream(length_str) >> length;
-    std::istringstream(height_str) >> height;
+    width = std::stoi(width_str);
+    length = std::stoi(length_str);
+    height = std::stoi(height_str);
+    // std::istringstream(width_str) >> width;
+    // std::istringstream(length_str) >> length;
+    // std::istringstream(height_str) >> height;
 
     stream.ignore(); // ignore the newline
     voxmap.resize(height);
@@ -28,10 +31,8 @@ VoxMap::VoxMap(std::istream& stream) {
         for(int y = 0; y < length; y ++){
             std::string line;
             std::getline(stream, line);
-            // std::cout << line << '\n';
             for(int x = 0; x < width / 4; x ++){
                 char digit = line[x];
-                // std::cout << digit << '\n';
                 int value = (digit >= '0' && digit <= '9') ? digit - '0' : digit - 'A' + 10;
                 for (int i = 0; i < 4; ++i) {
                     int bit = (value >> (3 - i)) & 1; // Extract each bit from the hex value
@@ -41,7 +42,6 @@ VoxMap::VoxMap(std::istream& stream) {
                     else{
                         voxmap[z][y][x * 4 + i] = true; 
                     } 
-                    // std::cout << bit << " ";
                 }
             }
         }
@@ -75,18 +75,17 @@ Route VoxMap::route(Point src, Point dst) {
     if(!voxmap[dst.z-1][dst.y][dst.x]){
         throw InvalidPoint(dst);
     }
-    // std::vector<std::pair<Move, char> > moves = {{Move::NORTH, 'N'}, {Move::EAST, 'E'}, {Move::SOUTH, 'S'}, {Move::WEST, 'W'}};
     std::vector<Move> moves = {Move::NORTH, Move::EAST, Move::SOUTH, Move::WEST};
     std::set<Point> visited;
-    std::deque<std::pair<Point, Route> > q; // a double ended queue
-    q.push_back({src, {}});
+    std::queue<std::pair<Point, Route> > q; // a double ended queue
+    q.push({src, {}});
     visited.insert(src);
     // int x = 0;
     while(!q.empty()){
         auto current = q.front();
         Point current_point = current.first;
         Route current_route = current.second;
-        q.pop_front(); // remove the current point from the queue
+        q.pop(); // remove the current point from the queue
         if((current_point.x == dst.x) && (current_point.y == dst.y) && (current_point.z == dst.z)){
             return current_route;
         }
@@ -117,7 +116,7 @@ Route VoxMap::route(Point src, Point dst) {
                     if((bound_check(fall_point)) && (!visited.count(fall_point)) && (!voxmap[fall_point.z][fall_point.y][fall_point.x])){
                         Route next_route = current_route;
                         next_route.push_back(move);
-                        q.push_back({fall_point, next_route});
+                        q.push({fall_point, next_route});
                         visited.insert(fall_point);
                         continue;   
                     }
@@ -125,7 +124,7 @@ Route VoxMap::route(Point src, Point dst) {
                 else{
                     Route next_route = current_route;
                     next_route.push_back(move);
-                    q.push_back({next_point, next_route});
+                    q.push({next_point, next_route});
                     visited.insert(next_point);
                     continue;
                 }
@@ -145,7 +144,7 @@ Route VoxMap::route(Point src, Point dst) {
                 if((bound_check(jump_point)) && (!visited.count(jump_point))){
                     Route next_route = current_route;
                     next_route.push_back(move);
-                    q.push_back({jump_point, next_route});
+                    q.push({jump_point, next_route});
                     visited.insert(jump_point);
                     continue;
                 }
@@ -168,22 +167,9 @@ Point VoxMap::jump(Point point) const{
     }
     point.z = -1;
     return point;
-    // if((point.z < height - 2) && (!voxmap[point.z + 1][point.y][point.x])){
-    //     if(voxmap[point.z + 2][point.y][point.x]){
-    //         point.z = -1;
-    //     }
-    //     point.z ++;
-    // }
-    // return point;
 }
 
 Point VoxMap::fall(Point point) const{
-    // while((point.z > 1) && (!voxmap[point.z - 1][point.y][point.x])){
-    //     point.z --;
-    // }
-    // if((point.z == 1) && (!voxmap[point.z - 1][point.y][point.x])){ // fall into the water 
-    //     point.z = -1; 
-    // }
     while (point.z > 0 && !voxmap[point.z - 1][point.y][point.x]) {
         point.z--;
     }
