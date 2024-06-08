@@ -83,7 +83,7 @@ Route VoxMap::route(Point src, Point dst) {
     std::unordered_set<Point, PointHash> set_visited;
 
     std::priority_queue<std::pair<Point, Route> > best;
-    src.distance = calculate_distance(src, dst);
+    // src.distance = calculate_distance(src, dst);
     best.push({src, {}});
 
     // q.push({src, {}});
@@ -127,7 +127,7 @@ Route VoxMap::route(Point src, Point dst) {
                         Route next_route = current_route;
                         next_route.push_back(move);
                         // q.push({fall_point, next_route});
-                        fall_point.distance = calculate_distance(fall_point, dst);
+                        // fall_point.distance = calculate_distance(fall_point, dst);
                         best.push({fall_point, next_route});
                         set_visited.insert(fall_point);
                         continue;   
@@ -137,7 +137,7 @@ Route VoxMap::route(Point src, Point dst) {
                     Route next_route = current_route;
                     next_route.push_back(move);
                     // q.push({next_point, next_route});
-                    next_point.distance = calculate_distance(next_point, dst);
+                    // next_point.distance = calculate_distance(next_point, dst);
                     best.push({next_point, next_route});
                     set_visited.insert(next_point);
                     continue;
@@ -159,7 +159,7 @@ Route VoxMap::route(Point src, Point dst) {
                     Route next_route = current_route;
                     next_route.push_back(move);
                     // q.push({jump_point, next_route});
-                    jump_point.distance = calculate_distance(jump_point, dst);
+                    // jump_point.distance = calculate_distance(jump_point, dst);
                     best.push({jump_point, next_route});
                     set_visited.insert(jump_point);
                     continue;
