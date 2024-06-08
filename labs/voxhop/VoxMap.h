@@ -13,12 +13,18 @@ class VoxMap {
   std::vector<std::vector<std::vector<bool> > > voxmap;
   int width, length, height;
 
-
+  int calculate_distance(const Point& current, const Point& dst);
 
   // Helper Functions
   Point jump(Point point) const;
   Point fall(Point point) const;
   bool bound_check(Point point) const;
+
+  struct PointHash {
+    std::size_t operator()(const Point& p) const {
+        return std::hash<int>()(p.x) ^ (std::hash<int>()(p.y) ^ (std::hash<int>()(p.z) << 1));
+    }
+  };
 
 
 public:
