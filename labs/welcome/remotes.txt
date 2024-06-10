@@ -1,4 +1,4 @@
-origin	git@github.com:ZhenNiu6/cs24.git (fetch)
-origin	git@github.com:ZhenNiu6/cs24.git (push)
+origin	git@github.com:ZhaojingWang/cs24.git (fetch)
+origin	git@github.com:ZhaojingWang/cs24.git (push)
 upstream	git@github.com:ucsb-cs24/s24.git (fetch)
 upstream	git@github.com:ucsb-cs24/s24.git (push)

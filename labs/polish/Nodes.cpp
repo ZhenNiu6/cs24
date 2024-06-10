@@ -3,7 +3,8 @@
 #include <sstream>
 #include <string>
 #include <cmath>
-#include <iostream>
+
+using namespace std;
 
 // This creates the number format the autograder expects:
 std::string format(double number) {
@@ -15,155 +16,114 @@ std::string format(double number) {
 
 // Implement your AST subclasses' member functions here.
 
-
-Node::Node(){
-  left = nullptr;
-  right = nullptr;
-  number = 0;
-  operation = '\0';
+Node::Node() {
+    left = nullptr;
+    right = nullptr;
+    mNum = 0;
+    mOperator = '\0';
 }
 
-Node::Node(double val){
-  left = nullptr;
-  right = nullptr;
-  number = val;
-  operation = '\0';
+Node::~Node() {
+    delete left;
+    delete right;
 }
 
-Node::~Node(){
-  delete left;
-  delete right;
+Node::Node(double mNum) {
+    left = nullptr;
+    right = nullptr;
+    this->mNum = mNum;
+    mOperator = '\0';
 }
 
-void Node::see_var() const{
-  
-  std::cout << "number " << number << '\n';
-  std::cout << "operator " << operation << '\n';
-  std::cout << "left " << left->value() << '\n';
+Node::Node(char mOperator) {
+    left = nullptr;
+    right = nullptr;
+    mNum = 0;
+    this->mOperator = mOperator;
 }
 
-void Node::set_operator(char x){
-  operation = x;
-}
-
-void Node::set_value(double val){
-  number = val;
-}
-
-Node* Node::get_right(){
-  return right;
-}
-
-void Node::left_operand(Node* node){
-  left = node;
-}
-
-void Node::right_operand(Node* node){
-  right = node;
-}
-
-std::string Node::prefix() const{
-  if(operation == '\0'){
-    return format(number);
-  }
-  else if(operation == '+'){
-    return "+ " + left->prefix() + " " + right->prefix();
-  }
-  else if(operation == '-'){
-    return "- " + left->prefix() + " " + right->prefix();
-  }
-  else if(operation == '*'){
-    return "* " + left->prefix() + " " + right->prefix();
-  }
-  else if(operation == '/'){
-    return "/ " + left->prefix() + " " + right->prefix();
-  }
-  else if(operation == '%'){
-    return "% " + left->prefix() + " " + right->prefix();
-  }
-  else{
-    return "~ " + left->prefix();
-  }
-}
-
-std::string Node::postfix() const{
-  if(operation == '\0'){
-    return format(number);
-  }
-  else if(operation == '+'){
-    return left->postfix() + " " + right->postfix() + " +";
-  }
-  else if(operation == '-'){
-    return left->postfix() + " " + right->postfix() + " -";
-  }
-  else if(operation == '*'){
-    return left->postfix() + " " + right->postfix() + " *";
-  }
-  else if(operation == '/'){
-    
-    return left->postfix() + " " + right->postfix() + " /";
-  }
-  else if(operation == '%'){
-    
-    return left->postfix() + " " + right->postfix() + " %";
-  }
-  else{
-    return left->postfix() + " ~";
-  }
-}
-
-double Node::value() const{
-  if(operation == '\0'){
-    return number;
-  }
-  else if(operation == '+'){
-    return left->value() + right->value();
-  }
-  else if(operation == '-'){
-    return left->value() - right->value();
-  }
-  else if(operation == '*'){
-    return left->value() * right->value();
-  }
-  else if(operation == '/'){
-    if(right->value() == 0){
-      throw std::runtime_error("Division by zero.");
+string Node::prefix() const {
+    string result = "";
+    if(left == nullptr && right == nullptr) {
+        result = format(mNum);
+        return result;
     }
-    return left->value() / right->value();
-  }
-  else if(operation == '%'){
-    if(right->value() == 0){
-      throw std::runtime_error("Division by zero.");
+    else {
+        result += mOperator;
+        if(left != nullptr) {
+            result += " ";
+            result += left->prefix();
+        }
+        if(right != nullptr) {
+            result += " ";
+            result += right->prefix();
+        }
     }
-    return fmod(left->value(),right->value());
-  }
-  else{
-    return -1 * left->value();
-  }
+    return result;
 }
 
+string Node::postfix() const {
+    string result = "";
+    if(left == nullptr && right == nullptr) {
+        result = format(mNum);
+        return result;
+    }
+    else {
+        if(left != nullptr) {
+            result += left->postfix();
+            result += " ";
+        }
+        if(right != nullptr) {
+            result += right->postfix();
+            result += " ";
+        }
+        result += mOperator;
+    }
+    return result;
+}
 
-
-double Node::get_value() const{
-  if(operation == '\0'){
-    return number;
-  }
-  else if(operation == '+'){
-    return left->get_value() + right->get_value();
-  }
-  else if(operation == '-'){
-    return left->get_value() - right->get_value();
-  }
-  else if(operation == '*'){
-    return left->get_value() * right->get_value();
-  }
-  else if(operation == '/'){
-    return left->get_value() / right->get_value();
-  }
-  else if(operation == '%'){
-    return fmod(left->get_value(),right->get_value());
-  }
-  else{
-    return -1 * left->get_value();
-  }
+double Node::value() const {
+    if(left == nullptr && right == nullptr) {
+        return mNum;
+    }
+    else {
+        double left_value = 0;
+        double right_value = 0;
+        double result = 0;
+        if(left != nullptr) {
+            left_value = left->value();
+        }
+        if(right != nullptr) {
+            right_value = right->value();
+        }
+        if(mOperator == '+') {
+            result = left_value + right_value;
+        }
+        else if(mOperator == '-') {
+            result = left_value - right_value;
+        }
+        else if(mOperator == '*') {
+            result = left_value * right_value;
+        }
+        else if(mOperator == '/') {
+            if(right_value == 0) {
+                throw std::runtime_error("Division by zero.");
+            }
+            else {
+                result = left_value / right_value;
+            }
+        }
+        else if(mOperator == '%') {
+            if(right_value == 0) {
+                throw std::runtime_error("Division by zero.");
+            }
+            else {
+                result = fmod(left_value, right_value);
+            }
+        }
+        else if(mOperator == '~') {
+            result = - right_value;
+        }
+        return result;
+    }
 }

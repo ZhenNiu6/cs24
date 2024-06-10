@@ -3,8 +3,12 @@
 
 #include <cstddef>
 #include <string>
+#include <iostream>
+
 #include "List.h"
 #include "Index.h"
+
+using namespace std;
 
 // This is the Counter class you need to implement.
 // It includes the Counter::Iterator as a nested class.
@@ -15,30 +19,26 @@ public:
     // Member Variables
 
   public:
-    Node* itr;
+    Node* myitr;
 
-    Iterator(Node* node);
+    Iterator(Node* current);
     const std::string& key() const;
     int value() const;
 
     void operator ++ ();
     bool operator == (const Iterator& other) const;
     bool operator != (const Iterator& other) const;
-
-
   };
 
 private:
-  // Member Variables
-  List list;
-  Index index;
-  size_t mCount;
-  size_t mTotal;
-
-private:
-  // Helper Functions
 
 public:
+
+  List mylist;
+  Index myIndex;
+  int mTotal;
+  size_t mCount;
+
   Counter();
   ~Counter();
 
@@ -51,12 +51,8 @@ public:
   int  get(const std::string& key) const;
   void set(const std::string& key, int count);
 
-
-
-
   Iterator begin() const;
   Iterator end() const;
-
 };
 
 #endif

@@ -7,6 +7,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <vector>
+#include <iostream>
 
 // This file provides a standard main loop.
 // You can edit it if you want, but you shouldn't need to.
@@ -36,7 +37,6 @@ int main(int argc, char** argv) {
       std::cout << "Error opening database file.\n";
       return 1;
     }
-
     pool = new GenePool(stream);
   }
   catch(const std::exception& e) {

@@ -5,6 +5,9 @@
 
 #include <set>
 #include <string>
+#include <iostream>
+
+using namespace std;
 
 // This is the Person class you need to implement.
 // It has many member functions that perform relationship queries.
@@ -13,34 +16,25 @@
 
 class Person {
   // Member Variables
-  std::string mName;
-  Gender mGender;
-  Person* mMother;
-  Person* mFather;
-  std::set<Person*> mChildren;
-
-  // Helper Functions
-  void ancestors_helper(Person* person, std::set<Person*>& ancestors);
-  // void p_ancestors(Person* person, std::set<Person*>& ancestors);
-  void descendants_helper(Person* person, std::set<Person*>& descendants);
   
+  // Helper Functions
 
 public:
+
+  string mName;
+  Gender mGender;
+  Person* mFather;
+  Person* mMother;
+  set<Person*> mChild;
   // Constructor
   Person();
-  Person(std::string name, Gender gender, Person* mother, Person* father);
-  ~Person();
-  // Destructor
+  // Destructor?
 
   // Required Getter Functions
   const std::string& name()   const;
   Gender             gender() const;
   Person*            mother();
   Person*            father();
-  // std::set<Person*>  get_children();
-
-  void add_child(Person* child);
- 
 
   // Required Relationship Functions
   std::set<Person*> ancestors(PMod pmod = PMod::ANY);

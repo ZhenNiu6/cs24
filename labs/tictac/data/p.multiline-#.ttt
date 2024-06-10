@@ -1,0 +1,7 @@
+1 X B2 # remember to end your single-line comment with a newline
+2 O C2
+3 X C3
+you should get an error here
+5 X B3
+6 O A3
+7 X B1

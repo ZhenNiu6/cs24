@@ -8,15 +8,10 @@ struct Point {
   int y;
   int z;
   int distance;
+  bool visited;
 
   Point() {}
   Point(int x, int y, int z): x(x), y(y), z(z) {}
-  // bool operator<(const Point& other) const {
-  //   if (x != other.x) return x < other.x;
-  //   if (y != other.y) return y < other.y;
-  //   return z < other.z;
-  // }
-
   friend bool operator < (Point const& lhs, Point const& rhs)
   {
       return lhs.distance > rhs.distance;
@@ -26,7 +21,6 @@ struct Point {
       return x == other.x && y == other.y && z == other.z;
   }
 
-  
 };
 
 std::istream& operator >> (std::istream& stream, Point& point);

@@ -1,0 +1,6 @@
+1 X B2
+2	O C2
+3 X		C3
+4		O			A1
+5 X B3
+6 O A3 # tabs are allowed in place of whitespace

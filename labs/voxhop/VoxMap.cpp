@@ -1,94 +1,124 @@
 #include "VoxMap.h"
 #include "Errors.h"
-#include <bitset>
-#include <sstream>
-#include <queue>
-#include <set>
-#include <unordered_set>
-#include <iostream>
 
-using namespace std;
+string hexCharToBin(char hexChar) {
+    string result;
+    int value;
 
-VoxMap::VoxMap(std::istream& stream) {
-    std::string width_str, length_str, height_str;
-    stream >> width_str >> length_str >> height_str;
-    width = std::stoi(width_str);
-    length = std::stoi(length_str);
-    height = std::stoi(height_str);
-    
-    stream.ignore(); // ignore the newline
-    voxmap.resize(height);
-    for (int z = 0; z < height; ++z) {
-        voxmap[z].resize(length);
-        for (int y = 0; y < length; ++y) {
-            voxmap[z][y].resize(width, false); // Initialize to false
-        }
+    if (hexChar >= '0' && hexChar <= '9') {
+        value = hexChar - '0';
+    } 
+    else {
+        value = hexChar - 'a' + 10;
     }
 
-    for(int z = 0; z < height; z ++){
-        stream.ignore();
-        for(int y = 0; y < length; y ++){
-            std::string line;
-            std::getline(stream, line);
-            for(int x = 0; x < width / 4; x ++){
-                char digit = line[x];
-                int value = (digit >= '0' && digit <= '9') ? digit - '0' : digit - 'A' + 10;
-                for (int i = 0; i < 4; ++i) {
-                    int bit = (value >> (3 - i)) & 1; // Extract each bit from the hex value
-                    if(bit == 0){
-                        voxmap[z][y][x * 4 + i] = false; 
-                    }
-                    else{
-                        voxmap[z][y][x * 4 + i] = true; 
-                    } 
-                }
-            }
-        }
+    for (int i = 3; i >= 0; --i) {
+        result += ((value >> i) & 1) ? '1' : '0';
     }
+
+    return result;
 }
 
-VoxMap::~VoxMap() {}
+VoxMap::VoxMap(std::istream& stream) {
+  string line;
+  int test = 0;
+  width = 0;
+  depth = 0;
+  height = 0;
+  while (stream >> line) {
+    if(line[0] == '\0') {
+      continue;
+    }
+    if(test < 3) {
+      if(test == 0) {
+        width = stoi(line);
+      }
+      else if(test == 1) {
+        depth = stoi(line);
+      }
+      else {
+        height = stoi(line);
+      }
+      test += 1;
+    }
+    else {
+      for(size_t i = 0; i < line.length(); ++i) {
+        mymap.append(hexCharToBin(line[i]));
+      }
+    }
+  }
 
-int VoxMap::calculate_distance(const Point& current, const Point& dst) {
-    return abs(current.x - dst.x) + abs(current.y - dst.y) + abs(current.z - dst.z);
+  // cout << mymap << '\n';
+}
+
+VoxMap::~VoxMap() {
+
+}
+
+// int VoxMap::calculate_distance(const Point& current, const Point& dst) {
+//     return abs(current.x - dst.x) + abs(current.y - dst.y) + abs(current.z - dst.z);
+// }
+
+size_t VoxMap::position(Point d) {
+  size_t result = width * depth * d.z + width * d.y + d.x;
+  return result;
+}
+
+size_t VoxMap::position(int w, int d, int h) const {
+  size_t result = width * depth * h + width * d + w;
+  return result;
+}
+
+size_t VoxMap::down_position(size_t current) {
+  return current - width * depth;
+}
+
+// size_t VoxMap::up_position(size_t current) {
+//   return current + width * depth;
+// }
+
+// size_t VoxMap::N_position(size_t current) {
+//   return current - width;
+// }
+// size_t VoxMap::S_position(size_t current) {
+//   return current + width;
+// }
+// size_t VoxMap::W_position(size_t current) {
+//   return current - 1;
+// }
+// size_t VoxMap::E_position(size_t current) {
+//   return current + 1;
+// }
+
+int VoxMap::calculate_distance(Point current, Point target) {
+  return abs(current.x - target.x) + abs(current.y - target.y);
 }
 
 Route VoxMap::route(Point src, Point dst) {
-    if((src.z < 0) || (src.z >= height) || (src.y < 0) || (src.y >= length) || (src.x < 0) || (src.x >= width)){
-        throw InvalidPoint(src);
-    }
-    if((voxmap[src.z][src.y][src.x])){
-        throw InvalidPoint(src);
-    }
-    if(src.z == 0){
-        throw InvalidPoint(src);
-    }
-    if(!voxmap[src.z-1][src.y][src.x]){
-        throw InvalidPoint(src);
-    }
-    if((dst.z < 0) || (dst.y < 0) || (dst.x < 0) || (dst.x >= width) || (dst.y >= length) || (dst.z >= height)){
-        throw InvalidPoint(dst);
-    }
-    if((voxmap[dst.z][dst.y][dst.x])){
-        throw InvalidPoint(dst);
-    }
-    if(dst.z == 0){
-        throw InvalidPoint(dst);
-    }
-    if(!voxmap[dst.z-1][dst.y][dst.x]){
-        throw InvalidPoint(dst);
-    }
+  // throw NoRoute(src, dst);
+  Route result;
+
+  priority_queue<Point> targets_current;
+  size_t src_pos = position(src);
+  size_t dst_pos = position(dst);
+  if(src.x < 0 || src.x >= width || src.y < 0 || src.y >= depth || src.z <= 0 || src.z >= height || mymap[src_pos] == '1' || mymap[down_position(src_pos)] == '0') {
+    throw InvalidPoint(src);
+  }
+  else if(dst.x < 0 || dst.x >= width || dst.y < 0 || dst.y >= depth || dst.z <= 0 || dst.z >= height || mymap[dst_pos] == '1' || mymap[down_position(dst_pos)] == '0') {
+    throw InvalidPoint(dst);
+  }
+  else {
     std::vector<Move> moves = {Move::NORTH, Move::EAST, Move::SOUTH, Move::WEST};
     // std::queue<std::pair<Point, Route> > q; // a double ended queue
     std::unordered_set<Point, PointHash> set_visited;
 
     std::priority_queue<std::pair<Point, Route> > best;
-    // src.distance = calculate_distance(src, dst);
+    src.distance = calculate_distance(src, dst);
     best.push({src, {}});
 
     // q.push({src, {}});
     set_visited.insert(src);
-    // int x = 0;
+
     while(!best.empty()){
         // auto current = q.front();
         auto current = best.top();
@@ -120,14 +150,14 @@ Route VoxMap::route(Point src, Point dst) {
             if((!bound_check(next_point)) || (set_visited.count(next_point))){
                 continue;
             }
-            if((!voxmap[next_point.z][next_point.y][next_point.x])){
-                if(!voxmap[next_point.z - 1][next_point.y][next_point.x]){
+            if((mymap[position(next_point.x, next_point.y, next_point.z)] == '0')){
+                if(mymap[position(next_point.x, next_point.y, next_point.z - 1)] == '0'){
                     Point fall_point = fall(next_point);
-                    if((bound_check(fall_point)) && (!set_visited.count(fall_point)) && (!voxmap[fall_point.z][fall_point.y][fall_point.x])){
+                    if((bound_check(fall_point)) && (!set_visited.count(fall_point)) && (mymap[position(fall_point.x, fall_point.y, fall_point.z)] == '0')){
                         Route next_route = current_route;
                         next_route.push_back(move);
                         // q.push({fall_point, next_route});
-                        // fall_point.distance = calculate_distance(fall_point, dst);
+                        fall_point.distance = calculate_distance(fall_point, dst);
                         best.push({fall_point, next_route});
                         set_visited.insert(fall_point);
                         continue;   
@@ -137,7 +167,7 @@ Route VoxMap::route(Point src, Point dst) {
                     Route next_route = current_route;
                     next_route.push_back(move);
                     // q.push({next_point, next_route});
-                    // next_point.distance = calculate_distance(next_point, dst);
+                    next_point.distance = calculate_distance(next_point, dst);
                     best.push({next_point, next_route});
                     set_visited.insert(next_point);
                     continue;
@@ -145,12 +175,12 @@ Route VoxMap::route(Point src, Point dst) {
             }
             else{
                 if(current_point.z < height - 1){
-                    if(voxmap[current_point.z + 1][current_point.y][current_point.x]){ // a voxel above
+                  if(mymap[position(current_point.x, current_point.y, current_point.z + 1)] == '1'){ // a voxel above
                         continue;
                     }
                 }
                 else if(next_point.z < height - 1){
-                    if(voxmap[next_point.z + 1][next_point.y][next_point.x]){
+                    if(mymap[position(next_point.x, next_point.y, next_point.z + 1)] == '1'){
                         continue;
                     }
                 }
@@ -159,7 +189,7 @@ Route VoxMap::route(Point src, Point dst) {
                     Route next_route = current_route;
                     next_route.push_back(move);
                     // q.push({jump_point, next_route});
-                    // jump_point.distance = calculate_distance(jump_point, dst);
+                    jump_point.distance = calculate_distance(jump_point, dst);
                     best.push({jump_point, next_route});
                     set_visited.insert(jump_point);
                     continue;
@@ -169,12 +199,17 @@ Route VoxMap::route(Point src, Point dst) {
         set_visited.insert(current_point);
     }
     throw NoRoute(src, dst);
+  }
+  return result;
 }
 
+bool VoxMap::bound_check(Point point) const{
+    return ((point.z >= 0) && (point.z < height) && (point.y >= 0) && (point.y < depth) && (point.x >= 0) && (point.x < width));
+}
 
 Point VoxMap::jump(Point point) const{
     if(point.z < height - 1){
-        if(!voxmap[point.z + 1][point.y][point.x]){
+        if(mymap[position(point.x, point.y, point.z + 1)] == '0') {
             point.z ++;
             return point;
         }
@@ -184,16 +219,13 @@ Point VoxMap::jump(Point point) const{
 }
 
 Point VoxMap::fall(Point point) const{
-    while (point.z > 0 && !voxmap[point.z - 1][point.y][point.x]) {
+  
+    while (point.z > 0 && mymap[position(point.x, point.y, point.z - 1)] == '0') {
         point.z--;
     }
     // If fell into water or reached the ground, adjust the point accordingly
-    if (point.z == 0 || (point.z == 1 && !voxmap[0][point.y][point.x])) {
+    if (point.z == 0 || (point.z == 1 && mymap[position(point.x, point.y, 0)] == '0')) {
         point.z = -1; // Mark as invalid
     }
     return point;
-}
-
-bool VoxMap::bound_check(Point point) const{
-    return ((point.z >= 0) && (point.z < height) && (point.y >= 0) && (point.y < length) && (point.x >= 0) && (point.x < width));
 }
