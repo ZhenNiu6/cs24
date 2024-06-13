@@ -20,7 +20,7 @@ test.o: test.cpp Errors.h Route.h VoxMap.h
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 
-Point.o: Point.cpp VoxMap.h
+Point.o: Point.cpp VoxMap.h Point.h
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 Route.o: Route.cpp Route.h

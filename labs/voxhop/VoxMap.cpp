@@ -7,6 +7,7 @@
 #include <unordered_set>
 #include <iostream>
 
+
 VoxMap::VoxMap(std::istream& stream) {
     std::string width_str, length_str, height_str;
     stream >> width_str >> length_str >> height_str;
@@ -76,8 +77,10 @@ Route VoxMap::route(Point src, Point dst) {
         throw InvalidPoint(dst);
     }
     std::vector<Move> moves = {Move::NORTH, Move::EAST, Move::SOUTH, Move::WEST};
+    int num = 0;
+    bool flag = false;
     std::set<Point> visited;
-    std::queue<std::pair<Point, Route> > q; // a double ended queue
+    std::queue<std::pair<Point, Route> > q; 
     q.push({src, {}});
     visited.insert(src);
     // int x = 0;
@@ -117,6 +120,11 @@ Route VoxMap::route(Point src, Point dst) {
                         next_route.push_back(move);
                         q.push({fall_point, next_route});
                         visited.insert(fall_point);
+                        num ++;
+                        if(num == width * length * height){
+                            flag = true;
+                            break;
+                        }
                         continue;   
                     }
                 }
@@ -125,6 +133,11 @@ Route VoxMap::route(Point src, Point dst) {
                     next_route.push_back(move);
                     q.push({next_point, next_route});
                     visited.insert(next_point);
+                    num ++;
+                        if(num == width * length * height){
+                            flag = true;
+                            break;
+                        }
                     continue;
                 }
             }
@@ -145,12 +158,26 @@ Route VoxMap::route(Point src, Point dst) {
                     next_route.push_back(move);
                     q.push({jump_point, next_route});
                     visited.insert(jump_point);
+                    num ++;
+                        if(num == width * length * height){
+                            flag = true;
+                            break;
+                        }
                     continue;
                 }
             }
+        num ++;
+        if(num == width * length * height){
+            flag = true;
+                break;
+            }
+        }
+        if(flag == true){
+            break;
         }
         visited.insert(current_point);
     }
+    
     throw NoRoute(src, dst);
 }
 
