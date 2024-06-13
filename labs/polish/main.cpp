@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include "AST.h"
 
 // This file provides an interactive read-evaluate-print loop.

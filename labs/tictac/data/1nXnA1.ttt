@@ -1,3 +1,0 @@
-1
-X
-A1 # this file of "1\nX\nA1" was clarified to be valid to make a Move object (move-check), but game-check will never see this since getline will never read a \n into a line. see piazza for more information.

@@ -7,10 +7,12 @@
 
 std::string read_key(std::istream& stream) {
   std::string key;
+  // std::cout << "3" << '\n';
 
   stream.clear();    // reset the fail bit
   stream >> std::ws; // consume leading whitespace
   if(std::getline(stream, key)) {
+    // std::cout << "1" << '\n';
     return key;
   }
 
@@ -18,7 +20,9 @@ std::string read_key(std::istream& stream) {
 }
 
 int read_value(std::istream& stream) {
+  // std::cout << "1" << '\n';
   int result;
+  // std::cout << "2" << '\n';
   if(stream >> result) {
     return result;
   }
@@ -99,7 +103,9 @@ int main(int argc, char** argv) {
       else if(command == "set" || command == "s") {
         int value = read_value(stream);
         key = read_key(stream);
+        // std::cout << "1" << '\n';
         counter.set(key, value);
+        // std::cout << "2" << '\n';
       }
       else if(command == "stats" || command == "ct") {
         std::cout << "count = " << counter.count() << '\n';

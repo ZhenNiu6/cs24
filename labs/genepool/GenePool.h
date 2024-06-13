@@ -4,13 +4,9 @@
 #include "Person.h"
 
 #include <istream>
-#include <sstream>
 #include <set>
 #include <string>
 #include <map>
-#include <iostream>
-
-using namespace std;
 
 // This is the database class you need to implement.
 // It stores a collection of people and supports lookup by name.
@@ -18,7 +14,7 @@ using namespace std;
 
 class GenePool {
   // Member Variables
-  map<string, Person*> tree;
+  std::map<std::string, Person*> pool;
   // Helper Functions
 
 public:

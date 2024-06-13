@@ -2,37 +2,32 @@
 #define LIST_H
 
 #include <string>
-#include <iostream>
 
-using namespace std;
+// TODO...
 
-class Node {
-
+class Node{
 public:
-    int mValue;
-    string mKey;
-    Node* mBefore;
-    Node* mAfter;
-    Node* hash_after;
+    std::string key;
+    int value;
+    Node* before;
+    Node* after;
+    Node* next;
 
-    Node();
-    Node(int value, string key);
-    
+    Node(std::string node_key, int node_value);
 };
 
-class List {
-
+class List{
 public:
-    Node* mStart;
-    Node* mEnd;
+    Node* head;
+    Node* tail;
 
     List();
-    void destruct_helper(Node* current);
     ~List();
     void insert(Node* node);
-    Node* find_helper(string input, Node* current) const;
-    Node* find(string input) const;
-    void remove(Node* current);
+    Node* lookup(std::string x) const;
+    void remove(Node* node);
+    // void clear();
+    
 };
 
 #endif

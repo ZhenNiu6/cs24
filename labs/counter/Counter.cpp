@@ -1,130 +1,157 @@
 #include "Counter.h"
-#include "Index.h"
+#include <iostream>
 
-Counter::Iterator::Iterator(Node* current) {
-    myitr = current;
-}
-
-const std::string& Counter::Iterator::key() const {
-    return myitr->mKey;
-}
-
-int Counter::Iterator::value() const {
-    return myitr->mValue;
-}
-
-void Counter::Iterator::operator ++ () {
-    if(myitr != nullptr) {
-        myitr = myitr->mAfter;
-    }
-}
-
-bool Counter::Iterator::operator == (const Iterator& other) const {
-    if(myitr == other.myitr) {
-        return true;
-    }
-    else {
-        return false;
-    }
-}
-
-bool Counter::Iterator::operator != (const Iterator& other) const {
-    if(myitr != other.myitr) {
-        return true;
-    }
-    else {
-        return false;
-    }
-}
-
-
-Counter::Counter() {
-    mTotal = 0;
+// Counter Member Functions
+Counter::Counter(){
     mCount = 0;
-}
-
-Counter::~Counter() {
     mTotal = 0;
-    mCount = 0;
 }
+Counter::~Counter(){}
 
-size_t Counter::count() const {
+size_t Counter::count() const{
     return mCount;
 }
 
-int Counter::total() const {
+int Counter::total() const{
     return mTotal;
 }
 
-void Counter::inc(const std::string& key, int by) {
-    Node* target = myIndex.hash_find(key);
-    if(target != nullptr) {
-        target->mValue += by;
+void Counter::inc(const std::string& key, int by){
+    // if((key.size() == 1) && (isalpha(key[0]))){
+    //     index.inc_char(key[0]);
+    //     mCount ++;
+    //     mTotal += by;
+    //     return;
+    // }
+    Node* target = index.lookup(key);
+    if(target){
+        target->value += by;
     }
-    else {
-        Node* temp = new Node(by, key);
-        mylist.insert(temp);
-        myIndex.hash_insert(temp);
-        mCount += 1;
+    else{
+        Node* x = new Node(key, by);
+        list.insert(x);
+        index.insert(x);
+        mCount ++;
     }
     mTotal += by;
 }
 
-void Counter::dec(const std::string& key, int by) {
-    Node* target = myIndex.hash_find(key);
-    if(target != nullptr) {
-        target->mValue -= by;
+void Counter::dec(const std::string& key, int by){
+    // if((key.size() == 1) && (isalpha(key[0]))){
+    //     index.dec_char(key[0]);
+    //     mCount ++;
+    //     mTotal -= by;
+    //     return;
+    // }
+    Node* target = index.lookup(key);
+    if(target){
+        target->value -= by;
     }
-    else {
-        Node* temp = new Node(- by, key);
-        mylist.insert(temp);
-        myIndex.hash_insert(temp);
-        mCount += 1;
+    else{
+        Node* x = new Node(key, -by);
+        list.insert(x);
+        index.insert(x);
+        mCount ++;
     }
     mTotal -= by;
 }
 
-void Counter::del(const std::string& key) {
-    Node* target = myIndex.hash_find(key);
-    if(target != nullptr) {
-        mTotal -= target->mValue;
-        mCount -= 1;
-        myIndex.hash_delete(target);
-        mylist.remove(target);
+void Counter::del(const std::string& key){
+    // if((key.size() == 1) && (isalpha(key[0]))){
+    //     index.del_char(key[0]);
+    //     if(mTotal > 0){
+    //         mTotal --;
+    //     }
+    //     if(mCount > 0){
+    //         mCount --;
+    //     }
+    //     return;
+    // }
+    Node* target = index.lookup(key);
+    if(target){
+        mTotal -= target->value;
+        index.remove(target);
+        list.remove(target);
+        mCount --;
+        index.last = nullptr;
     }
 }
 
-int Counter::get(const std::string& key) const {
-    Node* target = myIndex.hash_find(key);
-    if(target == nullptr) {
+int Counter::get(const std::string& key) const{
+    // if((key.size() == 1) && (isalpha(key[0]))){
+    //     return index.get_char(key[0]);
+    // }
+    Node* target = index.lookup(key);
+    if(target){
+        return target->value;
+    }
+    else{
+        // if((key.size() == 1) && (isalpha(key[0]))){
+        //     return index.get_char(key[0]);
+        // }
         return 0;
     }
-    else {
-        return target->mValue;
-    }
 }
 
-void Counter::set(const std::string& key, int count) {
-    Node* target = myIndex.hash_find(key);
-    if(target == nullptr) {
-        Node* temp = new Node(count, key);
-        mylist.insert(temp);
-        myIndex.hash_insert(temp);
-        mCount += 1;
+void Counter::set(const std::string& key, int count){
+    // if((key.size() == 1) && (isalpha(key[0]))){
+    //     index.inc_char(key[0]);
+    //     return;
+    // }
+    Node* target = index.lookup(key);
+    if(target){
+        mTotal -= target->value;
+        target->value = count;
         mTotal += count;
-        
     }
-    else {
-        int difference = target->mValue - count;
-        mTotal -= difference;
-        target->mValue = count;
+    else{
+        Node* x = new Node(key, count);
+        list.insert(x);
+        index.insert(x);
+        mCount ++;
+        mTotal += count;
     }
 }
 
-Counter::Iterator Counter::begin() const {
-    return Iterator(mylist.mStart);
+
+Counter::Iterator::Iterator(Node* node){
+    itr = node;
 }
 
-Counter::Iterator Counter::end() const {
+const std::string& Counter::Iterator::key() const{
+    return itr->key;
+}
+
+int Counter::Iterator::value() const{
+    return itr->value;
+}
+
+void Counter::Iterator::operator ++(){
+    itr = itr->after;
+}
+
+bool Counter::Iterator::operator == (const Iterator& other) const{
+    if(itr == other.itr){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+bool Counter::Iterator::operator != (const Iterator& other) const{
+    if(itr != other.itr){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+Counter::Iterator Counter::begin() const{
+    return Iterator(list.head);
+}
+
+Counter::Iterator Counter::end() const{
     return Iterator(nullptr);
 }

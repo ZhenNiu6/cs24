@@ -1,192 +1,120 @@
 #include "Heap.h"
+#include <utility>
 #include <stdexcept>
 
-
-using namespace std;
-
-Heap::Heap(size_t capacity) {
-    mData = new Entry[capacity]();
+Heap::Heap(size_t capacity){
     mCapacity = capacity;
     mCount = 0;
+    mData = new Entry[mCapacity];
 }
 
-Heap::Heap(const Heap& other) {
+Heap::Heap(const Heap& other){
     mCapacity = other.mCapacity;
     mCount = other.mCount;
     mData = new Entry[mCapacity];
-    for(size_t i = 0; i < mCapacity; ++i) {
+    for(size_t i = 0; i < mCount; i ++){
         mData[i] = other.mData[i];
     }
 }
 
-Heap::~Heap() {
+Heap::~Heap(){
     delete [] mData;
-    mCount = 0;
 }
 
-size_t Heap::capacity() const {
+size_t Heap::capacity() const{
     return mCapacity;
 }
 
-size_t Heap::count() const {
+size_t Heap::count() const{
     return mCount;
 }
 
-const Heap::Entry& Heap::lookup(size_t index) const {
-    if(index >= mCount || mCount == 0) {
-        throw out_of_range("Invalid index.");
+const Heap::Entry& Heap::lookup(size_t index) const{
+    if(index >= mCount){
+        throw std::out_of_range("");
     }
-    else {
-        return mData[index];
-    }
+    return mData[index];
 }
 
-Heap::Entry Heap::pop() {
-    if(mCount == 0) {
-        throw underflow_error("Empty heap.");
+Heap::Entry Heap::pop(){
+    if(mCount == 0){
+        throw std::underflow_error("");
     }
-    else {
-        Entry result = mData[0];
-        Entry last;
-        for(int i = mCapacity - 1; i >= 0; --i) {
-            if(mData[i].score != 0 || mData[i].value.length() != 0) {
-                last = mData[i];
-                mData[i].score = 0;
-                mData[i].value = "";
-                break;
-            }
+    Entry smallest = mData[0];
+    mData[0] = mData[mCount - 1]; // replaced the root by the last entry
+    mCount --;
+    size_t l_index = 1;
+    size_t r_index = 2;
+    size_t p_index = 0;
+    while(l_index < mCount){ // l_index is valid
+        int smaller = l_index;
+        if((r_index < mCount) && (mData[r_index].score < mData[l_index].score)){ // r_index is valid
+            smaller = r_index; // right child is smaller
         }
-        if(mCount > 1) {
-            mData[0].score = last.score;
-            mData[0].value = last.value;
+        if(mData[smaller].score < mData[p_index].score){
+            std::swap(mData[smaller], mData[p_index]); // swap with the smaller child
+            p_index = smaller;
+            l_index = smaller * 2 + 1;
+            r_index = smaller * 2 + 2;
         }
-        mCount -= 1;
-
-        size_t index = 0;
-
-        while(index * 2 + 1 < mCount) {
-            if(index * 2 + 2 < mCount && mData[index * 2 + 2].score != 0) {
-                if(mData[index * 2 + 1].score <= mData[index * 2 + 2].score) {
-                    if(mData[index * 2 + 1].score < mData[index].score) {
-                        swap(mData[index * 2 + 1], mData[index]);
-                        index = index * 2 + 1;
-                    }
-                    else {
-                        break;
-                    }
-                }
-                else {
-                    if(mData[index * 2 + 2].score < mData[index].score) {
-                        swap(mData[index * 2 + 2], mData[index]);
-                        index = index * 2 + 2;
-                    }
-                    else {
-                        break;
-                    }
-                }
-            }
-            else {
-                if(mData[index * 2 + 1].score < mData[index].score && mData[index * 2 + 1].score != 0) {
-                    swap(mData[index * 2 + 1], mData[index]);
-                    index = index * 2 + 1;
-                }
-                else {
-                    break;
-                }
-            }
+        else{ // parent is smaller than both children
+            break;
         }
-
-        return result;
     }
+    return smallest;
 }
 
-void Heap::push(const std::string& value, float score) {
-    if(mCount == mCapacity) {
-        throw overflow_error("Full heap.");
+Heap::Entry Heap::pushpop(const std::string& value, float score){
+    if(mCount == 0){
+        throw std::underflow_error("");
     }
-    else {
-        int index = 0;
-        for(size_t i = 0; i < mCapacity; ++i) {
-            if(mData[i].score == 0 && mData[i].value.length() == 0) {
-                mData[i].score = score;
-                mData[i].value = value;
-                index = i;
-                break;
-            }
+    Entry smallest = mData[0];
+    mData[0].value = value; // replace the smallest by the new added one
+    mData[0].score = score;
+    size_t l_index = 1;
+    size_t r_index = 2;
+    size_t p_index = 0;
+    while(l_index < mCount){ // l_index is valid
+        int smaller = l_index;
+        if((r_index < mCount) && (mData[r_index].score < mData[l_index].score)){ // r_index is valid
+            smaller = r_index; // right child is smaller
         }
-        while((index - 1) / 2 >= 0) {
-            if(mData[index].score < mData[(index - 1) / 2].score) {
-                swap(mData[index], mData[(index - 1) / 2]);
-                index = (index - 1) / 2;
-            }
-            else {
-                break;
-            }
+        if(mData[smaller].score < mData[p_index].score){
+            std::swap(mData[smaller], mData[p_index]); // swap with the smaller child
+            p_index = smaller;
+            l_index = smaller * 2 + 1;
+            r_index = smaller * 2 + 2;
         }
-        mCount += 1;
+        else{ // parent is smaller than both children
+            break;
+        }
     }
+    return smallest;
 }
 
-Heap::Entry Heap::pushpop(const std::string& value, float score) {
-    if(mCount == 0) {
-        throw underflow_error("Empty heap.");
+void Heap::push(const std::string& value, float score){
+    if(mCount == mCapacity){
+        throw std::overflow_error("");
     }
-    else {
-        Entry result = mData[0];
-        mData[0].score = score;
-        mData[0].value = value;
-        size_t index = 0;
-
-        while(index * 2 + 1 < mCount) {
-            if(index * 2 + 2 < mCount && mData[index * 2 + 2].score != 0) {
-                if(mData[index * 2 + 1].score <= mData[index * 2 + 2].score) {
-                    if(mData[index * 2 + 1].score < mData[index].score) {
-                        swap(mData[index * 2 + 1], mData[index]);
-                        index = index * 2 + 1;
-                    }
-                    else {
-                        break;
-                    }
-                }
-                else {
-                    if(mData[index * 2 + 2].score < mData[index].score) {
-                        swap(mData[index * 2 + 2], mData[index]);
-                        index = index * 2 + 2;
-                    }
-                    else {
-                        break;
-                    }
-                }
-            }
-            else {
-                if(mData[index * 2 + 1].score < mData[index].score && mData[index * 2 + 1].score != 0) {
-                    swap(mData[index * 2 + 1], mData[index]);
-                    index = index * 2 + 1;
-                }
-                else {
-                    break;
-                }
-            }
-        }
-        return result;
+    mData[mCount].value = value;
+    mData[mCount].score = score;
+    size_t c_index = mCount;
+    size_t p_index = (c_index - 1) / 2;
+    if(c_index == 0){ // No parent
+        mCount ++;
+        return;
     }
+    while((c_index > 0) && (mData[p_index].score > mData[c_index].score)){
+        std::swap(mData[c_index], mData[p_index]);
+        c_index = p_index;
+        p_index = (c_index - 1) / 2;
+    }
+    mCount ++;
 }
 
-const Heap::Entry& Heap::top() const {
-    if(mCount == 0) {
-        throw underflow_error("Empty heap.");
+const Heap::Entry& Heap::top() const{
+    if(mCount == 0){
+        throw std::underflow_error("");
     }
-    else {
-        return mData[0];
-    }
+    return mData[0];
 }
-
-// int main() {
-//     Heap myheap = Heap(3);
-//     myheap.push("astegosaurus", 62);
-//     myheap.pop();
-//     for(size_t i = 0; i < myheap.mCapacity; ++i) {
-//         cout << myheap.mData[i].value << '\n';
-//     }
-//     return 0;
-// }

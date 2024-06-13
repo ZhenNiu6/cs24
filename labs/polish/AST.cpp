@@ -4,167 +4,161 @@
 
 #include <sstream>
 #include <iostream>
-#include <cmath>
-using namespace std;
-
-bool double_check(string input) {
-    istringstream iss(input);
-    double num;
-    char remain;
-    if(!(iss >> num)) {
-        return false;
-    }
-    if(iss >> remain) {
-        return false;
-    }
-    return true;
-}
 
 AST* AST::parse(const std::string& expression) {
     std::string token;
     std::istringstream stream(expression);
-    stack aStack = stack();
-    int error_status = 0;
+    Stack stack;
 
     while(stream >> token) {
-        if(double_check(token)) {
-            double current_value = stod(token);
-            Node* current = new Node(current_value);
-            aStack.push(current);
-        }
-        else if(token.length() == 1) {
-            if(token[0] == '+') {
-                if(aStack.return_length() >= 2) {
-                    Node* right_node = aStack.pop();
-                    Node* left_node = aStack.pop();
-                    double add_result = left_node->mNum + right_node->mNum;
-                    Node* add_result_node = new Node(add_result);
-                    add_result_node->left = left_node;
-                    add_result_node->right = right_node;
-                    add_result_node->mOperator = '+';
-                    aStack.push(add_result_node);
+        // std::cout << token << '\n';
+        if((token == "+") || (token == "-") || (token == "*") || (token == "/") || (token == "%")){
+            if(stack.count() < 2){
+                while(stack.count() > 0){
+                    delete stack.pop();
                 }
-                else {
-                    error_status = 1;
-                    break;
-                }
-            }
-            else if(token[0] == '-') {
-                if(aStack.return_length() >= 2) {
-                    Node* right_node = aStack.pop();
-                    Node* left_node = aStack.pop();
-                    double subs_result = left_node->mNum - right_node->mNum;
-                    Node* subs_result_node = new Node(subs_result);
-                    subs_result_node->left = left_node;
-                    subs_result_node->right = right_node;
-                    subs_result_node->mOperator = '-';
-                    aStack.push(subs_result_node);
-                }
-                else {
-                    error_status = 1;
-                    break;
-                }
-            }
-            else if(token[0] == '*') {
-                if(aStack.return_length() >= 2) {
-                    Node* right_node = aStack.pop();
-                    Node* left_node = aStack.pop();
-                    double product_result = left_node->mNum * right_node->mNum;
-                    Node* product_result_node = new Node(product_result);
-                    product_result_node->left = left_node;
-                    product_result_node->right = right_node;
-                    product_result_node->mOperator = '*';
-                    aStack.push(product_result_node);
-                }
-                else {
-                    error_status = 1;
-                    break;
-                }
-            }
-            else if(token[0] == '/') {
-                if(aStack.return_length() >= 2) {
-                    Node* right_node = aStack.pop();
-                    Node* left_node = aStack.pop();
-                    double quo_result = left_node->mNum / right_node->mNum;
-                    Node* quo_result_node = new Node(quo_result);
-                    quo_result_node->left = left_node;
-                    quo_result_node->right = right_node;
-                    quo_result_node->mOperator = '/';
-                    aStack.push(quo_result_node);
-                }
-                else {
-                    error_status = 1;
-                    break;
-                }
-            }
-            else if(token[0] == '%') {
-                if(aStack.return_length() >= 2) {
-                    Node* right_node = aStack.pop();
-                    Node* left_node = aStack.pop();
-                    double mod_result = fmod(left_node->mNum, right_node->mNum);
-                    Node* mod_result_node = new Node(mod_result);
-                    mod_result_node->left = left_node;
-                    mod_result_node->right = right_node;
-                    mod_result_node->mOperator = '%';
-                    aStack.push(mod_result_node);
-                }
-                else {
-                    error_status = 1;
-                    break;
-                }
-            }
-            else if(token[0] == '~') {
-                if(aStack.return_length() >= 1) {
-                    Node* right_node = aStack.pop();
-                    double negate_result = - right_node->mNum;
-                    Node* negate_result_node = new Node(negate_result);
-                    negate_result_node->left = nullptr;
-                    negate_result_node->right = right_node;
-                    negate_result_node->mOperator = '~';
-                    aStack.push(negate_result_node);
-                }
-                else {
-                    error_status = 1;
-                    break;
-                }
-            }
-            else {
-                error_status = 2;
-                break;
+                throw std::runtime_error("Not enough operands.");
             }
         }
-        else {
-            error_status = 2;
-            break;
+        else if(token == "~"){
+            if(stack.count() < 1){
+                throw std::runtime_error("Not enough operands.");
+            }
+        }
+
+
+        if(token == "+"){
+            // std::cout << "hhh" << '\n';
+            Node* add = new Node(); 
+            add->set_operator('+'); 
+            // std::cout << "iii" << '\n';
+            add->right_operand(stack.pop());
+            add->left_operand(stack.pop());
+            // std::cout << "hh" << '\n';
+            // add->see_var();
+            double ans = add->get_value(); 
+            // add.see_var();
+            
+            add->set_value(ans);
+            stack.push(add);
+            
+        }
+        else if(token == "-"){
+            Node* subtract = new Node(); 
+            subtract->set_operator('-'); 
+            // std::cout << "iii" << '\n';
+            subtract->right_operand(stack.pop());
+            subtract->left_operand(stack.pop());
+            // std::cout << "hh" << '\n';
+            // subtract->see_var();
+            double ans = subtract->get_value(); 
+            // add.see_var();
+            
+            subtract->set_value(ans);
+            stack.push(subtract);
+            
+        }
+        else if(token == "*"){
+            Node* multiply = new Node(); 
+            multiply->set_operator('*'); 
+            multiply->right_operand(stack.pop());
+            
+            multiply->left_operand(stack.pop());
+            
+            double ans = multiply->get_value(); 
+            multiply->set_value(ans);
+            stack.push(multiply);
+        }
+        else if(token == "/"){
+            Node* divide = new Node(); 
+            divide->set_operator('/'); 
+            divide->right_operand(stack.pop());
+            
+            divide->left_operand(stack.pop());
+            
+            double ans = divide->get_value(); 
+            
+            divide->set_value(ans);
+            stack.push(divide);
+        }
+        else if(token == "%"){
+            Node* modulo = new Node(); 
+            modulo->set_operator('%'); 
+            modulo->right_operand(stack.pop());
+            
+            modulo->left_operand(stack.pop());
+            
+            double ans = modulo->get_value(); 
+            modulo->set_value(ans);
+            stack.push(modulo);
+        }
+        else if(token == "~"){
+            Node* negate = new Node(); 
+            negate->set_operator('~'); 
+            negate->left_operand(stack.pop());
+            
+            double ans = negate->get_value(); 
+            
+            negate->set_value(ans);
+            stack.push(negate);
+        }
+        else{
+            bool dot = false;
+            for(size_t i = 0; i < token.length(); i ++){
+                if(!isdigit(token[i])){
+                    if((token[i] == '+') || (token[i] == '-')){
+                        if(i == 0){
+                            continue;
+                        }
+                        else{
+                            while(stack.count() > 0){
+                                delete stack.pop();
+                            }
+                            throw std::runtime_error("Invalid token: " + token);
+                        }
+                    }
+                    else if(token[i] == '.'){
+                        if(i != token.length() - 1){
+                            if(dot != true){ // only one dot 
+                                dot = true;
+                                continue;
+                            }
+                            while(stack.count() > 0){
+                                delete stack.pop();
+                            }
+                            throw std::runtime_error("Invalid token: " + token);
+                        }
+                        else{
+                            while(stack.count() > 0){
+                                delete stack.pop();
+                            }
+                            throw std::runtime_error("Invalid token: " + token);
+                        }
+                    }
+                    else{
+                        while(stack.count() > 0){
+                            delete stack.pop();
+                        }
+                        throw std::runtime_error("Invalid token: " + token);
+                    }
+                }
+            }
+            double val = std::stod(token);
+            Node* number = new Node(val);
+            stack.push(number);
         }
     }
-    if(error_status == 2) {
-        for(size_t i = 0; i < aStack.return_length(); ++i) {
-            delete aStack.pop();
+    if(stack.count() == 0){
+        throw std::runtime_error("No input.");
+    }
+    if(stack.count() > 1){
+        while(stack.count() > 0){
+            delete stack.pop();
         }
-        throw runtime_error("Invalid token: " + token);
+        throw std::runtime_error("Too many operands.");
     }
-    else if(error_status == 1) {
-        for(size_t i = 0; i < aStack.return_length(); ++i) {
-            delete aStack.pop();
-        }
-        throw runtime_error("Not enough operands.");
-    }
-    else if(aStack.return_length() > 1) {
-        for(size_t i = 0; i < aStack.return_length(); ++i) {
-            delete aStack.pop();
-        }
-        throw runtime_error("Too many operands.");
-    }
-    else if(aStack.return_length() == 0) {
-        for(size_t i = 0; i < aStack.return_length(); ++i) {
-            delete aStack.pop();
-        }
-        throw runtime_error("No input.");
-    }
-    Node* result = aStack.pop();
-    for(size_t i = 0; i < aStack.return_length(); ++i) {
-        delete aStack.pop();
-    }
-    return result;
+
+    return stack.pop();
+
+    // ...
 }

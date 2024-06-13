@@ -5,8 +5,6 @@
 #include <iostream>
 #include <sstream>
 
-using namespace std;
-
 // TODO: Make this re-prompt for typos!
 Point read_point(const char* prompt, std::istream& stream) {
   std::string line;
@@ -41,8 +39,6 @@ int main(int argc, char** argv) {
   }
 
   VoxMap map(stream);
-
-  
   stream.close();
 
   while(true) {

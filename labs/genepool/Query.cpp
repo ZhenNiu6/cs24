@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <sstream>
 #include <stdexcept>
+#include <iostream>
 
 // This file provides query parsing and execution.
 // You can edit it if you want, but you shouldn't need to.
@@ -94,6 +95,7 @@ std::set<Person*> Query::run(const GenePool& pool) const {
   }
 
   if(mRelationship == "ancestors") {
+    // std::cout << "here" << '\n';
     return person->ancestors(mPMod);
   }
   else if(mRelationship == "aunts") {

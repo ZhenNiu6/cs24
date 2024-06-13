@@ -76,9 +76,11 @@ int main(int argc, char** argv) {
         counter.dec(str);
         totals.dec(str);
       }
+
       if(counter.get(str) == 0) {
         counter.del(str);
       }
+
       if(totals.get(str) == 0) {
         totals.del(str);
       }

@@ -2,209 +2,139 @@
 
 // This provides exception types:
 #include <stdexcept>
-#include <iostream>
+
+
 
 // FibVec Function Implementations
-
-using namespace std;
-
-FibVec::FibVec() {
-
-    mycapacity = 1;
-    mylength = 0;
-    myvector = new int[mycapacity];
-
+FibVec::FibVec(){
+    num = 0;
+    cap = 1;
+    n = 2;
+    fibs = new int[cap];
 }
 
-FibVec::~FibVec() {
-
-    delete [] myvector;
-
+FibVec::FibVec(const FibVec& other){
+    num = other.num;
+    cap = other.cap;
+    n = other.n;
+    fibs = new int[cap];
+    for(size_t i = 0; i < num; i ++){
+        fibs[i] = other.fibs[i];
+    }
 }
 
-size_t FibVec::capacity() const {
 
-    return mycapacity;
-
+FibVec::~FibVec(){
+    delete [] fibs;
 }
 
-size_t FibVec::count() const {
-    
-    return mylength;
-
+size_t FibVec::capacity() const{
+    return cap;
 }
 
-void FibVec::insert(int value, size_t index) {
-
-    if(index > mylength) {
-        throw out_of_range("insert()");
-    }
-    else {
-        if(mycapacity == mylength) {
-            size_t result = add(mycapacity);
-            mycapacity = result;
-        }
-        int* temp = new int[mycapacity];
-        size_t original = 0;
-        for(size_t i = 0; i < mylength + 1; ++i) {
-            if(i == index) {
-                temp[i] = value;
-            }
-            else {
-                temp[i] = myvector[original];
-                original += 1;
-            }
-        }
-        mylength += 1;
-        delete [] myvector;
-        myvector = temp;
-    }
-
+size_t FibVec::count() const{
+    return num;
 }
 
-int FibVec::lookup(size_t index) const {
-
-    if(index >= mylength) {
-        throw out_of_range("lookup()");
+void FibVec::insert(int value, size_t index){
+    if(index > num){
+        throw std::out_of_range("insert()");
     }
-    else {
-        int result = myvector[index];
-        return result;
+    size_t n_cap = cap;
+    if((num+1) > cap){
+        n_cap = fib(n+1);
+        n ++;
     }
-
+    int* temp = new int[n_cap];
+    if(num == 0){
+        temp[index] = value;
+        num ++;
+    }
+    else{
+        for(size_t i = 0; i < index; i ++){
+            temp[i] = fibs[i];
+        }
+        temp[index] = value;
+        num ++;
+        for(size_t i = index + 1; i < num; i ++){
+            temp[i] = fibs[i-1];
+        }
+    }
+    delete [] fibs;
+    fibs = temp;
+    cap = n_cap;
 }
 
-int FibVec::pop() {
-
-    if(mylength == 0) {
-        throw underflow_error("pop()");
+int FibVec::lookup(size_t index) const{
+    if(index >= num){
+        throw std::out_of_range("lookup()");
     }
-    else {
-        int result = myvector[mylength - 1];
-        size_t middle = substract(mycapacity);
-        size_t target = substract(middle);
-        if(mylength - 1 < target) {
-            mycapacity = middle;
-            int* temp = new int[mycapacity];
-            for(size_t i = 0; i < mylength - 1; ++i) {
-                temp[i] = myvector[i];
-            }
-            mylength -= 1;
-            delete [] myvector;
-            myvector = temp;
-            return result;
-        }
-        else {
-            int* temp = new int[mycapacity];
-            for(size_t i = 0; i < mylength - 1; ++i) {
-                temp[i] = myvector[i];
-            }
-            mylength -= 1;
-            delete [] myvector;
-            myvector = temp;
-            return result;
-        } 
-    }
-
+    return fibs[index];
 }
 
-void FibVec::push(int value) {
-
-    if(mycapacity == mylength) {
-        size_t result = add(mycapacity);
-        mycapacity = result;
-        int* temp = new int[mycapacity];
-        for(size_t i = 0; i < mylength; ++i) {
-            temp[i] = myvector[i];
-        }
-        temp[mylength] = value;
-        mylength += 1;
-        delete [] myvector;
-        myvector = temp;
+int FibVec::pop(){
+    if(num == 0){
+        throw std::underflow_error("pop()");
     }
-    else {
-        int* temp = new int[mycapacity];
-        for(size_t i = 0; i < mylength; ++i) {
-            temp[i] = myvector[i];
+    size_t n_cap = cap;
+    if(n >= 2){
+        if((num - 1) < fib(n-2)){
+            n_cap = fib(n-1);
+            n --;
         }
-        temp[mylength] = value;
-        mylength += 1;
-        delete [] myvector;
-        myvector = temp;
     }
-
+    int* temp = new int[n_cap];
+    for(size_t i = 0; i < num - 1; i ++){
+        temp[i] = fibs[i];
+    }
+    int value = fibs[num-1];
+    delete [] fibs;
+    fibs = temp;
+    cap = n_cap;
+    num --;
+    return value;
 }
 
-int FibVec::remove(size_t index) {
-
-    if(index >= mylength) {
-        throw out_of_range("remove()");
+void FibVec::push(int value){
+    size_t n_cap = cap;
+    if(num == cap){
+        n_cap = fib(n+1);
+        n ++;
     }
-    else {
-        int result = myvector[index];
-        size_t middle = substract(mycapacity);
-        size_t target = substract(middle);
-        if(mylength - 1 < target) {
-            mycapacity = middle;
-        }
-        int* temp = new int[mycapacity];
-        for(size_t i = 0; i < index; ++i) {
-            temp[i] = myvector[i];
-        }
-        for(size_t i = index + 1; i < mylength; ++i) {
-            temp[i - 1] = myvector[i];
-        }
-        mylength -= 1;
-        delete [] myvector;
-        myvector = temp;
-        return result;
+    int* temp = new int[n_cap];
+    for(size_t i = 0; i < num; i ++){
+        temp[i] = fibs[i];
     }
-
+    temp[num] = value;
+    delete [] fibs;
+    fibs = temp;
+    cap = n_cap;
+    num ++;
 }
 
-size_t FibVec::add(size_t currentcapacity) const {
-
-    size_t first = 1;
-    size_t second = 2;
-    size_t temp = 0;
-
-    if(currentcapacity == 1) {
-        return 2;
+int FibVec::remove(size_t index){
+    if(index >= num){
+        throw std::out_of_range("remove()");
     }
-    else if(currentcapacity == 2) {
-        return 3;
-    }
-    else {
-        while(currentcapacity != first && currentcapacity > first) {
-            temp = first + second;
-            first = second;
-            second = temp;
-            temp = 0;
+    size_t n_cap = cap;
+    if(n >= 2){
+        if((num - 1) < fib(n-2)){
+            n_cap = fib(n-1);
+            n --;
         }
-        return second;
     }
-    return second;
-
-}
-
-size_t FibVec::substract(size_t currentcapacity) const {
-
-    size_t first = 1;
-    size_t second = 2;
-    size_t temp = 0;
-
-    if(currentcapacity == 2) {
-        return 1;
+    int* temp = new int[n_cap];
+    for(size_t i = 0; i < index; i ++){
+        temp[i] = fibs[i];
     }
-    else {
-        while(currentcapacity != second && currentcapacity > second) {
-            temp = first + second;
-            first = second;
-            second = temp;
-            temp = 0;
-        }
-        return first;
+    int value = fibs[index];
+    for(size_t i = index; i < num - 1; i ++){
+        temp[i] = fibs[i+1];
     }
-    return first;
+    delete [] fibs;
+    fibs = temp;
+    cap = n_cap;
+    num --;
+    return value;
 
 }

@@ -1,4 +1,4 @@
-a.exe:
+censor: 
 	touch censor
 
 clean:

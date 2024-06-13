@@ -1,7 +1,0 @@
-1 X B2
-2 O C2
-3 X C3
-4 # you should get an error here
-4 X B3
-5 O A3
-6 X B1

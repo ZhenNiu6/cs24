@@ -1,139 +1,163 @@
 #include "Errors.h"
 #include "Move.h"
-#include <iostream>
 #include <cctype>
-
-using namespace std;
+#include <string>
+#include <iostream>
 
 // Space for implementing Move functions.
 
-Move::Move(const std::string& input) {
+Move::Move(const std::string& input){
+    // Check number
+    size_t index = 0;
+    if(!isdigit(input[index])){
+        throw ParseError("Invalid move number");
+    }
+    if(input[index] == '0'){
+        throw ParseError("Invalid move number");
+    }
+    number = input[index] - '0';
+    index ++;
 
-    int length = input.length();
-    if(length < 6) {
-        throw ParseError("Invalid Move 1");
-    }
-    else if(length == 6) {
-        char num = input[0];
-        char play = input[2];
-        char ro = input[4];
-        char col = input[5];
-        if((num >= '1' && num <= '9') && (input[1] == ' ' || input[1] == '\t') && (play == 'O' || play == 'o' || play == 'X' || play == 'x') && (input[3] == ' ' || input[3] == '\t') && (ro == 'A' || ro == 'B' || ro == 'C' || ro == 'a' || ro == 'b' || ro == 'c') && (col >= '1' && col <= '3')) {
-            number = int(num) - 48;
-            player = play;
-            column = int(col) - 48;
-            if(ro < 'a') {
-                row = int(ro) - 64;
-            }
-            else {
-                row = int(ro) - 96;
-            }
+
+    // Check whitespace
+    size_t n = 0;
+    for(size_t i = 1; i < input.length(); i ++){
+        if(isspace(input[i])){
+            n ++;
+            continue;
         }
-        else {
-            throw ParseError("Invalid Move 2");
+        else{
+            index = i;
+            if(n < 1){
+                throw ParseError("Invalid whitespace");
+            }
+            break;
         }
     }
-    else {
-        string temp = "";
-        for(int i = 0; i < length; ++i) {
-            if(input[i] == ' ' || input[i] == '\t') {
-                continue;
-            }
-            else {
-                temp += input[i];
-            }
+    n = 0;
+
+
+    // Check player
+    if((input[index] != 'X') && (input[index] != 'x') && (input[index] != 'O') && (input[index] != 'o')){
+        throw ParseError("Invalid player code");
+    }
+    player = input[index];
+    if(input[index] == 'x'){
+        player = 'X';
+    }
+    if(input[index] == 'o'){
+        player = 'O';
+    }
+    index ++;
+    
+    // Check whitespace
+    for(size_t i = index; i < input.length(); i ++){
+        if(isspace(input[i])){
+            n ++;
+            continue;
         }
-        size_t comment_index = temp.find('#');
-        if(comment_index >= size_t(length)) {
-            int temp_length = temp.length();
-            if(temp_length < 4) {
-                throw ParseError("Invalid Move 3");
+        else{
+            index = i;
+            if(n < 1){
+                throw ParseError("Invalid whitespace");
             }
-            else if(temp_length == 4) {
-                char num = temp[0];
-                char play = temp[1];
-                char ro = temp[2];
-                char col = temp[3];
-                size_t play_index = input.find(play);
-                size_t ro_index = input.find(ro);
-                size_t col_index = input.find(col, 1);
-                if((num >= '1' && num <= '9') && (play == 'O' || play == 'o' || play == 'X' || play == 'x') && (ro == 'A' || ro == 'B' || ro == 'C' || ro == 'a' || ro == 'b' || ro == 'c') && (col >= '1' && col <= '3')) {
-                    if(isspace(input[play_index - 1]) && (isspace(input[ro_index - 1])) && (ro_index == col_index - 1)) {
-                        number = int(num) - 48;
-                        player = play;
-                        column = int(col) - 48;
-                        if(ro < 'a') {
-                            row = int(ro) - 64;
-                        }
-                        else {
-                            row = int(ro) - 96;
-                        }
-                    }
-                    else {
-                        throw ParseError("Invalid Move 4");
-                    }
-                }
-                else {
-                    throw ParseError("Invalid Move 5");
-                }
-            }
-            else {
-                throw ParseError("Invalid Move 6");
-            }
+            break;
         }
-        else {
-            int temp_length = temp.length();
-            if(temp_length < 5) {
-                throw ParseError("Invalid Move 7");
+    }
+    n = 0;
+
+    // Check row
+    if((input[index] != 'A') && (input[index] != 'B') && (input[index] != 'C') && (input[index] != 'a') 
+        && (input[index] != 'b') && (input[index] != 'c')){
+        throw ParseError("Invalid square code");
+    }
+    int r = input[index];
+    if((input[index] == 'a') || (input[index] == 'b') || (input[index] == 'c')){
+        r = input[index] - 32;
+    }
+    row = r - '@'; // Row A = 1, Row B = 2, Row C = 3;
+    index ++;
+
+
+    // Check column
+    if((input[index] != '1') && (input[index] != '2') && (input[index] != '3')){
+        throw ParseError("Invalid square code");
+    }
+    column = input[index] - '0';
+    index ++;
+
+
+    // Check extra whitespace
+    if(index < input.length()){
+        for(size_t i = index; i < input.length(); i ++){
+            if(isspace(input[i])){
+                n ++;
             }
-            else {
-                char num = temp[0];
-                char play = temp[1];
-                char ro = temp[2];
-                char col = temp[3];
-                char comment = temp[4];
-                size_t play_index = input.find(play);
-                size_t ro_index = input.find(ro);
-                size_t col_index = input.find(col, 1);
-                size_t comment_index = input.find(comment);
-                if((num >= '1' && num <= '9') && (play == 'O' || play == 'o' || play == 'X' || play == 'x') && (ro == 'A' || ro == 'B' || ro == 'C' || ro == 'a' || ro == 'b' || ro == 'c') && (col >= '1' && col <= '3') && (comment == '#')) {
-                    if(isspace(input[play_index - 1]) && isspace(input[ro_index - 1]) && (ro_index == col_index - 1) && isspace(input[comment_index - 1])) {
-                        number = int(num) - 48;
-                        player = play;
-                        column = int(col) - 48;
-                        if(ro < 'a') {
-                            row = int(ro) - 64;
-                        }
-                        else {
-                            row = int(ro) - 96;
-                        }
-                    }
-                    else {
-                        throw ParseError("Invalid Move 8");
+            else{
+                if(input[i] == '#'){
+                    if(n < 1){
+                        throw ParseError("Invalid comment");
                     }
                 }
-                else {
-                    throw ParseError("Invalid Move 9");
+                if(input[i] != '#'){
+                    throw ParseError("Invalid comment");
                 }
+                break;
             }
         }
     }
 }
 
-std::string Move::to_string() const {
 
-    string result = "";
-    char num = number + 48;
-    char ro = row + 64;
-    char col = column + 48;
-    char play = ' ';
-    if(player < 'a') {
-        play = player;
+std::string Move::to_string() const{
+    std::string output = "";
+    if(number == 1){
+        output += '1';
     }
-    else {
-        play = player - 32;
+    if(number == 2){
+        output += '2';
     }
-    result = result + num + ' ' + play + ' ' + ro + col;
-    return result;
-
+    if(number == 3){
+        output += '3';
+    }
+    if(number == 4){
+        output += '4';
+    }
+    if(number == 5){
+        output += '5';
+    }
+    if(number == 6){
+        output += '6';
+    }
+    if(number == 7){
+        output += '7';
+    }
+    if(number == 8){
+        output += '8';
+    }
+    if(number == 9){
+        output += '9';
+    }
+    output += " ";
+    output += player;
+    output += " ";
+    if(row == 1){
+        output += 'A';
+    }
+    if(row == 2){
+        output += 'B';
+    }
+    if(row == 3){
+        output += 'C';
+    }
+    if(column == 1){
+        output += '1';
+    }
+    if(column == 2){
+        output += '2';
+    }
+    if(column == 3){
+        output += '3';
+    }
+    return output;
 }
