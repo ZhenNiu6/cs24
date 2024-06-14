@@ -42,6 +42,15 @@ public:
   Point jump(Point point) const;
   Point fall(Point point) const;
 
+  struct PointHash {
+      std::size_t operator()(const Point& p) const {
+          std::size_t h = p.x;
+          h = h * 31 + p.y;
+          h = h * 31 + p.z;
+          return h;
+      }
+  };
+
 };
 
 #endif

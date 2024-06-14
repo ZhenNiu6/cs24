@@ -83,7 +83,8 @@ Route VoxMap::route(Point src, Point dst) {
   else {
     std::vector<Move> moves = {Move::NORTH, Move::EAST, Move::SOUTH, Move::WEST};
     std::queue<std::pair<Point, Route> > q; // a double ended queue
-    std::set<Point> visited;
+    // std::set<Point> visited;
+    std::unordered_set<Point, PointHash> visited;
 
     q.push({src, {}});
     visited.insert(src);
@@ -115,14 +116,13 @@ Route VoxMap::route(Point src, Point dst) {
                     next_point.x = next_point.x + (~1 + 1);
                     break;
             }
-            
-            if((!bound_check(next_point)) || (visited.count(next_point))){
+            if((!bound_check(next_point)) || visited.find(next_point) != visited.end()){
                 continue;
             }
             if((mymap[position(next_point.x, next_point.y, next_point.z)] == '0')){
                 if(mymap[position(next_point.x, next_point.y, next_point.z + (~1 + 1))] == '0'){
                     Point fall_point = fall(next_point);
-                    if((bound_check(fall_point)) && (!visited.count(fall_point)) && (mymap[position(fall_point.x, fall_point.y, fall_point.z)] == '0')){
+                    if((bound_check(fall_point)) && (visited.find(fall_point) == visited.end()) && (mymap[position(fall_point.x, fall_point.y, fall_point.z)] == '0')){
                         Route next_route = current_route;
                         next_route.push_back(move);
                         q.push({fall_point, next_route});
@@ -150,7 +150,7 @@ Route VoxMap::route(Point src, Point dst) {
                     }
                 }
                 Point jump_point = jump(next_point);
-                if((bound_check(jump_point)) && (!visited.count(jump_point))){
+                if((bound_check(jump_point)) && (visited.find(jump_point) == visited.end())){
                     Route next_route = current_route;
                     next_route.push_back(move);
                     q.push({jump_point, next_route});
