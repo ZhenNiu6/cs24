@@ -78,97 +78,202 @@ Route VoxMap::route(Point src, Point dst) {
     if(!voxmap[dst.z-1][dst.y][dst.x]){
         throw InvalidPoint(dst);
     }
-    std::vector<Move> moves = {Move::NORTH, Move::EAST, Move::SOUTH, Move::WEST};
-    // std::queue<std::pair<Point, Route> > q; // a double ended queue
-    std::unordered_set<Point, PointHash> set_visited;
-
-    std::priority_queue<Point> best;
+    
+    std::priority_queue<std::pair<Point, Route> > best;
     src.distance = calculate_distance(src, dst);
-    best.push(src);
-
-    // q.push({src, {}});
     set_visited.insert(src);
-    // src.visited = 1;
-    // int x = 0;
+    Point north = Point(src.x, src.y - 1, src.z);
+    Point south = Point(src.x, src.y + 1, src.z);
+    Point west = Point(src.x - 1, src.y, src.z);
+    Point east = Point(src.x + 1, src.y, src.z);
+    if(bound_check(north)) {
+        north.direction = Move::NORTH;
+        north.distance = calculate_distance(north, dst);
+        best.push({north, {Move::NORTH}});
+    }
+    if(bound_check(south)) {
+        south.direction = Move::SOUTH;
+        south.distance = calculate_distance(south, dst);
+        best.push({south, {Move::SOUTH}});
+    }
+    if(bound_check(west)) {
+        west.direction = Move::WEST;
+        west.distance = calculate_distance(west, dst);
+        best.push({west, {Move::WEST}});
+    }
+    if(bound_check(east)) {
+        east.direction = Move::EAST;
+        east.distance = calculate_distance(east, dst);
+        best.push({east, {Move::EAST}});
+    }
+
     while(!best.empty()){
-        // auto current = q.front();
-        Point current = best.top();
-        // q.pop(); // remove the current point from the queue
-        best.pop();
-        if((current.x == dst.x) && (current.y == dst.y) && (current.z == dst.z)){
-            // return current_route;
-            return current.myroute;
+        auto next = best.top();
+        Point next_point = next.first;
+        Route next_route = next.second;
+        if((next_point.x == dst.x) && (next_point.y == dst.y) && (next_point.z == dst.z)){
+            return next_route;
         }
-        for(auto move: moves){
-            
-            Point next_point = current;
-            switch (move) {
-                case Move::NORTH:
-                    next_point.y--;
-                    break;
-                case Move::EAST:
-                    next_point.x++;
-                    break;
-                case Move::SOUTH:
-                    next_point.y++;
-                    break;
-                case Move::WEST:
-                    next_point.x--;
-                    break;
-            }
-            
-            if((!bound_check(next_point)) || (set_visited.count(next_point))){
-                continue;
-            }
-            if((!voxmap[next_point.z][next_point.y][next_point.x])){
-                if(!voxmap[next_point.z - 1][next_point.y][next_point.x]){
-                    Point fall_point = fall(next_point);
-                    if((bound_check(fall_point)) && (!set_visited.count(fall_point)) && (!voxmap[fall_point.z][fall_point.y][fall_point.x])){
-                        fall_point.myroute.push_back(move);
-                        // q.push({fall_point, next_route});
-                        fall_point.distance = calculate_distance(fall_point, dst);
-                        // fall_point.visited = 1;
-                        best.push(fall_point);
-                        set_visited.insert(fall_point);
-                        continue;   
+        best.pop();
+
+        Move mydirection = next.first.direction;
+        Point current_point;
+        if(mydirection == Move::NORTH) {
+            current_point = Point(next_point.x, next_point.y + 1, next_point.z);
+        }
+        else if(mydirection == Move::SOUTH) {
+            current_point = Point(next_point.x, next_point.y - 1, next_point.z);
+        }
+        else if(mydirection == Move::WEST) {
+            current_point = Point(next_point.x + 1, next_point.y, next_point.z);
+        }
+        else if(mydirection == Move::EAST) {
+            current_point = Point(next_point.x - 1, next_point.y, next_point.z);
+        }
+        if((!bound_check(next_point)) || (set_visited.count(next_point))){
+            continue;
+        }
+        if((!voxmap[next_point.z][next_point.y][next_point.x])){
+            if(!voxmap[next_point.z - 1][next_point.y][next_point.x]){
+                Point fall_point = fall(next_point);
+                if((bound_check(fall_point)) && (!set_visited.count(fall_point)) && (!voxmap[fall_point.z][fall_point.y][fall_point.x])){
+                    fall_point.distance = calculate_distance(fall_point, dst);
+                    // best.push({fall_point, next_route});
+                    set_visited.insert(fall_point);
+                    next_point = fall_point;
+
+                    Point next_north = Point(next_point.x, next_point.y - 1, next_point.z);
+                    Point next_south = Point(next_point.x, next_point.y + 1, next_point.z);
+                    Point next_west = Point(next_point.x - 1, next_point.y, next_point.z);
+                    Point next_east = Point(next_point.x + 1, next_point.y, next_point.z);
+                    if(bound_check(next_north)) {
+                        next_north.direction = Move::NORTH;
+                        next_north.distance = calculate_distance(next_north, dst);
+                        Route new_route = next_route;
+                        new_route.push_back(Move::NORTH);
+                        best.push({next_north, new_route});
                     }
-                }
-                else{
-                    next_point.myroute.push_back(move);
-                    // q.push({next_point, next_route});
-                    next_point.distance = calculate_distance(next_point, dst);
-                    // next_point.visited = 1;
-                    best.push(next_point);
-                    set_visited.insert(next_point);
+                    if(bound_check(next_south)) {
+                        next_south.direction = Move::SOUTH;
+                        next_south.distance = calculate_distance(next_south, dst);
+                        Route new_route = next_route;
+                        new_route.push_back(Move::SOUTH);
+                        best.push({next_south, new_route});
+                    }
+                    if(bound_check(next_west)) {
+                        next_west.direction = Move::WEST;
+                        next_west.distance = calculate_distance(next_west, dst);
+                        Route new_route = next_route;
+                        new_route.push_back(Move::WEST);
+                        best.push({next_west, new_route});
+                    }
+                    if(bound_check(next_east)) {
+                        next_east.direction = Move::EAST;
+                        next_east.distance = calculate_distance(next_east, dst);
+                        Route new_route = next_route;
+                        new_route.push_back(Move::EAST);
+                        best.push({next_east, new_route});
+                    }
+                    
                     continue;
-                }
+                }  
             }
             else{
-                if(current.z < height - 1){
-                    if(voxmap[current.z + 1][current.y][current.x]){ // a voxel above
-                        continue;
-                    }
+                next_point.distance = calculate_distance(next_point, dst);
+                // best.push({next_point, next_route});
+                set_visited.insert(next_point);
+
+                Point next_north = Point(next_point.x, next_point.y - 1, next_point.z);
+                Point next_south = Point(next_point.x, next_point.y + 1, next_point.z);
+                Point next_west = Point(next_point.x - 1, next_point.y, next_point.z);
+                Point next_east = Point(next_point.x + 1, next_point.y, next_point.z);
+                if(bound_check(next_north)) {
+                    next_north.direction = Move::NORTH;
+                    next_north.distance = calculate_distance(next_north, dst);
+                    Route new_route = next_route;
+                    new_route.push_back(Move::NORTH);
+                    best.push({next_north, new_route});
                 }
-                else if(next_point.z < height - 1){
-                    if(voxmap[next_point.z + 1][next_point.y][next_point.x]){
-                        continue;
-                    }
+                if(bound_check(next_south)) {
+                    next_south.direction = Move::SOUTH;
+                    next_south.distance = calculate_distance(next_south, dst);
+                    Route new_route = next_route;
+                    new_route.push_back(Move::SOUTH);
+                    best.push({next_south, new_route});
                 }
-                Point jump_point = jump(next_point);
-                if((bound_check(jump_point)) && (!set_visited.count(jump_point))){
-                    jump_point.myroute.push_back(move);
-                    // q.push({jump_point, next_route});
-                    jump_point.distance = calculate_distance(jump_point, dst);
-                    // jump_point.visited = 1;
-                    best.push(jump_point);
-                    set_visited.insert(jump_point);
+                if(bound_check(next_west)) {
+                    next_west.direction = Move::WEST;
+                    next_west.distance = calculate_distance(next_west, dst);
+                    Route new_route = next_route;
+                    new_route.push_back(Move::WEST);
+                    best.push({next_west, new_route});
+                }
+                if(bound_check(next_east)) {
+                    next_east.direction = Move::EAST;
+                    next_east.distance = calculate_distance(next_east, dst);
+                    Route new_route = next_route;
+                    new_route.push_back(Move::EAST);
+                    best.push({next_east, new_route});
+                }
+
+                continue;
+            }
+        }
+        else{
+            if(current_point.z < height - 1){
+                if(voxmap[current_point.z + 1][current_point.y][current_point.x]){ // a voxel above
                     continue;
                 }
             }
-        }
-        set_visited.insert(current);
-        // current.visited = 1;
+            else if(next_point.z < height - 1){
+                if(voxmap[next_point.z + 1][next_point.y][next_point.x]){
+                    continue;
+                }
+            }
+            Point jump_point = jump(next_point);
+            if((bound_check(jump_point)) && (!set_visited.count(jump_point))){
+                jump_point.distance = calculate_distance(jump_point, dst);
+                // best.push({jump_point, next_route});
+                set_visited.insert(jump_point);
+                next_point = jump_point;
+
+                Point next_north = Point(next_point.x, next_point.y - 1, next_point.z);
+                Point next_south = Point(next_point.x, next_point.y + 1, next_point.z);
+                Point next_west = Point(next_point.x - 1, next_point.y, next_point.z);
+                Point next_east = Point(next_point.x + 1, next_point.y, next_point.z);
+                if(bound_check(next_north)) {
+                    next_north.direction = Move::NORTH;
+                    next_north.distance = calculate_distance(next_north, dst);
+                    Route new_route = next_route;
+                    new_route.push_back(Move::NORTH);
+                    best.push({next_north, new_route});
+                }
+                if(bound_check(next_south)) {
+                    next_south.direction = Move::SOUTH;
+                    next_south.distance = calculate_distance(next_south, dst);
+                    Route new_route = next_route;
+                    new_route.push_back(Move::SOUTH);
+                    best.push({next_south, new_route});
+                }
+                if(bound_check(next_west)) {
+                    next_west.direction = Move::WEST;
+                    next_west.distance = calculate_distance(next_west, dst);
+                    Route new_route = next_route;
+                    new_route.push_back(Move::WEST);
+                    best.push({next_west, new_route});
+                }
+                if(bound_check(next_east)) {
+                    next_east.direction = Move::EAST;
+                    next_east.distance = calculate_distance(next_east, dst);
+                    Route new_route = next_route;
+                    new_route.push_back(Move::EAST);
+                    best.push({next_east, new_route});
+                }
+                continue;
+            }
+        }     
     }
+
     throw NoRoute(src, dst);
 }
 

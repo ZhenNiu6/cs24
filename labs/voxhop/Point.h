@@ -9,8 +9,7 @@ struct Point {
   int y;
   int z;
   int distance;
-  // int visited;
-  Route myroute;
+  Move direction;
 
   Point() {}
   Point(int x, int y, int z): x(x), y(y), z(z) {}

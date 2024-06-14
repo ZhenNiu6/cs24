@@ -5,12 +5,13 @@
 #include <vector>
 
 #include "Point.h"
-
+#include <unordered_set>
 
 
 class VoxMap {
   // Member Variables
   std::vector<std::vector<std::vector<bool> > > voxmap;
+  
   int width, length, height;
 
   int calculate_distance(const Point& current, const Point& dst);
@@ -25,6 +26,7 @@ class VoxMap {
         return std::hash<int>()(p.x) ^ (std::hash<int>()(p.y) ^ (std::hash<int>()(p.z) << 1));
     }
   };
+  std::unordered_set<Point, PointHash> set_visited;
 
 
 public:
