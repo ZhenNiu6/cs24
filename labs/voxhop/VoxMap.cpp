@@ -48,7 +48,6 @@ VoxMap::VoxMap(std::istream& stream) {
     }
   }
 
-  // cout << mymap << '\n';
 }
 
 VoxMap::~VoxMap() {
@@ -70,15 +69,9 @@ size_t VoxMap::down_position(size_t current) {
 }
 
 
-// int VoxMap::calculate_distance(Point current, Point target) {
-//   return abs(current.x - target.x) + abs(current.y - target.y);
-// }
-
 Route VoxMap::route(Point src, Point dst) {
-  // throw NoRoute(src, dst);
   Route result;
 
-  // priority_queue<Point> targets_current;
   size_t src_pos = position(src);
   size_t dst_pos = position(dst);
   if(src.x < 0 || src.x >= width || src.y < 0 || src.y >= depth || src.z <= 0 || src.z >= height || mymap[src_pos] == '1' || mymap[down_position(src_pos)] == '0') {
@@ -90,22 +83,16 @@ Route VoxMap::route(Point src, Point dst) {
   else {
     std::vector<Move> moves = {Move::NORTH, Move::EAST, Move::SOUTH, Move::WEST};
     std::queue<std::pair<Point, Route> > q; // a double ended queue
-    std::unordered_set<Point, PointHash> set_visited;
-
-    // std::priority_queue<std::pair<Point, Route> > best;
-    // src.distance = calculate_distance(src, dst);
-    // best.push({src, {}});
+    std::set<Point> visited;
 
     q.push({src, {}});
-    set_visited.insert(src);
+    visited.insert(src);
 
     while(!q.empty()){
         auto current = q.front();
-        // auto current = best.top();
         Point current_point = current.first;
         Route current_route = current.second;
         q.pop(); // remove the current point from the queue
-        // best.pop();
         if((current_point.x == dst.x) && (current_point.y == dst.y) && (current_point.z == dst.z)){
             return current_route;
         }
@@ -127,19 +114,17 @@ Route VoxMap::route(Point src, Point dst) {
                     break;
             }
             
-            if((!bound_check(next_point)) || (set_visited.count(next_point))){
+            if((!bound_check(next_point)) || (visited.count(next_point))){
                 continue;
             }
             if((mymap[position(next_point.x, next_point.y, next_point.z)] == '0')){
                 if(mymap[position(next_point.x, next_point.y, next_point.z - 1)] == '0'){
                     Point fall_point = fall(next_point);
-                    if((bound_check(fall_point)) && (!set_visited.count(fall_point)) && (mymap[position(fall_point.x, fall_point.y, fall_point.z)] == '0')){
+                    if((bound_check(fall_point)) && (!visited.count(fall_point)) && (mymap[position(fall_point.x, fall_point.y, fall_point.z)] == '0')){
                         Route next_route = current_route;
                         next_route.push_back(move);
                         q.push({fall_point, next_route});
-                        // fall_point.distance = calculate_distance(fall_point, dst);
-                        // best.push({fall_point, next_route});
-                        set_visited.insert(fall_point);
+                        visited.insert(fall_point);
                         continue;   
                     }
                 }
@@ -147,9 +132,7 @@ Route VoxMap::route(Point src, Point dst) {
                     Route next_route = current_route;
                     next_route.push_back(move);
                     q.push({next_point, next_route});
-                    // next_point.distance = calculate_distance(next_point, dst);
-                    // best.push({next_point, next_route});
-                    set_visited.insert(next_point);
+                    visited.insert(next_point);
                     continue;
                 }
             }
@@ -165,18 +148,16 @@ Route VoxMap::route(Point src, Point dst) {
                     }
                 }
                 Point jump_point = jump(next_point);
-                if((bound_check(jump_point)) && (!set_visited.count(jump_point))){
+                if((bound_check(jump_point)) && (!visited.count(jump_point))){
                     Route next_route = current_route;
                     next_route.push_back(move);
                     q.push({jump_point, next_route});
-                    // jump_point.distance = calculate_distance(jump_point, dst);
-                    // best.push({jump_point, next_route});
-                    set_visited.insert(jump_point);
+                    visited.insert(jump_point);
                     continue;
                 }
             }
         }
-        set_visited.insert(current_point);
+        visited.insert(current_point);
     }
     throw NoRoute(src, dst);
   }
