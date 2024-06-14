@@ -118,8 +118,9 @@ Route VoxMap::route(Point src, Point dst) {
                     if((bound_check(fall_point)) && (!visited.count(fall_point)) && (!voxmap[fall_point.z][fall_point.y][fall_point.x])){
                         Route next_route = current_route;
                         next_route.push_back(move);
-                        q.push({fall_point, next_route});
+                        // q.push({fall_point, next_route});
                         visited.insert(fall_point);
+                        q.push({fall_point, next_route});
                         num ++;
                         if(num == width * length * height){
                             flag = true;
@@ -131,13 +132,14 @@ Route VoxMap::route(Point src, Point dst) {
                 else{
                     Route next_route = current_route;
                     next_route.push_back(move);
-                    q.push({next_point, next_route});
+                    // q.push({next_point, next_route});
                     visited.insert(next_point);
+                    q.push({next_point, next_route});
                     num ++;
-                        if(num == width * length * height){
-                            flag = true;
-                            break;
-                        }
+                    if(num == width * length * height){
+                        flag = true;
+                        break;
+                    }
                     continue;
                 }
             }
@@ -156,13 +158,14 @@ Route VoxMap::route(Point src, Point dst) {
                 if((bound_check(jump_point)) && (!visited.count(jump_point))){
                     Route next_route = current_route;
                     next_route.push_back(move);
-                    q.push({jump_point, next_route});
+                    // q.push({jump_point, next_route});
                     visited.insert(jump_point);
+                    q.push({jump_point, next_route});
                     num ++;
-                        if(num == width * length * height){
-                            flag = true;
-                            break;
-                        }
+                    if(num == width * length * height){
+                        flag = true;
+                        break;
+                    }
                     continue;
                 }
             }
