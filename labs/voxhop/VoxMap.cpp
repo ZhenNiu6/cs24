@@ -117,7 +117,7 @@ Route VoxMap::route(Point src, Point dst) {
         best.pop();
 
         Move mydirection = next.first.direction;
-        Point current_point;
+        Point current_point = Point(0, 0, 0);
         if(mydirection == Move::NORTH) {
             current_point = Point(next_point.x, next_point.y + 1, next_point.z);
         }
