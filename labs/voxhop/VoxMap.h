@@ -35,6 +35,7 @@ public:
 
   size_t down_position(size_t current);
 
+  int calculate_distance(Point current, Point target);
   Route route(Point src, Point dst);
 
   bool bound_check(Point point) const;
