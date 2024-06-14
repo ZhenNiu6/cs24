@@ -111,9 +111,7 @@ Route VoxMap::route(Point src, Point dst) {
         auto next = best.top();
         Point next_point = next.first;
         Route next_route = next.second;
-        if((next_point.x == dst.x) && (next_point.y == dst.y) && (next_point.z == dst.z)){
-            return next_route;
-        }
+        
         best.pop();
 
         Move mydirection = next.first.direction;
@@ -174,7 +172,9 @@ Route VoxMap::route(Point src, Point dst) {
                         new_route.push_back(Move::EAST);
                         best.push({next_east, new_route});
                     }
-                    
+                    if((next_point.x == dst.x) && (next_point.y == dst.y) && (next_point.z == dst.z)){
+                        return next_route;
+                    }
                     continue;
                 }  
             }
@@ -215,7 +215,9 @@ Route VoxMap::route(Point src, Point dst) {
                     new_route.push_back(Move::EAST);
                     best.push({next_east, new_route});
                 }
-
+                if((next_point.x == dst.x) && (next_point.y == dst.y) && (next_point.z == dst.z)){
+                    return next_route;
+                }
                 continue;
             }
         }
@@ -268,6 +270,9 @@ Route VoxMap::route(Point src, Point dst) {
                     Route new_route = next_route;
                     new_route.push_back(Move::EAST);
                     best.push({next_east, new_route});
+                }
+                if((next_point.x == dst.x) && (next_point.y == dst.y) && (next_point.z == dst.z)){
+                    return next_route;
                 }
                 continue;
             }
