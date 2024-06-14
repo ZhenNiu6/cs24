@@ -101,7 +101,8 @@ Route VoxMap::route(Point src, Point dst) {
             Point next_point = current_point;
             switch (move) {
                 case Move::NORTH:
-                    next_point.y--;
+                    // next_point.y--;
+                    next_point.y = next_point.y + (~1 + 1);
                     break;
                 case Move::EAST:
                     next_point.x++;
@@ -110,7 +111,8 @@ Route VoxMap::route(Point src, Point dst) {
                     next_point.y++;
                     break;
                 case Move::WEST:
-                    next_point.x--;
+                    // next_point.x--;
+                    next_point.x = next_point.x + (~1 + 1);
                     break;
             }
             
@@ -118,7 +120,7 @@ Route VoxMap::route(Point src, Point dst) {
                 continue;
             }
             if((mymap[position(next_point.x, next_point.y, next_point.z)] == '0')){
-                if(mymap[position(next_point.x, next_point.y, next_point.z - 1)] == '0'){
+                if(mymap[position(next_point.x, next_point.y, next_point.z + (~1 + 1))] == '0'){
                     Point fall_point = fall(next_point);
                     if((bound_check(fall_point)) && (!visited.count(fall_point)) && (mymap[position(fall_point.x, fall_point.y, fall_point.z)] == '0')){
                         Route next_route = current_route;
@@ -137,12 +139,12 @@ Route VoxMap::route(Point src, Point dst) {
                 }
             }
             else{
-                if(current_point.z < height - 1){
+                if(current_point.z < height + (~1 + 1)){
                   if(mymap[position(current_point.x, current_point.y, current_point.z + 1)] == '1'){ // a voxel above
                         continue;
                     }
                 }
-                else if(next_point.z < height - 1){
+                else if(next_point.z < height + (~1 + 1)){
                     if(mymap[position(next_point.x, next_point.y, next_point.z + 1)] == '1'){
                         continue;
                     }
@@ -169,7 +171,7 @@ bool VoxMap::bound_check(Point point) const{
 }
 
 Point VoxMap::jump(Point point) const{
-    if(point.z < height - 1){
+    if(point.z < height + (~1 + 1)){
         if(mymap[position(point.x, point.y, point.z + 1)] == '0') {
             point.z ++;
             return point;
@@ -181,8 +183,9 @@ Point VoxMap::jump(Point point) const{
 
 Point VoxMap::fall(Point point) const{
   
-    while (point.z > 0 && mymap[position(point.x, point.y, point.z - 1)] == '0') {
-        point.z--;
+    while (point.z > 0 && mymap[position(point.x, point.y, point.z + (~1 + 1))] == '0') {
+        // point.z--;
+        point.z = point.z + (~1 + 1);
     }
     // If fell into water or reached the ground, adjust the point accordingly
     if (point.z == 0 || (point.z == 1 && mymap[position(point.x, point.y, 0)] == '0')) {
