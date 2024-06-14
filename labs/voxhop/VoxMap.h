@@ -26,7 +26,6 @@ class VoxMap {
         return std::hash<int>()(p.x) ^ (std::hash<int>()(p.y) ^ (std::hash<int>()(p.z) << 1));
     }
   };
-  std::unordered_set<Point, PointHash> set_visited;
 
 
 public:
