@@ -19,6 +19,7 @@ Some islands are big, so it's important that the program runs efficiently!
 - Make sure you don't print anything that isn't explicitly allowed.
 - Make sure you don't have any memory leaks.
 - Make your program run as fast as possible.
+- Include a write-up describing your program's design.
 
 **Note:** This is a challenge lab, and the rules are a little different.
 
@@ -114,7 +115,7 @@ The maps your program will read  are stored as ASCII text.  Each map file starts
 with a line  containing three positive integers  separated by whitespace.  These
 are, in order: the width of the map, the depth of the map, and the height of the
 map. The width is the east-west axis, and the depth is the north-south axis. All
-coordinates will be  between 1 and 30000 (inclusive),  and the width will always
+dimensions will be  between 1 and 30000  (inclusive),  and the width will always
 be a multiple of four.
 
 The rest of the file contains a series of "tiers."  Each tier represents a slice
@@ -141,6 +142,23 @@ When compiling your program for the performance tests, the autograder will add
 the `-O3` flag.
 
 
+## The Write-Up
+
+Once your program passes the performance tests,  write a short report explaining
+how it works.  Create a plain text file called `WRITEUP.txt` (or `WRITEUP.md` if
+you prefer using [Markdown][md]) inside the `voxhop` folder.  In this file, give
+a summary of your program.  In your report:
+
+- Explain how you represent the world map in memory.
+- Describe the algorithm you use to perform route queries.
+- List the data structures you use, and explain how you chose them.
+- Give the big-O runtime of each step, and the runtime in total.
+
+If you want to keep optimizing your program after you  write the report, include
+a link  to the Gradescope submission  that you're describing  at the top of your
+write-up file.
+
+
 ## Hints
 
 - Make it work first.  Make it fast later.
@@ -153,3 +171,6 @@ the `-O3` flag.
   work from your route finding function  to your map reading function,  it could
   save you a lot of time.
 - <https://xkcd.com/2407/>
+
+
+[md]: https://en.wikipedia.org/wiki/Markdown#Examples
