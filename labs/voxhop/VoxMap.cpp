@@ -82,8 +82,7 @@ Route VoxMap::route(Point src, Point dst) {
   }
   else {
     std::vector<Move> moves = {Move::NORTH, Move::EAST, Move::SOUTH, Move::WEST};
-    std::queue<std::pair<Point, Route> > q; // a double ended queue
-    // std::set<Point> visited;
+    std::queue<std::pair<Point, Route> > q; 
     std::unordered_set<Point, PointHash> visited;
 
     q.push({src, {}});

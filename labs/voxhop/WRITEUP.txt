@@ -1,0 +1,108 @@
+VoxHop Challange Lab
+
+Zhaojing Wang, Zhen Niu
+
+World Map:
+
+We use a string to represent the world map. 
+We save it as a member variable called mymap in class VoxMap.
+In VoxMap(std::istream& stream), we use a while loop and wrote a helper function string hexCharToBin(char hexChar) to
+read the map and convert it into a string.
+Then, we write a helper function size_t position(int w, int d, int h) const to read a Point as input and return its 
+position in the string.
+
+Algorithm:
+
+The algorithm we use is BFS(Breadth First Search). 
+We create a queue "queue<std::pair<Point, Route> > q" to save the points and routes.
+We also create an unordered set "unordered_set<Point, PointHash> visited" to save the points that have been visited.
+First, we push Point source into the queue and set it as visited.
+Then, we go through a while loop until the queue is empty.
+Within the loop, we pop out the point on the top and name it as current.
+If it has reached the destination, the route is returned. 
+If not, we check its four neighbors, and insert them into the queue if they are valid and not visited. 
+Finally, we set Point current as visited.
+If we reach the end of the while loop, we throw NoRoute(src, dst).
+
+Data Structure:
+
+We use Vector, queue, and unordered set in our code.
+We use Vector to contain four directions of a Point because it is simple and efficient.
+We use Queue to contain unchecked Point and their routes. We choose to use queue because it always pop Point from the
+beginning and push new Point into the end. We can also use empty() to check it is empty.
+We use unordered set to contain Point that has been visited. It is much more efficient that set because there is no 
+need to sort Point. We use iterators to check if a point is visited because it is much faster than operators.
+
+Big-O Runtime:
+In Total: O(n)
+
+VoxMap(std::istream& stream): O(n)
+Read lines from the stream: O(n)
+Check if the line is empty: O(n) in total
+Set width, depth, height: O(1)
+
+Route route(Point src, Point dst): O(n)
+
+1. Calculate Position: O(1)
+size_t src_pos = position(src);
+size_t dst_pos = position(dst);
+
+2. Invalid Point Check: O(1)
+if(src.x < 0 || src.x >= width || src.y < 0 || src.y >= depth || src.z <= 0 || src.z >= height || mymap[src_pos] == '1' || mymap[down_position(src_pos)] == '0') {
+  throw InvalidPoint(src);
+}
+else if(dst.x < 0 || dst.x >= width || dst.y < 0 || dst.y >= depth || dst.z <= 0 || dst.z >= height || mymap[dst_pos] == '1' || mymap[down_position(dst_pos)] == '0') {
+  throw InvalidPoint(dst);
+}
+
+3. Data Structure Initialize: O(1)
+std::vector<Move> moves = {Move::NORTH, Move::EAST, Move::SOUTH, Move::WEST};
+std::queue<std::pair<Point, Route> > q; 
+std::unordered_set<Point, PointHash> visited;
+q.push({src, {}});
+visited.insert(src);
+
+4. BFS While Loop: O(n) (O(1) for one single loop, and O(n) in total)
+while(!q.empty()) {}
+
+    4.1 Read Current Point: O(1)
+    auto current = q.front();
+    Point current_point = current.first;
+    Route current_route = current.second;
+    q.pop();
+    
+    4.2 Destination Check: O(1)
+    if((current_point.x == dst.x) && (current_point.y == dst.y) && (current_point.z == dst.z)){
+        return current_route;
+    }
+    
+    4.3 Check Neighbors: O(1)
+    for(auto move: moves)
+    
+        4.3.1 Find Next Point: O(1)
+        Point next_point = current_point;
+        switch (move) {}
+
+        4.3.2 Boundary and Visited Check: O(1)
+        if((!bound_check(next_point)) || visited.find(next_point) != visited.end()){
+            continue;
+        }
+
+        4.3.3 Jump and Fall Check: O(1)
+        if((mymap[position(next_point.x, next_point.y, next_point.z)] == '0')) {}
+        else {}
+    
+    4.4 Set Visited: O(1)
+    visited.insert(current_point);
+
+5. Throw NoRoute: O(1)
+throw NoRoute(src, dst);
+
+Helper Functions:
+1. string hexCharToBin(char hexChar): O(1)
+2. size_t position(Point d): O(1)
+3. size_t position(int w, int d, int h) const: O(1)
+4. size_t down_position(size_t current): O(1)
+5. bool bound_check(Point point) const: O(1)
+6. Point jump(Point point) const: O(1)
+7. Point fall(Point point) const: O(1)
