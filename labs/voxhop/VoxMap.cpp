@@ -1,6 +1,7 @@
 #include "VoxMap.h"
 #include "Errors.h"
 
+
 string hexCharToBin(char hexChar) {
     string result;
     int value;
