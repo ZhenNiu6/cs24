@@ -14,9 +14,6 @@ VoxMap::VoxMap(std::istream& stream) {
     width = std::stoi(width_str);
     length = std::stoi(length_str);
     height = std::stoi(height_str);
-    // std::istringstream(width_str) >> width;
-    // std::istringstream(length_str) >> length;
-    // std::istringstream(height_str) >> height;
 
     stream.ignore(); // ignore the newline
     voxmap.resize(height);
@@ -76,9 +73,10 @@ Route VoxMap::route(Point src, Point dst) {
     if(!voxmap[dst.z-1][dst.y][dst.x]){
         throw InvalidPoint(dst);
     }
+
     std::vector<Move> moves = {Move::NORTH, Move::EAST, Move::SOUTH, Move::WEST};
-    int num = 0;
-    bool flag = false;
+    // int num = 0;
+    // bool flag = false;
     std::set<Point> visited;
     std::queue<std::pair<Point, Route> > q; 
     q.push({src, {}});
@@ -121,11 +119,6 @@ Route VoxMap::route(Point src, Point dst) {
                         // q.push({fall_point, next_route});
                         visited.insert(fall_point);
                         q.push({fall_point, next_route});
-                        num ++;
-                        if(num == width * length * height){
-                            flag = true;
-                            break;
-                        }
                         continue;   
                     }
                 }
@@ -135,11 +128,6 @@ Route VoxMap::route(Point src, Point dst) {
                     // q.push({next_point, next_route});
                     visited.insert(next_point);
                     q.push({next_point, next_route});
-                    num ++;
-                    if(num == width * length * height){
-                        flag = true;
-                        break;
-                    }
                     continue;
                 }
             }
@@ -155,28 +143,16 @@ Route VoxMap::route(Point src, Point dst) {
                     }
                 }
                 Point jump_point = jump(next_point);
+
                 if((bound_check(jump_point)) && (!visited.count(jump_point))){
                     Route next_route = current_route;
                     next_route.push_back(move);
                     // q.push({jump_point, next_route});
                     visited.insert(jump_point);
                     q.push({jump_point, next_route});
-                    num ++;
-                    if(num == width * length * height){
-                        flag = true;
-                        break;
-                    }
                     continue;
                 }
             }
-        num ++;
-        if(num == width * length * height){
-            flag = true;
-                break;
-            }
-        }
-        if(flag == true){
-            break;
         }
         visited.insert(current_point);
     }
